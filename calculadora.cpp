@@ -3,6 +3,9 @@
 
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <QDate>
+
+using namespace std;
 
 Calculadora::Calculadora(QWidget *parent)
     : QMainWindow(parent)
@@ -18,6 +21,11 @@ Calculadora::~Calculadora()
 
 void Calculadora::on_caciar_clicked()
 {
+    // Tempo atual
+    QDate dataAtual = QDate::currentDate();
+    int mesAtual = dataAtual.month();
+    int anoAtual = dataAtual.year();
+
     // Expressão regular para validar números positivos (inteiros ou decimais)
     const QString numPadrao = "^\\d*(\\.\\d+)?$";
     QRegularExpression re(numPadrao);
@@ -40,11 +48,34 @@ void Calculadora::on_caciar_clicked()
         }
     }
 
+    // Calcular a quantidade de fins de semana no mês atual
+    int diasMes = dataAtual.daysInMonth();
+    int fimSemanaMes = 0;
+    for (int dia = 1; dia <= diasMes; ++dia) {
+        QDate data(dia, mesAtual, anoAtual);
+        if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
+            ++fimSemanaMes;
+        }
+    }
+
+    // Calcular a quantidade de fins de semana no ano atual
+    int diasAno = QDate(anoAtual, 12, 31).dayOfYear();
+    int fimSemanaAno = 0;
+    for (int dia = 1; dia <= diasAno; ++dia) {
+        QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
+        if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
+            ++fimSemanaAno;
+        }
+    }
+
+    int totalDiasMes = diasMes - fimSemanaMes;
+    int totalDiasAno = diasAno - fimSemanaAno;
+
     // Calcular taxas e estimativas
     float cdi = valores[1] / 100.0f;
     float seliac = (valores[0] * cdi) / 100.0f;
-    float seliacMes = seliac / 12.0f;
-    float seliacDia = seliac / 365.0f;
+    float seliacMes = seliac / totalDiasMes;
+    float seliacDia = seliac / totalDiasAno;
 
     auto formatarValor = [](float valor) {
         return QString::number(valor, 'f', 2);
@@ -67,6 +98,4 @@ void Calculadora::on_caciar_clicked()
     // Exibir taxa total
     ui->erroLabel->setText("Taxa total - " + formatarValor(seliac * 100) + "%");
 }
-
-
 
