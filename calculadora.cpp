@@ -18,69 +18,55 @@ Calculadora::~Calculadora()
 
 void Calculadora::on_caciar_clicked()
 {
-    QString numPadrao = "^\\d*(\\.\\d+)?$";
-    QRegularExpression re;
+    // Expressão regular para validar números positivos (inteiros ou decimais)
+    const QString numPadrao = "^\\d*(\\.\\d+)?$";
+    QRegularExpression re(numPadrao);
 
+    // Vetores para armazenar os inputs e suas conversões
+    QString inputs[] = {
+        "0" + ui->taxaInput->text(),
+        "0" + ui->cdiInput->text(),
+        "0" + ui->valorInput->text()
+    };
+    float valores[3] = {0.0f};
 
-    float seliac = 0;
-    float seliacMes = 0;
-    float seliacDia = 0;
-    float cdi = 0;
-
-    QString variaveis[3] = {"0"+ui->taxaInput->text(), "0"+ui->cdiInput->text(), "0"+ui->valorInput->text()};
-    float variaveisConv[3] = {};
-
-
-    // Verificar se os inputs são numeros validos
-    re.setPattern(numPadrao);
-
-    for (int index=0; index<3; index++){
-        QRegularExpressionMatch match = re.match(variaveis[index]);
-        bool temMatch = match.hasMatch();
-
-        if (temMatch){
-            variaveisConv[index] = variaveis[index].toFloat();
-        }else{
+    // Validar e converter os inputs
+    for (int i = 0; i < 3; ++i) {
+        if (re.match(inputs[i]).hasMatch()) {
+            valores[i] = inputs[i].toFloat();
+        } else {
             ui->erroLabel->setText("Os campos devem ser números positivos.");
             return;
         }
     }
 
-    // Se tudo der certo, vamos fazer os calculos
+    // Calcular taxas e estimativas
+    float cdi = valores[1] / 100.0f;
+    float seliac = (valores[0] * cdi) / 100.0f;
+    float seliacMes = seliac / 12.0f;
+    float seliacDia = seliac / 365.0f;
 
-    // Calcular as taxas mensais e dirarias
-    float cdiAdd = (variaveisConv[1]) / 100; // Só a adição
+    auto formatarValor = [](float valor) {
+        return QString::number(valor, 'f', 2);
+    };
 
-    seliac = (variaveisConv[0] * cdiAdd) / 100; // Taxa seliac
-    seliacMes = seliac / 12; // Seliac mensal
-    seliacDia = seliac / 365; // Por dia considerando ano não bissexto
-    QString valorOutput;
+    // Exibir taxas mensais e diárias
+    ui->aumentoMes->setText(formatarValor(seliacMes * 100) + "% ao mês");
+    ui->aumentoDia->setText(formatarValor(seliacDia * 100) + "% ao dia");
 
-    valorOutput.setNum(seliacMes*100, 'f', 2);
-    ui->aumentoMes->setText(valorOutput+"% ao mês");
-
-    valorOutput.setNum(seliacDia*100, 'f', 2);
-    ui->aumentoDia->setText(valorOutput+"% ao dia");
-
-    // Estimativas diárias, mensais e anuais.
-    float valorAplicado = variaveisConv[2];
-
+    // Calcular estimativas finais
+    float valorAplicado = valores[2];
     float estimativaDia = valorAplicado * seliacDia;
     float estimativaMes = valorAplicado * seliacMes;
     float estimativaAno = valorAplicado * seliac;
 
-    valorOutput.setNum(valorAplicado + estimativaDia, 'f', 2);
-    ui->finalDia->setText("R$ "+valorOutput+" no final do dia");
+    ui->finalDia->setText("R$ " + formatarValor(valorAplicado + estimativaDia) + " no final do dia");
+    ui->finalMes->setText("R$ " + formatarValor(valorAplicado + estimativaMes) + " no final do mês");
+    ui->finalAno->setText("R$ " + formatarValor(valorAplicado + estimativaAno) + " no final do ano");
 
-    valorOutput.setNum(valorAplicado + estimativaMes, 'f', 2);
-    ui->finalMes->setText("R$ "+valorOutput+" no final do mês");
-
-    valorOutput.setNum(valorAplicado + estimativaAno, 'f', 2);
-    ui->finalAno->setText("R$ "+valorOutput+" no final do ano");
-
-
-    valorOutput.setNum(seliac*100, 'f', 2);
-    ui->erroLabel->setText("Taxa total - "+valorOutput+"%");
+    // Exibir taxa total
+    ui->erroLabel->setText("Taxa total - " + formatarValor(seliac * 100) + "%");
 }
+
 
 
