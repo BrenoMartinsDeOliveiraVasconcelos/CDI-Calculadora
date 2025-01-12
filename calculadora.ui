@@ -35,13 +35,19 @@
    <string>Calculadora</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
       <width>801</width>
-      <height>101</height>
+      <height>114</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="principal">
@@ -51,6 +57,32 @@
         <string>% CDI</string>
        </property>
       </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="taxa">
+       <property name="text">
+        <string>Taxa anual</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3">
+      <widget class="QLineEdit" name="valorInput"/>
+     </item>
+     <item row="2" column="2">
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Policy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>100</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item row="2" column="4">
       <spacer name="horizontalSpacer_4">
@@ -75,38 +107,6 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Policy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>100</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="0" column="3">
-      <widget class="QLineEdit" name="taxaInput"/>
-     </item>
-     <item row="3" column="3">
-      <widget class="QLineEdit" name="valorInput"/>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="taxa">
-       <property name="text">
-        <string>Taxa anual</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="3">
-      <widget class="QLineEdit" name="cdiInput"/>
-     </item>
      <item row="2" column="0">
       <spacer name="horizontalSpacer_5">
        <property name="orientation">
@@ -123,50 +123,11 @@
        </property>
       </spacer>
      </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>300</y>
-      <width>801</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="botoesBaixo">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+     <item row="2" column="3">
+      <widget class="QLineEdit" name="cdiInput"/>
      </item>
-     <item>
-      <widget class="QPushButton" name="caciar">
-       <property name="text">
-        <string>Calcular</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+     <item row="0" column="3">
+      <widget class="QLineEdit" name="taxaInput"/>
      </item>
     </layout>
    </widget>
@@ -174,12 +135,27 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>140</y>
+      <y>116</y>
       <width>801</width>
-      <height>161</height>
+      <height>221</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="resultados">
+     <item>
+      <widget class="QLabel" name="erroLabel">
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Aperte calcular.</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QLabel" name="aumentoDia">
        <property name="font">
@@ -208,7 +184,7 @@
         </font>
        </property>
        <property name="text">
-        <string/>
+        <string>NaN%</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -216,40 +192,70 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="valoresFinal">
-       <item>
-        <widget class="QLabel" name="finalDia">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <bold>true</bold>
-          </font>
-         </property>
+      <layout class="QGridLayout" name="valoresFInais">
+       <item row="0" column="0">
+        <widget class="QLabel" name="finalDiaExp">
          <property name="text">
-          <string/>
+          <string>Final do Dia</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QLabel" name="finalMes">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <bold>true</bold>
-          </font>
-         </property>
+       <item row="0" column="2">
+        <widget class="QLabel" name="finalMesExp">
          <property name="text">
-          <string/>
+          <string>Final do Mês</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="0" column="4">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Final do Ano</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <spacer name="horizontalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>80</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1">
+        <spacer name="horizontalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Policy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>80</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="4">
         <widget class="QLabel" name="finalAno">
          <property name="font">
           <font>
@@ -258,7 +264,39 @@
           </font>
          </property>
          <property name="text">
-          <string/>
+          <string>NaN</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="finalMes">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>NaN</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="finalDia">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>NaN</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -267,30 +305,65 @@
        </item>
       </layout>
      </item>
+     <item>
+      <layout class="QHBoxLayout" name="botoesBaixo">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="caciar">
+         <property name="text">
+          <string>Calcular</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>100</y>
-      <width>801</width>
-      <height>41</height>
+      <y>340</y>
+      <width>799</width>
+      <height>59</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="erro">
+    <layout class="QHBoxLayout" name="spacerInferior">
      <item>
-      <widget class="QLabel" name="erroLabel">
-       <property name="font">
-        <font>
-         <bold>true</bold>
-        </font>
-       </property>
+      <widget class="QLabel" name="versao">
        <property name="text">
-        <string>Aperte calcular.</string>
+        <string>v1.0.0</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignmentFlag::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+       <property name="margin">
+        <number>20</number>
        </property>
       </widget>
      </item>
@@ -303,11 +376,10 @@
      <x>0</x>
      <y>0</y>
      <width>803</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

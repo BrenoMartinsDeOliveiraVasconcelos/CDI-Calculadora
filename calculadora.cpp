@@ -91,9 +91,9 @@ void Calculadora::on_caciar_clicked()
     float estimativaMes = valorAplicado * seliacMes;
     float estimativaAno = valorAplicado * seliac;
 
-    ui->finalDia->setText("R$ " + formatarValor(valorAplicado + estimativaDia) + " no final do dia");
-    ui->finalMes->setText("R$ " + formatarValor(valorAplicado + estimativaMes) + " no final do mês");
-    ui->finalAno->setText("R$ " + formatarValor(valorAplicado + estimativaAno) + " no final do ano");
+    ui->finalDia->setText("R$ " + formatarValor(valorAplicado + estimativaDia));
+    ui->finalMes->setText("R$ " + formatarValor(valorAplicado + estimativaMes));
+    ui->finalAno->setText("R$ " + formatarValor(valorAplicado + estimativaAno));
 
     // Exibir taxa total
     ui->erroLabel->setText("Taxa total - " + formatarValor(seliac * 100) + "%");
