@@ -1,15 +1,15 @@
 #include "calculadora.h"
 #include "ui_calculadora.h"
 
-// Bibliotecas C++
-#include <string.h>
-#include <iostream>
+// Headers pessoais
+#include "temp_management.h"
 
 // Bibliotecas qt
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QDate>
 #include <QFile>
+#include <QDir>
 #include <QTextStream>
 #include <QSysInfo>
 #include <QString>
@@ -30,6 +30,8 @@ Calculadora::~Calculadora()
 
 void Calculadora::on_caciar_clicked()
 {
+    tempInfo temp;
+
     auto formatarValor = [](float valor) {
         return QString::number(valor, 'f', 2);
     };
@@ -40,11 +42,11 @@ void Calculadora::on_caciar_clicked()
     };
 
     // Diretório dos arquivos
-    QString sistema = QSysInfo::productType();
-    string sistemaStd = sistema.toStdString();
-
-    if  (sistemaStd.compare("debian") == 1){
-        ui->versao->setText("OK");
+    if (!tempFolderExists()){
+        if (!createTempFolder()){
+            ui->erroLabel->setText("Erro ao criar pasta temporária.");
+            return;
+        };
     };
 
     // Formato de data
@@ -147,5 +149,11 @@ void Calculadora::on_caciar_clicked()
 
     // Exibir taxa total
     ui->erroLabel->setText("Taxa total - " + formatarValor(seliac * 100) + "%");
+}
+
+
+void Calculadora::on_Calculadora_destroyed()
+{
+    return;
 }
 

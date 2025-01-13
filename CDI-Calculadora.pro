@@ -13,7 +13,8 @@ SOURCES += \
     calculadora.cpp
 
 HEADERS += \
-    calculadora.h
+    calculadora.h \
+    temp_management.h
 
 FORMS += \
     calculadora.ui

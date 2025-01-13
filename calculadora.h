@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Calculadora;
@@ -20,7 +21,10 @@ public:
 private slots:
     void on_caciar_clicked();
 
+    void on_Calculadora_destroyed();
+
 private:
     Ui::Calculadora *ui;
 };
+
 #endif // CALCULADORA_H
