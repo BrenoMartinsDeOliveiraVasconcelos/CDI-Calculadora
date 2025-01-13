@@ -55,6 +55,15 @@ void Calculadora::on_caciar_clicked()
     };
     float valores[3] = {0.0f};
 
+    // Procurar por inputs vazios ou com apenas "0"
+    for (int c=0; c<3; c++){
+        if (inputs[c].length() <= 1){
+            ui->erroLabel->setText("Os dados devem ser um número maior que zero.");
+            return;
+        };
+
+    };
+
     // Validar e converter os inputs
     for (int i = 0; i < 3; ++i) {
         if (re.match(inputs[i]).hasMatch()) {
