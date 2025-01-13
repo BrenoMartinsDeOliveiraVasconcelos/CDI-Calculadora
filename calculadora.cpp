@@ -4,6 +4,9 @@
 // Headers pessoais
 #include "temp_management.h"
 
+// Bibliotecas C++
+#include <iostream>
+
 // Bibliotecas qt
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
@@ -13,6 +16,8 @@
 #include <QTextStream>
 #include <QSysInfo>
 #include <QString>
+#include <QIODevice>
+#include <QTextStream>
 
 using namespace std;
 
@@ -48,6 +53,15 @@ void Calculadora::on_caciar_clicked()
             return;
         };
     };
+
+    QFile arquivoTaxas(temp.fullFolder+QDir::separator()+"taxas.txt");
+
+    if (!arquivoTaxas.open(QIODevice::WriteOnly | QIODevice::Text)){
+        ui->erroLabel->setText("Erro ao ler arquivo .txt de taxas.");
+        return;
+    };
+
+    QTextStream taxasTxt(&arquivoTaxas);
 
     // Formato de data
     QString formatoData = "dd/MM/yyyy";
@@ -149,11 +163,17 @@ void Calculadora::on_caciar_clicked()
 
     // Exibir taxa total
     ui->erroLabel->setText("Taxa total - " + formatarValor(seliac * 100) + "%");
+
+    // Escrever as taxas no arquivo temporário
+    taxasTxt << seliac << "\n" << seliacMes*100 << "\n" << seliacDia*100 << "\n" << ui->valorInput->text();
 }
 
 
 void Calculadora::on_Calculadora_destroyed()
 {
+    if (!deleteTempFolder()){
+        cout << "Um erro ocorreu ao deletar o arquivo temporário.";
+    }
     return;
 }
 

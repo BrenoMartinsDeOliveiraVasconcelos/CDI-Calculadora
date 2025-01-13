@@ -4,10 +4,11 @@
 #include <QDir>
 
 class tempInfo{
-public:
-    QString tempName = "CDICALC";
-    QDir tempFolder = QDir::temp();
-    QString fullFolder = tempFolder.absolutePath() + QDir::separator() + tempName;
+    public:
+        QString tempName = "CDICALC";
+        QDir tempFolder = QDir::temp();
+        QString fullFolder = tempFolder.absolutePath() + QDir::separator() + tempName;
+        QDir fullFolderDir = fullFolder;
 };
 
 bool createTempFolder(){
