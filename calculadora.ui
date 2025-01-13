@@ -333,7 +333,7 @@
           </font>
          </property>
          <property name="text">
-          <string>(0/0/0000)</string>
+          <string>(00/00/0000)</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -343,7 +343,7 @@
        <item row="2" column="2">
         <widget class="QLabel" name="dataMes">
          <property name="text">
-          <string>(0/0/0000)</string>
+          <string>(00/00/0000)</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -353,7 +353,7 @@
        <item row="2" column="4">
         <widget class="QLabel" name="dataMes_2">
          <property name="text">
-          <string>(0/0/0000)</string>
+          <string>(00/00/0000)</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
