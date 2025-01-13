@@ -21,8 +21,25 @@ Calculadora::~Calculadora()
 
 void Calculadora::on_caciar_clicked()
 {
+    auto formatarValor = [](float valor) {
+        return QString::number(valor, 'f', 2);
+    };
+
+    auto formatarData = [](QString data){
+        QString dataFormatada = "("+data+")";
+        return dataFormatada;
+    };
+
+    // Formato de data
+    QString formatoData = "dd/MM/yyyy";
+
     // Tempo atual
     QDate dataAtual = QDate::currentDate();
+
+    QDate dataAamanha = dataAtual.addDays(1);
+    QDate dataMesSeguinte = dataAtual.addMonths(1);
+    QDate dataAnoSeguinte = dataAtual.addYears(1);
+
     int mesAtual = dataAtual.month();
     int anoAtual = dataAtual.year();
 
@@ -77,9 +94,7 @@ void Calculadora::on_caciar_clicked()
     float seliacMes = seliac / totalDiasMes;
     float seliacDia = seliac / totalDiasAno;
 
-    auto formatarValor = [](float valor) {
-        return QString::number(valor, 'f', 2);
-    };
+
 
     // Exibir taxas mensais e diárias
     ui->aumentoMes->setText(formatarValor(seliacMes * 100) + "% ao mês");
@@ -94,6 +109,15 @@ void Calculadora::on_caciar_clicked()
     ui->finalDia->setText("R$ " + formatarValor(valorAplicado + estimativaDia));
     ui->finalMes->setText("R$ " + formatarValor(valorAplicado + estimativaMes));
     ui->finalAno->setText("R$ " + formatarValor(valorAplicado + estimativaAno));
+
+    // Exibir datas
+    QString amanha = dataAamanha.toString(formatoData);
+    QString mesSeguinte = dataMesSeguinte.toString(formatoData);
+    QString anoSeguinte = dataAnoSeguinte.toString(formatoData);
+
+    ui->dataDia->setText(formatarData(amanha));
+    ui->dataMes->setText(formatarData(mesSeguinte));
+    ui->dataMes_2->setText(formatarData(anoSeguinte));
 
     // Exibir taxa total
     ui->erroLabel->setText("Taxa total - " + formatarValor(seliac * 100) + "%");
