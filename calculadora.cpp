@@ -1,9 +1,18 @@
 #include "calculadora.h"
 #include "ui_calculadora.h"
 
+// Bibliotecas C++
+#include <string.h>
+#include <iostream>
+
+// Bibliotecas qt
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QDate>
+#include <QFile>
+#include <QTextStream>
+#include <QSysInfo>
+#include <QString>
 
 using namespace std;
 
@@ -28,6 +37,14 @@ void Calculadora::on_caciar_clicked()
     auto formatarData = [](QString data){
         QString dataFormatada = "("+data+")";
         return dataFormatada;
+    };
+
+    // Diretório dos arquivos
+    QString sistema = QSysInfo::productType();
+    string sistemaStd = sistema.toStdString();
+
+    if  (sistemaStd.compare("debian") == 1){
+        ui->versao->setText("OK");
     };
 
     // Formato de data
