@@ -25,6 +25,8 @@ private slots:
 
     void on_estimarValores_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::Calculadora *ui;
 };

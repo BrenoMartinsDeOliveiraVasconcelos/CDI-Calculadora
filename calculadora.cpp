@@ -20,7 +20,7 @@
 #include <QString>
 #include <QIODevice>
 #include <QTextStream>
-#include <QFileDevice>
+#include <QFileDialog>
 
 using namespace std;
 
@@ -179,6 +179,7 @@ void Calculadora::on_caciar_clicked()
     ui->estimarValores->setEnabled(true);
     ui->salvar->setEnabled(true);
     ui->salvarInput->setEnabled(true);
+    ui->selecionarDiretorio->setEnabled(true);
 }
 
 void Calculadora::on_estimarValores_clicked()
@@ -280,4 +281,15 @@ void Calculadora::on_Calculadora_destroyed()
     return;
 }
 
+
+
+void Calculadora::on_pushButton_clicked()
+{
+    QString pasta = QFileDialog::getExistingDirectory(this, tr("Abrir pasta"),
+                                                      QDir::homePath(),
+                                                      QFileDialog::ShowDirsOnly
+                                                          | QFileDialog::DontResolveSymlinks);
+
+    ui->salvarInput->setText(pasta);
+}
 
