@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>803</width>
-    <height>398</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,13 +22,13 @@
   <property name="minimumSize">
    <size>
     <width>803</width>
-    <height>398</height>
+    <height>500</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>803</width>
-    <height>398</height>
+    <height>500</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -47,33 +47,25 @@
       <x>0</x>
       <y>0</y>
       <width>801</width>
-      <height>114</height>
+      <height>124</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="principal">
-     <item row="0" column="1">
-      <widget class="QLabel" name="taxa">
-       <property name="text">
-        <string>Taxa anual</string>
+     <item row="2" column="7">
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
-      </widget>
-     </item>
-     <item row="3" column="4">
-      <widget class="QLineEdit" name="valorInput"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="cdi">
-       <property name="text">
-        <string>CDI</string>
+       <property name="sizeType">
+        <enum>QSizePolicy::Policy::Fixed</enum>
        </property>
-      </widget>
-     </item>
-     <item row="2" column="6">
-      <widget class="QLabel" name="porcentagem1">
-       <property name="text">
-        <string>%</string>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
        </property>
-      </widget>
+      </spacer>
      </item>
      <item row="2" column="2">
       <spacer name="horizontalSpacer_3">
@@ -91,13 +83,10 @@
        </property>
       </spacer>
      </item>
-     <item row="2" column="4">
-      <widget class="QLineEdit" name="cdiInput"/>
-     </item>
-     <item row="0" column="6">
-      <widget class="QLabel" name="porcentagem0">
+     <item row="2" column="1">
+      <widget class="QLabel" name="cdi">
        <property name="text">
-        <string>%</string>
+        <string>CDI</string>
        </property>
       </widget>
      </item>
@@ -117,24 +106,42 @@
        </property>
       </spacer>
      </item>
+     <item row="2" column="6">
+      <widget class="QLabel" name="porcentagem1">
+       <property name="text">
+        <string>%</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="taxa">
+       <property name="text">
+        <string>Taxa anual</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="4">
       <widget class="QLineEdit" name="taxaInput"/>
      </item>
-     <item row="2" column="7">
-      <spacer name="horizontalSpacer_4">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
+     <item row="3" column="4">
+      <widget class="QLineEdit" name="valorInput"/>
+     </item>
+     <item row="0" column="6">
+      <widget class="QLabel" name="porcentagem0">
+       <property name="text">
+        <string>%</string>
        </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Policy::Fixed</enum>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLineEdit" name="cdiInput"/>
+     </item>
+     <item row="3" column="3">
+      <widget class="QLabel" name="dinheiro">
+       <property name="text">
+        <string>R$</string>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+      </widget>
      </item>
      <item row="3" column="1">
       <widget class="QLabel" name="valor">
@@ -143,10 +150,20 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="3">
-      <widget class="QLabel" name="dinheiro">
+     <item row="4" column="1">
+      <widget class="QLabel" name="salvar">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>R$</string>
+        <string>Salvar em</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="4">
+      <widget class="QLineEdit" name="salvarInput">
+       <property name="enabled">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -156,9 +173,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>116</y>
+      <y>120</y>
       <width>801</width>
-      <height>221</height>
+      <height>351</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="resultados">
@@ -409,28 +426,23 @@
        </item>
       </layout>
      </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>340</y>
-      <width>799</width>
-      <height>60</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="spacerInferior">
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
      <item>
       <widget class="QLabel" name="versao">
        <property name="text">
         <string>v1.0.0</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
-       </property>
-       <property name="margin">
-        <number>20</number>
        </property>
       </widget>
      </item>

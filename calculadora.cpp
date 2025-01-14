@@ -20,6 +20,7 @@
 #include <QString>
 #include <QIODevice>
 #include <QTextStream>
+#include <QFileDevice>
 
 using namespace std;
 
@@ -176,10 +177,17 @@ void Calculadora::on_caciar_clicked()
     taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << ui->valorInput->text();
 
     ui->estimarValores->setEnabled(true);
+    ui->salvar->setEnabled(true);
+    ui->salvarInput->setEnabled(true);
 }
 
 void Calculadora::on_estimarValores_clicked()
 {
+    if (!QDir::setCurrent(ui->salvarInput->text())){
+        ui->erroLabel->setText("Diretório no campo Salvar não existe.");
+        return;
+    };
+
     tempInfo temp;
     nomesTemporario nomes;
 
