@@ -271,6 +271,30 @@ void Calculadora::on_estimarValores_clicked()
 
     arquivoRel << headerLinha;
 
+    // A taxa diaria por mes
+    vector<int> taxaDiariaPorMes = {};
+
+    int mes = 1;
+    float taxaDiariaMes = 0;
+    int numDiasMes = 0;
+    for (int dia = 1; dia <= diasAno; ++dia){
+        QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
+
+        if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday){
+            continue;
+        }else{
+            ++numDiasMes;
+        };
+
+        if (data.month() > mes){
+            ++mes;
+            taxaDiariaMes = taxaMes/numDiasMes;
+            numDiasMes = 0;
+            taxaDiariaPorMes.push_back(taxaDiariaMes);
+        };
+
+    };
+
     for (int dia = numDia; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
@@ -280,7 +304,7 @@ void Calculadora::on_estimarValores_clicked()
 
         // Adicionar valor convertido
         int valorAntes = valor;
-        valor += valor*taxaDia;
+        valor += valor*taxaDiariaPorMes[data.month()-1];
 
         float diferencaValor = valor - valorAntes;
 
@@ -298,7 +322,7 @@ void Calculadora::on_estimarValores_clicked()
         linha.push_back(data.toString("yyyy-MM-dd"));
 
         // Adiciona taxa diária
-        linha.push_back(mergeStrings({convertFQString(taxaDia*100), "%"}));
+        linha.push_back(mergeStrings({convertFQString(taxaDiariaPorMes[data.month()-1]*100), "%"}));
 
         // Adicionar taxa mensal
         linha.push_back(mergeStrings({convertFQString(taxaMes*100), "%"}));
