@@ -273,6 +273,8 @@ void Calculadora::on_estimarValores_clicked()
 
     // A taxa diaria por mes
     vector<float> taxaDiariaPorMes = {};
+    vector<float> taxaMensal = {};
+    float taxaAnoReal = 0;
 
     int mes = 1;
     int numDiasMes = 0;
@@ -286,15 +288,20 @@ void Calculadora::on_estimarValores_clicked()
         ++numDiasMes;
 
         if (data.month() > mes){
-            taxaDiariaPorMes.push_back(taxaMes*100/numDiasMes);
+            float taxaDiaria = (taxaMes*100/numDiasMes)/100;
 
-            cout << taxaDiariaPorMes.back() << endl;
+            taxaDiariaPorMes.push_back(taxaDiaria);
+            taxaMensal.push_back(taxaDiaria*numDiasMes);
 
             ++mes;
             numDiasMes = 0;
         };
 
         cout << dia << " - " << mes << " - " << numDiasMes << endl;
+    };
+
+    for (auto n:taxaMensal){
+        taxaAnoReal += n;
     };
 
     for (int dia = numDia; dia <= diasAno; ++dia) {
@@ -330,10 +337,10 @@ void Calculadora::on_estimarValores_clicked()
         linha.push_back(mergeStrings({convertFQString(taxaDiariaPorMes[data.month()-1]*100), "%"}));
 
         // Adicionar taxa mensal
-        linha.push_back(mergeStrings({convertFQString(taxaMes*100), "%"}));
+        linha.push_back(mergeStrings({convertFQString(taxaMensal[indexMes]*100), "%"}));
 
         // Adicionar taxa anual
-        linha.push_back(mergeStrings({convertFQString(taxaAno*100), "%"}));
+        linha.push_back(mergeStrings({convertFQString(taxaAnoReal*100), "%"}));
 
         // Adicionar taxa anual bruta
         float taxaAnualBruto = (taxaAno/cdi)*100;
