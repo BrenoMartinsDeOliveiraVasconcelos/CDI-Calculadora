@@ -196,7 +196,7 @@
     </property>
     <layout class="QVBoxLayout" name="resultados">
      <item>
-      <widget class="QLabel" name="erroLabel">
+      <widget class="QLabel" name="taxaAnual">
        <property name="font">
         <font>
          <bold>true</bold>
@@ -443,6 +443,24 @@
       </layout>
      </item>
      <item>
+      <widget class="QLabel" name="erroLabel">
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(226, 37, 37)</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Orientation::Vertical</enum>
@@ -463,6 +481,27 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="erroLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>120</y>
+      <width>799</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Aperte calcular.</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

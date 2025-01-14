@@ -27,6 +27,7 @@ using namespace std;
 class nomesTemporario{
 public:
     QString taxas = "taxas.txt";
+    QString pastaRelatorio = "CDI_Calc";
 };
 
 Calculadora::Calculadora(QWidget *parent)
@@ -171,7 +172,7 @@ void Calculadora::on_caciar_clicked()
     ui->dataMes_2->setText(formatarData(anoSeguinte));
 
     // Exibir taxa total
-    ui->erroLabel->setText("Taxa total - " + formatarValor(seliac * 100) + "%");
+    ui->taxaAnual->setText("Taxa total - " + formatarValor(seliac * 100) + "%");
 
     // Escrever as taxas no arquivo temporário
     taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << ui->valorInput->text();
@@ -186,13 +187,20 @@ void Calculadora::on_caciar_clicked()
 
 void Calculadora::on_estimarValores_clicked()
 {
+    tempInfo temp;
+    nomesTemporario nomes;
+
     if (!QDir::setCurrent(ui->salvarInput->text())){
         ui->erroLabel->setText("Diretório no campo Salvar não existe.");
         return;
     };
 
-    tempInfo temp;
-    nomesTemporario nomes;
+    if (!QDir::current().mkdir(nomes.pastaRelatorio)){
+        ui->erroLabel->setText("Erro ao criar pasta para estimativas.");
+        return;
+    }
+
+    QDir::setCurrent(QDir::currentPath()+QDir::separator()+nomes.pastaRelatorio);
 
     QFile arquivoTaxas(temp.tempFolderAbsolute+nomes.taxas);
 
