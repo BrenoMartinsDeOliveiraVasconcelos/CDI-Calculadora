@@ -253,7 +253,7 @@ void Calculadora::on_estimarValores_clicked()
     int diasAno = QDate(anoAtual, 12, 31).dayOfYear();
 
     // Gerar headers
-    ui->erroLabel->setText("Gerando relatório...");
+    ui->avisoLabel->setText("Gerando relatório...");
 
     vector<QString> headers = {"Valor", "Data", "Taxa Dia", "Taxa Mes", "Taxa Ano"};
     QString headerLinha = generateCSVLine(headers);
@@ -290,7 +290,7 @@ void Calculadora::on_estimarValores_clicked()
 
     };
 
-    ui->erroLabel->setText("Relatório gerado como "+nomeArquivo+"!");
+    ui->avisoLabel->setText("Relatório gerado como "+nomeArquivo+"!");
 }
 
 void Calculadora::on_Calculadora_destroyed()

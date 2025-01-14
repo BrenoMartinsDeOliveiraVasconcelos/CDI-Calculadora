@@ -396,6 +396,24 @@
       </layout>
      </item>
      <item>
+      <widget class="QLabel" name="avisoLabel">
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(18, 212, 173)</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="botoesBaixo">
        <item>
         <spacer name="horizontalSpacer">
