@@ -4,6 +4,8 @@
 // Headers pessoais
 #include "temp_management.h"
 #include "qcsv.h"
+#include "qtdecimalconversion.h"
+#include "qstringutils.h"
 
 // Bibliotecas C++
 #include <iostream>
@@ -175,7 +177,7 @@ void Calculadora::on_caciar_clicked()
     ui->taxaAnual->setText("Taxa total - " + formatarValor(seliac * 100) + "%");
 
     // Escrever as taxas no arquivo temporário
-    taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << ui->valorInput->text();
+    taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << ui->valorInput->text() << "\n" << cdi;
 
     ui->estimarValores->setEnabled(true);
     ui->salvar->setEnabled(true);
@@ -190,29 +192,17 @@ void Calculadora::on_estimarValores_clicked()
     tempInfo temp;
     nomesTemporario nomes;
 
-    if (!QDir::setCurrent(ui->salvarInput->text())){
-        ui->erroLabel->setText("Diretório no campo Salvar não existe.");
-        return;
-    };
 
-    if (!QDir::current().mkdir(nomes.pastaRelatorio)){
-        ui->erroLabel->setText("Erro ao criar pasta para estimativas.");
-        return;
-    }
-
-    QDir::setCurrent(QDir::currentPath()+QDir::separator()+nomes.pastaRelatorio);
+    float valores[5] = {0, 0, 0, 0, 0}; // Indexes: {anual, mensal, dia, valor}
 
     QFile arquivoTaxas(temp.tempFolderAbsolute+nomes.taxas);
-
-    float valores[4] = {0, 0, 0, 0}; // Indexes: {anual, mensal, dia, valor}
-
     if (!arquivoTaxas.open(QIODevice::ReadOnly | QIODevice::Text)){
         ui->erroLabel->setText("Falha ao ler o arquivo temporário de taxas.");
         return;
     };
 
-    // Gerar relatório diário e mensal até o fim do ano
     QTextStream arquivo(&arquivoTaxas);
+
     int index = 0;
     while (!arquivo.atEnd()) {
         QString line = arquivo.readLine();
@@ -221,10 +211,31 @@ void Calculadora::on_estimarValores_clicked()
         index++;
     }
 
+    float cdi = valores[4];
     float valor = valores[3];
     float taxaDia = valores[2];
     float taxaMes = valores[1];
     float taxaAno = valores[0];
+
+    if (!QDir::setCurrent(ui->salvarInput->text())){
+        ui->erroLabel->setText("Diretório no campo Salvar não existe.");
+        return;
+    };
+
+    vector<QString> caminho = {nomes.pastaRelatorio,
+                               mergeStrings({"selic_", convertFQString(taxaAno*100)}),
+                               mergeStrings({"cdi_", convertFQString(cdi*100)}),
+                               mergeStrings({"valor_", convertFQString(valor)})
+    };
+
+    for (auto pasta:caminho){
+        if (!QDir::current().mkdir(pasta) && !QDir::current().exists(pasta)){
+            ui->erroLabel->setText("Erro ao criar pasta para estimativas.");
+            return;
+        }
+
+        QDir::setCurrent(QDir::currentPath()+QDir::separator()+pasta);
+    }
 
     // Calcular a quantidade de fins de semana no ano atual
     QDate diaAtual = QDate::currentDate();

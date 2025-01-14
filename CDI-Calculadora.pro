@@ -15,6 +15,8 @@ SOURCES += \
 HEADERS += \
     calculadora.h \
     qcsv.h \
+    qstringutils.h \
+    qtdecimalconversion.h \
     temp_management.h
 
 FORMS += \
