@@ -3,9 +3,11 @@
 
 // Headers pessoais
 #include "temp_management.h"
+#include "qcsv.h"
 
 // Bibliotecas C++
 #include <iostream>
+#include <vector>
 
 // Bibliotecas qt
 #include <QRegularExpression>
@@ -215,11 +217,20 @@ void Calculadora::on_estimarValores_clicked()
 
     if (!relatorio.open(QIODevice::Append | QIODevice::Text)){
         ui->erroLabel->setText("Erro ao abrir o arquivo de relatório para escrita.");
+        return;
     };
+
+    QTextStream arquivoRel(&relatorio);
 
     int anoAtual = diaAtual.year();
     int numDia = diaAtual.dayOfYear();
     int diasAno = QDate(anoAtual, 12, 31).dayOfYear();
+
+    // Gerar headers
+    vector<QString> headers = {"a", "b", "c"};
+    QString headerLinha = generateCSVLine(headers);
+
+    arquivoRel << headerLinha << "\n";
 
     for (int dia = numDia; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
