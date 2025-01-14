@@ -266,7 +266,7 @@ void Calculadora::on_estimarValores_clicked()
     // Gerar headers
     ui->avisoLabel->setText("Gerando relatório...");
 
-    vector<QString> headers = {"Valor", "Aumento Bruto", "Data", "Taxa Dia", "Taxa Mes", "Taxa Ano", "Taxa Ano Bruto", "cdi"};
+    vector<QString> headers = {"Valor", "Aumento Bruto", "Data", "Taxa Dia", "Taxa Mes%", "Taxa Ano%", "Taxa Ano Bruto%", "CDI%"};
     QString headerLinha = generateCSVLine(headers);
 
     arquivoRel << headerLinha;
@@ -287,7 +287,7 @@ void Calculadora::on_estimarValores_clicked()
 
         ++numDiasMes;
 
-        if (data.month() > mes){
+        if (data.month() > mes || dia==diasAno){
             float taxaDiaria = (taxaMes*100/numDiasMes)/100;
 
             taxaDiariaPorMes.push_back(taxaDiaria);
@@ -347,7 +347,7 @@ void Calculadora::on_estimarValores_clicked()
         linha.push_back(mergeStrings({convertFQString(taxaAnualBruto), "%"}));
 
         //Adicionar CDI
-        linha.push_back(mergeStrings({convertFQString(cdi), "%"}));
+        linha.push_back(mergeStrings({convertFQString(cdi*100), "%"}));
 
         QString linhaFinal = generateCSVLine(linha);
 
