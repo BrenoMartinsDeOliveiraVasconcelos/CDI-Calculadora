@@ -27,6 +27,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_selecionarDiretorio_clicked();
+
 private:
     Ui::Calculadora *ui;
 };

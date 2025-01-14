@@ -285,6 +285,12 @@ void Calculadora::on_Calculadora_destroyed()
 
 void Calculadora::on_pushButton_clicked()
 {
+
+}
+
+
+void Calculadora::on_selecionarDiretorio_clicked()
+{
     QString pasta = QFileDialog::getExistingDirectory(this, tr("Abrir pasta"),
                                                       QDir::homePath(),
                                                       QFileDialog::ShowDirsOnly
