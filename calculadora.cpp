@@ -266,7 +266,7 @@ void Calculadora::on_estimarValores_clicked()
     // Gerar headers
     ui->avisoLabel->setText("Gerando relatório...");
 
-    vector<QString> headers = {"Valor", "Data", "Taxa Dia", "Taxa Mes", "Taxa Ano"};
+    vector<QString> headers = {"Valor", "Aumento Bruto", "Data", "Taxa Dia", "Taxa Mes", "Taxa Ano", "Taxa Ano Bruto", "cdi"};
     QString headerLinha = generateCSVLine(headers);
 
     arquivoRel << headerLinha;
@@ -279,21 +279,39 @@ void Calculadora::on_estimarValores_clicked()
         vector<QString> linha;
 
         // Adicionar valor convertido
+        int valorAntes = valor;
         valor += valor*taxaDia;
-        QString valorString = QString::number(valor, 'f', 2);
+
+        float diferencaValor = valor - valorAntes;
+
+        QString valorString = convertFQString(valor);
+        QString diffValor = convertFQString(diferencaValor);
+
+        if (diferencaValor >= 0){
+            diffValor = "+"+diffValor;
+        };
+
         linha.push_back(valorString);
+        linha.push_back(diffValor);
 
         // Adiciona a data
         linha.push_back(data.toString("yyyy-MM-dd"));
 
         // Adiciona taxa diária
-        linha.push_back(QString::number(taxaDia*100, 'f', 2)+"%");
+        linha.push_back(mergeStrings({convertFQString(taxaDia*100), "%"}));
 
         // Adicionar taxa mensal
-        linha.push_back(QString::number(taxaMes*100, 'f', 2)+"%");
+        linha.push_back(mergeStrings({convertFQString(taxaMes*100), "%"}));
 
         // Adicionar taxa anual
-        linha.push_back(QString::number(taxaAno*100, 'f', 2)+"%");
+        linha.push_back(mergeStrings({convertFQString(taxaAno*100), "%"}));
+
+        // Adicionar taxa anual bruta
+        float taxaAnualBruto = (taxaAno/cdi)*100;
+        linha.push_back(mergeStrings({convertFQString(taxaAnualBruto), "%"}));
+
+        //Adicionar CDI
+        linha.push_back(mergeStrings({convertFQString(cdi), "%"}));
 
         QString linhaFinal = generateCSVLine(linha);
 
