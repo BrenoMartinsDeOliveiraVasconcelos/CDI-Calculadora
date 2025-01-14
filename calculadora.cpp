@@ -213,7 +213,7 @@ void Calculadora::on_estimarValores_clicked()
 
     float cdi = valores[4];
     float valor = valores[3];
-    float taxaDia = valores[2];
+ // float taxaDia = valores[2];
     float taxaMes = valores[1];
     float taxaAno = valores[0];
 
@@ -272,27 +272,29 @@ void Calculadora::on_estimarValores_clicked()
     arquivoRel << headerLinha;
 
     // A taxa diaria por mes
-    vector<int> taxaDiariaPorMes = {};
+    vector<float> taxaDiariaPorMes = {};
 
     int mes = 1;
-    float taxaDiariaMes = 0;
     int numDiasMes = 0;
     for (int dia = 1; dia <= diasAno; ++dia){
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
 
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday){
             continue;
-        }else{
-            ++numDiasMes;
         };
+
+        ++numDiasMes;
 
         if (data.month() > mes){
+            taxaDiariaPorMes.push_back(taxaMes*100/numDiasMes);
+
+            cout << taxaDiariaPorMes.back() << endl;
+
             ++mes;
-            taxaDiariaMes = taxaMes/numDiasMes;
             numDiasMes = 0;
-            taxaDiariaPorMes.push_back(taxaDiariaMes);
         };
 
+        cout << dia << " - " << mes << " - " << numDiasMes << endl;
     };
 
     for (int dia = numDia; dia <= diasAno; ++dia) {
@@ -304,7 +306,10 @@ void Calculadora::on_estimarValores_clicked()
 
         // Adicionar valor convertido
         int valorAntes = valor;
-        valor += valor*taxaDiariaPorMes[data.month()-1];
+        int indexMes = data.month() - 1;
+
+        cout << "INDEX MES: " << indexMes << endl;
+        valor += valor*taxaDiariaPorMes[indexMes];
 
         float diferencaValor = valor - valorAntes;
 
