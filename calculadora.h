@@ -23,6 +23,8 @@ private slots:
 
     void on_Calculadora_destroyed();
 
+    void on_estimarValores_clicked();
+
 private:
     Ui::Calculadora *ui;
 };

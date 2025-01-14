@@ -2,12 +2,15 @@
 #define TEMP_MANAGEMENT_H
 
 #include <QDir>
+#include <QFile>
+#include <QTextStream>
 
 class tempInfo{
     public:
         QString tempName = "CDICALC";
         QDir tempFolder = QDir::temp();
         QString fullFolder = tempFolder.absolutePath() + QDir::separator() + tempName;
+        QString tempFolderAbsolute = fullFolder+QDir::separator();
         QDir fullFolderDir = fullFolder;
 };
 

@@ -21,6 +21,11 @@
 
 using namespace std;
 
+class nomesTemporario{
+public:
+    QString taxas = "taxas.txt";
+};
+
 Calculadora::Calculadora(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Calculadora)
@@ -36,6 +41,7 @@ Calculadora::~Calculadora()
 void Calculadora::on_caciar_clicked()
 {
     tempInfo temp;
+    nomesTemporario nomes;
 
     auto formatarValor = [](float valor) {
         return QString::number(valor, 'f', 2);
@@ -54,7 +60,7 @@ void Calculadora::on_caciar_clicked()
         };
     };
 
-    QFile arquivoTaxas(temp.fullFolder+QDir::separator()+"taxas.txt");
+    QFile arquivoTaxas(temp.tempFolderAbsolute+nomes.taxas);
 
     if (!arquivoTaxas.open(QIODevice::WriteOnly | QIODevice::Text)){
         ui->erroLabel->setText("Erro ao ler arquivo .txt de taxas.");
@@ -73,7 +79,7 @@ void Calculadora::on_caciar_clicked()
     QDate dataMesSeguinte = dataAtual.addMonths(1);
     QDate dataAnoSeguinte = dataAtual.addYears(1);
 
-    int mesAtual = dataAtual.month();
+    //int mesAtual = dataAtual.month();
     int anoAtual = dataAtual.year();
 
     // Expressão regular para validar números positivos (inteiros ou decimais)
@@ -165,11 +171,63 @@ void Calculadora::on_caciar_clicked()
     ui->erroLabel->setText("Taxa total - " + formatarValor(seliac * 100) + "%");
 
     // Escrever as taxas no arquivo temporário
-    taxasTxt << seliac << "\n" << seliacMes*100 << "\n" << seliacDia*100 << "\n" << ui->valorInput->text();
+    taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << ui->valorInput->text();
 
     ui->estimarValores->setEnabled(true);
 }
 
+void Calculadora::on_estimarValores_clicked()
+{
+    tempInfo temp;
+    nomesTemporario nomes;
+
+    QFile arquivoTaxas(temp.tempFolderAbsolute+nomes.taxas);
+
+    float valores[4] = {0, 0, 0, 0}; // Indexes: {anual, mensal, dia, valor}
+
+    if (!arquivoTaxas.open(QIODevice::ReadOnly | QIODevice::Text)){
+        ui->erroLabel->setText("Falha ao ler o arquivo temporário de taxas.");
+        return;
+    };
+
+    // Gerar relatório diário e mensal até o fim do ano
+    QTextStream arquivo(&arquivoTaxas);
+    int index = 0;
+    while (!arquivo.atEnd()) {
+        QString line = arquivo.readLine();
+        valores[index] = line.toFloat();
+
+        index++;
+    }
+
+    // Calcular a quantidade de fins de semana no ano atual
+    QDate diaAtual = QDate::currentDate();
+
+    // Criando e abrindo o arquivo de relatório para escrita
+    QFile relatorio(QDir::currentPath()+QDir::separator()+"output.csv");
+
+    if (!relatorio.open(QIODevice::WriteOnly | QIODevice::Text)){
+        ui->erroLabel->setText("O diretório está inacessível.");
+        return;
+    };
+
+    relatorio.close();
+
+    if (!relatorio.open(QIODevice::Append | QIODevice::Text)){
+        ui->erroLabel->setText("Erro ao abrir o arquivo de relatório para escrita.");
+    };
+
+    int anoAtual = diaAtual.year();
+    int numDia = diaAtual.dayOfYear();
+    int diasAno = QDate(anoAtual, 12, 31).dayOfYear();
+
+    for (int dia = numDia; dia <= diasAno; ++dia) {
+        QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
+        if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
+            continue;
+        }
+    };
+}
 
 void Calculadora::on_Calculadora_destroyed()
 {
@@ -178,4 +236,5 @@ void Calculadora::on_Calculadora_destroyed()
     }
     return;
 }
+
 
