@@ -202,6 +202,9 @@ void Calculadora::on_estimarValores_clicked()
         index++;
     }
 
+    float taxaDia = valores[2];
+    float valor = valores[3];
+
     // Calcular a quantidade de fins de semana no ano atual
     QDate diaAtual = QDate::currentDate();
 
@@ -227,17 +230,38 @@ void Calculadora::on_estimarValores_clicked()
     int diasAno = QDate(anoAtual, 12, 31).dayOfYear();
 
     // Gerar headers
-    vector<QString> headers = {"a", "b", "c"};
+    ui->erroLabel->setText("Gerando relatório...");
+
+    vector<QString> headers = {"Valor", "Data", "Taxa"};
     QString headerLinha = generateCSVLine(headers);
 
-    arquivoRel << headerLinha << "\n";
+    arquivoRel << headerLinha;
 
     for (int dia = numDia; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
             continue;
         }
+        vector<QString> linha;
+
+        // Adicionar valor convertido
+        valor += valor*taxaDia;
+        QString valorString = QString::number(valor, 'f', 2);
+        linha.push_back(valorString);
+
+        // Adiciona a data
+        linha.push_back(data.toString("yyyy-MM-dd"));
+
+        // Adiciona taxa diária
+        linha.push_back(QString::number(taxaDia*100, 'f', 2)+"%");
+
+        QString linhaFinal = generateCSVLine(linha);
+
+        arquivoRel << linhaFinal;
+
     };
+
+    ui->erroLabel->setText("Relatório gerado como output.csv.");
 }
 
 void Calculadora::on_Calculadora_destroyed()

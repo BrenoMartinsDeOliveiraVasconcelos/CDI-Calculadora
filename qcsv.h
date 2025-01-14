@@ -14,6 +14,7 @@ QString generateCSVLine(vector<QString> headers){
     };
 
     header.removeLast();
+    header.append("\n");
 
     return header;
 };
