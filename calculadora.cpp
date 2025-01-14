@@ -108,14 +108,14 @@ void Calculadora::on_caciar_clicked()
     }
 
     // Calcular a quantidade de fins de semana no mês atual
-    int diasMes = dataAtual.daysInMonth();
-    int fimSemanaMes = 0;
-    for (int dia = 1; dia <= diasMes; ++dia) {
-        QDate data(dia, mesAtual, anoAtual);
-        if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
-            ++fimSemanaMes;
-        }
-    }
+    //int diasMes = dataAtual.daysInMonth();
+    //int fimSemanaMes = 0;
+    //for (int dia = 1; dia <= diasMes; ++dia) {
+    //    QDate data(dia, mesAtual, anoAtual);
+    //    if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
+    //        ++fimSemanaMes;
+    //    }
+    //}
 
     // Calcular a quantidade de fins de semana no ano atual
     int diasAno = QDate(anoAtual, 12, 31).dayOfYear();
@@ -127,13 +127,13 @@ void Calculadora::on_caciar_clicked()
         }
     }
 
-    int totalDiasMes = diasMes - fimSemanaMes;
+    //int totalDiasMes = diasMes - fimSemanaMes;
     int totalDiasAno = diasAno - fimSemanaAno;
 
     // Calcular taxas e estimativas
     float cdi = valores[1] / 100.0f;
     float seliac = (valores[0] * cdi) / 100.0f;
-    float seliacMes = seliac / totalDiasMes;
+    float seliacMes = seliac / 12;
     float seliacDia = seliac / totalDiasAno;
 
 
@@ -166,6 +166,8 @@ void Calculadora::on_caciar_clicked()
 
     // Escrever as taxas no arquivo temporário
     taxasTxt << seliac << "\n" << seliacMes*100 << "\n" << seliacDia*100 << "\n" << ui->valorInput->text();
+
+    ui->estimarValores->setEnabled(true);
 }
 
 
