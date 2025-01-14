@@ -180,6 +180,8 @@ void Calculadora::on_caciar_clicked()
     ui->salvar->setEnabled(true);
     ui->salvarInput->setEnabled(true);
     ui->selecionarDiretorio->setEnabled(true);
+
+    ui->salvarInput->setText(QDir::homePath());
 }
 
 void Calculadora::on_estimarValores_clicked()
@@ -217,8 +219,10 @@ void Calculadora::on_estimarValores_clicked()
     // Calcular a quantidade de fins de semana no ano atual
     QDate diaAtual = QDate::currentDate();
 
+    QString nomeArquivo = diaAtual.toString("estimativa_yyyy-MM-dd")+".csv";
+
     // Criando e abrindo o arquivo de relatório para escrita
-    QFile relatorio(QDir::currentPath()+QDir::separator()+"output.csv");
+    QFile relatorio(QDir::currentPath()+QDir::separator()+nomeArquivo);
 
     if (!relatorio.open(QIODevice::WriteOnly | QIODevice::Text)){
         ui->erroLabel->setText("O diretório está inacessível.");
@@ -270,7 +274,7 @@ void Calculadora::on_estimarValores_clicked()
 
     };
 
-    ui->erroLabel->setText("Relatório gerado como output.csv.");
+    ui->erroLabel->setText("Relatório gerado como "+nomeArquivo+"!");
 }
 
 void Calculadora::on_Calculadora_destroyed()
