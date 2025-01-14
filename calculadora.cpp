@@ -117,36 +117,30 @@ void Calculadora::on_caciar_clicked()
             ui->erroLabel->setText("Os campos devem ser números positivos.");
             return;
         }
-    }
-
-    // Calcular a quantidade de fins de semana no mês atual
-    //int diasMes = dataAtual.daysInMonth();
-    //int fimSemanaMes = 0;
-    //for (int dia = 1; dia <= diasMes; ++dia) {
-    //    QDate data(dia, mesAtual, anoAtual);
-    //    if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
-    //        ++fimSemanaMes;
-    //    }
-    //}
-
-    // Calcular a quantidade de fins de semana no ano atual
-    int diasAno = QDate(anoAtual, 12, 31).dayOfYear();
-    int fimSemanaAno = 0;
-    for (int dia = 1; dia <= diasAno; ++dia) {
-        QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
-        if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
-            ++fimSemanaAno;
-        }
-    }
-
-    //int totalDiasMes = diasMes - fimSemanaMes;
-    int totalDiasAno = diasAno - fimSemanaAno;
+    };
 
     // Calcular taxas e estimativas
     float cdi = valores[1] / 100.0f;
     float seliac = (valores[0] * cdi) / 100.0f;
     float seliacMes = seliac / 12;
-    float seliacDia = seliac / totalDiasAno;
+
+    int numDiasMes = 0;
+
+    int numDiasAno = dataAtual.daysInYear();
+
+    for (int dia=1; dia <= numDiasAno; ++dia){
+        QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
+
+        if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday){
+            continue;
+        };
+
+        if (data.month() == dataAtual.month()){
+            numDiasMes++;
+        };
+    };
+
+    float seliacDia = seliacMes / numDiasMes;
 
 
 
@@ -304,7 +298,7 @@ void Calculadora::on_estimarValores_clicked()
         taxaAnoReal += n;
     };
 
-    for (int dia = numDia; dia <= diasAno; ++dia) {
+    for (int dia = numDia+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
             continue;
