@@ -292,7 +292,7 @@ void Calculadora::on_estimarValores_clicked()
     // Gerar headers
     ui->avisoLabel->setText("Gerando relatório...");
 
-    vector<QString> headers = {"Valor", "Aumento Bruto", "Data", "Taxa Dia", "Taxa Mes%", "Taxa Ano%", "Taxa Ano Bruto%", "CDI%"};
+    vector<QString> headers = {"Valor", "Aumento Bruto", "Aumento Real%", "Data", "Taxa Dia", "Taxa Mes%", "Taxa Ano%", "Taxa Ano Bruto%", "CDI%"};
     QString headerLinha = generateCSVLine(headers);
 
     arquivoRel << headerLinha;
@@ -330,6 +330,9 @@ void Calculadora::on_estimarValores_clicked()
         taxaAnoReal += n;
     };
 
+    float aumentoRealDia = 0;
+    float valorOriginal = valor;
+
     for (int dia = numDia+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
@@ -342,12 +345,15 @@ void Calculadora::on_estimarValores_clicked()
         int indexMes = data.month() - 1;
 
         cout << "INDEX MES: " << indexMes << endl;
-        valor += valor*taxaDiariaPorMes[indexMes];
+
+        aumentoRealDia += taxaDiariaPorMes[indexMes];
+        valor = valorOriginal+(valorOriginal*aumentoRealDia);
 
         float diferencaValor = valor - valorAntes;
 
         QString valorString = convertFQString(valor);
         QString diffValor = convertFQString(diferencaValor);
+        QString aumentoRealStr = convertFQString(aumentoRealDia);
 
         if (diferencaValor >= 0){
             diffValor = "+"+diffValor;
@@ -355,6 +361,7 @@ void Calculadora::on_estimarValores_clicked()
 
         linha.push_back(valorString);
         linha.push_back(diffValor);
+        linha.push_back(aumentoRealStr);
 
         // Adiciona a data
         linha.push_back(data.toString("yyyy-MM-dd"));
