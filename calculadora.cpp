@@ -120,14 +120,22 @@ void Calculadora::on_caciar_clicked()
     };
 
     // Calcular taxas e estimativas
-    float cdi = valores[1] / 100.0f;
-    float seliac = (valores[0] * cdi) / 100.0f;
+    float cdi = valores[1] / 100;
+    float seliac = (valores[0] * cdi) / 100;
     float seliacMes = seliac / 12;
 
     int numDiasMes = 0;
 
     int numDiasAno = dataAtual.daysInYear();
 
+    int numDiasMesLoop = 0;
+    int mesLoop = 1;
+
+    float valorAplicado = valores[2];
+
+    float aumentoReal = 0;
+
+    // O calculo das taxas
     for (int dia=1; dia <= numDiasAno; ++dia){
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
 
@@ -138,9 +146,32 @@ void Calculadora::on_caciar_clicked()
         if (data.month() == dataAtual.month()){
             numDiasMes++;
         };
+
+        numDiasMesLoop++;
+
+        cout << data.month() << "\n";
+
+        if (data.month() > mesLoop || data.dayOfYear() == numDiasAno){
+            int diaMesAgora = data.day();
+
+            float taxaDiariaLoop = ((seliacMes*100)/numDiasMesLoop)/100;
+
+            if (data.month()-1 == dataAtual.month()){
+                aumentoReal += seliacMes - ((diaMesAgora*(taxaDiariaLoop*100))/100);
+            }else{
+                aumentoReal += seliacMes;
+            };
+
+
+            numDiasMesLoop = 0;
+            mesLoop++;
+
+            cout << taxaDiariaLoop << " - " << aumentoReal <<  " - " << " - " << " - " << valorAplicado << "\n";
+        };
+
     };
 
-    float seliacDia = seliacMes / numDiasMes;
+    float seliacDia = ((seliacMes*100) / numDiasMes) / 100;
 
 
 
@@ -149,14 +180,13 @@ void Calculadora::on_caciar_clicked()
     ui->aumentoDia->setText(formatarValor(seliacDia * 100) + "% ao dia");
 
     // Calcular estimativas finais
-    float valorAplicado = valores[2];
     float estimativaDia = valorAplicado * seliacDia;
     float estimativaMes = valorAplicado * seliacMes;
-    float estimativaAno = valorAplicado * seliac;
+    float estimativaAno = valorAplicado + (valorAplicado*aumentoReal);
 
     ui->finalDia->setText("R$ " + formatarValor(valorAplicado + estimativaDia));
     ui->finalMes->setText("R$ " + formatarValor(valorAplicado + estimativaMes));
-    ui->finalAno->setText("R$ " + formatarValor(valorAplicado + estimativaAno));
+    ui->finalAno->setText("R$ " + formatarValor(estimativaAno));
 
     // Exibir datas
     QString amanha = dataAamanha.toString(formatoData);
@@ -282,7 +312,7 @@ void Calculadora::on_estimarValores_clicked()
         ++numDiasMes;
 
         if (data.month() > mes || dia==diasAno){
-            float taxaDiaria = (taxaMes*100/numDiasMes)/100;
+            float taxaDiaria = ((taxaMes*100)/numDiasMes)/100;
 
             taxaDiariaPorMes.push_back(taxaDiaria);
             taxaMensal.push_back(taxaDiaria*numDiasMes);
