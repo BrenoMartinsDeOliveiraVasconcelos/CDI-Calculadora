@@ -82,8 +82,8 @@ void Calculadora::on_caciar_clicked()
     QDate dataAtual = QDate::currentDate();
 
     QDate dataAamanha = dataAtual.addDays(1);
-    QDate dataMesSeguinte = dataAtual.addMonths(1);
-    QDate dataAnoSeguinte = dataAtual.addYears(1);
+    QDate dataMesSeguinte = QDate(dataAtual.year(), dataAtual.month(), dataAtual.daysInMonth());
+    QDate dataAnoSeguinte = QDate(dataAtual.year(), 12, 31);
 
     //int mesAtual = dataAtual.month();
     int anoAtual = dataAtual.year();
@@ -152,14 +152,12 @@ void Calculadora::on_caciar_clicked()
         cout << data.month() << "\n";
 
         if (data.month() > mesLoop || data.dayOfYear() == numDiasAno){
-            int diaMesAgora = data.day();
+            int diaMesAgora = dataAtual.daysInMonth() - dataAtual.day();
 
             float taxaDiariaLoop = ((seliacMes*100)/numDiasMesLoop)/100;
 
             if (data.month()-1 == dataAtual.month()){
-                aumentoReal += seliacMes - ((diaMesAgora*(taxaDiariaLoop*100))/100);
-            }else{
-                aumentoReal += seliacMes;
+                aumentoReal = seliacMes - (diaMesAgora*(taxaDiariaLoop*100))/100;
             };
 
 
@@ -171,8 +169,12 @@ void Calculadora::on_caciar_clicked()
 
     };
 
-    float seliacDia = ((seliacMes*100) / numDiasMes) / 100;
+    // Adiiconando os meses futuros no aumento real
+    int mesesFuturos = 12 - dataAtual.month();
 
+    aumentoReal = aumentoReal + ((seliacMes*100)*mesesFuturos)/100;
+
+    float seliacDia = ((seliacMes*100) / numDiasMes) / 100;
 
 
     // Exibir taxas mensais e diárias
