@@ -85,8 +85,6 @@ void Calculadora::on_caciar_clicked()
     QDate dataMesSeguinte = QDate(dataAtual.year(), dataAtual.month(), dataAtual.daysInMonth());
     QDate dataAnoSeguinte = QDate(dataAtual.year(), 12, 31);
 
-    //int mesAtual = dataAtual.month();
-    int anoAtual = dataAtual.year();
 
     // Expressão regular para validar números positivos (inteiros ou decimais)
     const QString numPadrao = "^\\d*(\\.\\d+)?$";
@@ -126,78 +124,14 @@ void Calculadora::on_caciar_clicked()
 
     int numDiasMes = 0;
 
-    int numDiasAno = dataAtual.daysInYear();
 
-    int numDiasMesLoop = 0;
-    int mesLoop = 1;
 
     float valorAplicado = valores[2];
-
-    float aumentoReal = 0;
-
-    float aumentoAcumulado = 0;
-
-    // O calculo das taxas
-    for (int dia=1; dia <= numDiasAno; ++dia){
-        QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
-
-        if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday){
-            continue;
-        };
-
-        if (data.month() == dataAtual.month()){
-            numDiasMes++;
-        };
-
-        numDiasMesLoop++;
-
-        cout << data.month() << "\n";
-
-        if (data.month() > mesLoop || data.dayOfYear() == numDiasAno){
-            int diaMesAgora = dataAtual.daysInMonth() - (dataAtual.day()+1);
-
-            float taxaDiariaLoop = ((seliacMes*100)/numDiasMesLoop)/100;
-
-            if (data.month()-1 == dataAtual.month()){
-                aumentoReal = seliacMes - (diaMesAgora*(taxaDiariaLoop*100))/100;
-            };
-
-
-            numDiasMesLoop = 0;
-            mesLoop++;
-
-
-            // Calcula taxa efetiva do mês considerando dias úteis
-            float taxaEfetivaMes = seliacMes;
-            float aumentoMes = valorAplicado * taxaEfetivaMes;
-
-            // Acumula o aumento usando juros compostos
-            aumentoAcumulado = (aumentoAcumulado + aumentoMes) * (1 + taxaEfetivaMes);
-
-            cout << taxaDiariaLoop << " - " << aumentoReal <<  " - " << " - " << " - " << valorAplicado << "\n";
-        };
-
-    };
-
-    // Adiiconando os meses futuros no aumento real
-    int mesesFuturos = 12 - dataAtual.month();
-
-    aumentoReal = aumentoReal + ((seliacMes*100)*mesesFuturos)/100;
-
     float seliacDia = ((seliacMes*100) / numDiasMes) / 100;
 
-
-    // Exibir taxas mensais e diárias
-    ui->aumentoMes->setText(formatarValor(seliacMes * 100) + "% ao mês");
-    ui->aumentoDia->setText(formatarValor(seliacDia * 100) + "% ao dia");
-
     // Calcular estimativas finais
-    float estimativaDia = valorAplicado * seliacDia;
-    float estimativaMes = valorAplicado * seliacMes;
     float estimativaAno = valorAplicado * pow((1 + seliacMes), (13 - dataAtual.month()));
 
-    ui->finalDia->setText("R$ " + formatarValor(valorAplicado + estimativaDia));
-    ui->finalMes->setText("R$ " + formatarValor(valorAplicado + estimativaMes));
     ui->finalAno->setText("R$ " + formatarValor(estimativaAno));
 
     // Exibir datas
@@ -205,8 +139,6 @@ void Calculadora::on_caciar_clicked()
     QString mesSeguinte = dataMesSeguinte.toString(formatoData);
     QString anoSeguinte = dataAnoSeguinte.toString(formatoData);
 
-    ui->dataDia->setText(formatarData(amanha));
-    ui->dataMes->setText(formatarData(mesSeguinte));
     ui->dataMes_2->setText(formatarData(anoSeguinte));
 
     // Exibir taxa total
@@ -221,6 +153,8 @@ void Calculadora::on_caciar_clicked()
     ui->selecionarDiretorio->setEnabled(true);
 
     ui->salvarInput->setText(QDir::homePath());
+
+    ui->avisoLabel->setText("Clique em relatório para ver a estimativa completa até o fim do ano.");
 }
 
 void Calculadora::on_estimarValores_clicked()
