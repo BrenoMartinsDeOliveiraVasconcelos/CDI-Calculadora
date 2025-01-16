@@ -157,7 +157,7 @@ void Calculadora::on_caciar_clicked()
 
     ui->salvarInput->setText(QDir::homePath());
 
-    ui->avisoLabel->setText("Clique em relatório para ver a estimativa completa até o fim do ano.");
+    ui->avisoLabel->setText("Clique em relatório para gerar a estimativa completa até o fim do ano.");
 }
 
 void Calculadora::on_estimarValores_clicked()
