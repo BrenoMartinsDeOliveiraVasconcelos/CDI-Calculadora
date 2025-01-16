@@ -46,6 +46,9 @@ Calculadora::~Calculadora()
 
 void Calculadora::on_caciar_clicked()
 {
+    ui->avisoLabel->setText("");
+    ui->erroLabel->setText("");
+
     tempInfo temp;
     nomesTemporario nomes;
 
@@ -159,6 +162,9 @@ void Calculadora::on_caciar_clicked()
 
 void Calculadora::on_estimarValores_clicked()
 {
+    ui->avisoLabel->setText("");
+    ui->erroLabel->setText("");
+
     tempInfo temp;
     nomesTemporario nomes;
 
