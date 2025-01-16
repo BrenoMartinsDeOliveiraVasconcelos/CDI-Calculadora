@@ -135,6 +135,8 @@ void Calculadora::on_caciar_clicked()
 
     float aumentoReal = 0;
 
+    float aumentoAcumulado = 0;
+
     // O calculo das taxas
     for (int dia=1; dia <= numDiasAno; ++dia){
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
@@ -152,7 +154,7 @@ void Calculadora::on_caciar_clicked()
         cout << data.month() << "\n";
 
         if (data.month() > mesLoop || data.dayOfYear() == numDiasAno){
-            int diaMesAgora = dataAtual.daysInMonth() - dataAtual.day();
+            int diaMesAgora = dataAtual.daysInMonth() - (dataAtual.day()+1);
 
             float taxaDiariaLoop = ((seliacMes*100)/numDiasMesLoop)/100;
 
@@ -163,6 +165,14 @@ void Calculadora::on_caciar_clicked()
 
             numDiasMesLoop = 0;
             mesLoop++;
+
+
+            // Calcula taxa efetiva do mês considerando dias úteis
+            float taxaEfetivaMes = seliacMes;
+            float aumentoMes = valorAplicado * taxaEfetivaMes;
+
+            // Acumula o aumento usando juros compostos
+            aumentoAcumulado = (aumentoAcumulado + aumentoMes) * (1 + taxaEfetivaMes);
 
             cout << taxaDiariaLoop << " - " << aumentoReal <<  " - " << " - " << " - " << valorAplicado << "\n";
         };
@@ -184,7 +194,7 @@ void Calculadora::on_caciar_clicked()
     // Calcular estimativas finais
     float estimativaDia = valorAplicado * seliacDia;
     float estimativaMes = valorAplicado * seliacMes;
-    float estimativaAno = valorAplicado + (valorAplicado*aumentoReal);
+    float estimativaAno = valorAplicado * pow((1 + seliacMes), (13 - dataAtual.month()));
 
     ui->finalDia->setText("R$ " + formatarValor(valorAplicado + estimativaDia));
     ui->finalMes->setText("R$ " + formatarValor(valorAplicado + estimativaMes));
@@ -330,8 +340,9 @@ void Calculadora::on_estimarValores_clicked()
         taxaAnoReal += n;
     };
 
-    float aumentoRealDia = 0;
     float valorOriginal = valor;
+    float aumentoRealDia = 0;
+    float valorAtual = valorOriginal;
 
     for (int dia = numDia+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
@@ -341,19 +352,20 @@ void Calculadora::on_estimarValores_clicked()
         vector<QString> linha;
 
         // Adicionar valor convertido
-        int valorAntes = valor;
         int indexMes = data.month() - 1;
 
         cout << "INDEX MES: " << indexMes << endl;
 
-        aumentoRealDia += taxaDiariaPorMes[indexMes];
-        valor = valorOriginal+(valorOriginal*aumentoRealDia);
+        // Aplica taxa diária com efeito acumulado
+        float taxaDiaria = taxaDiariaPorMes[indexMes];
+        valorAtual *= (1 + taxaDiaria);
 
-        float diferencaValor = valor - valorAntes;
+        float diferencaValor = valorAtual - valorOriginal;
+        aumentoRealDia = (valorAtual / valorOriginal - 1);
 
-        QString valorString = convertFQString(valor);
+        QString valorString = convertFQString(valorAtual);
         QString diffValor = convertFQString(diferencaValor);
-        QString aumentoRealStr = convertFQString(aumentoRealDia);
+        QString aumentoRealStr = mergeStrings({convertFQString(aumentoRealDia*100), "%"});
 
         if (diferencaValor >= 0){
             diffValor = "+"+diffValor;
