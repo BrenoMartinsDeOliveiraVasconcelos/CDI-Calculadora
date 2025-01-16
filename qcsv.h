@@ -10,7 +10,7 @@ using namespace std;
 QString generateCSVLine(vector<QString> headers){
     QString header = "";
     for (size_t i=0; i<headers.size(); i++){
-        header.append(headers[i]+",");
+        header.append(headers[i]+";");
     };
 
     header.removeLast();
