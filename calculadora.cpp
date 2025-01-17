@@ -77,6 +77,11 @@ void Calculadora::on_caciar_clicked()
         return dataFormatada;
     };
 
+    // Checa por vígula e troca por ponto
+    ui->taxaInput->setText(ui->taxaInput->text().replace(",", "."));
+    ui->cdiInput->setText(ui->cdiInput->text().replace(",", "."));
+    ui->valorInput->setText(ui->valorInput->text().replace(",", "."));
+
     // Diretório dos arquivos
     if (!tempFolderExists()){
         if (!createTempFolder()){
@@ -176,7 +181,7 @@ void Calculadora::on_caciar_clicked()
 
     estimativaAno = valorAtual;
 
-    ui->finalAno->setText("R$ " + formatarValor(estimativaAno));
+    ui->finalAno->setText("R$ " + formatarValor(estimativaAno).replace(".", ","));
 
     // Exibir datas
     QString amanha = dataAamanha.toString(formatoData);
