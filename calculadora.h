@@ -15,6 +15,8 @@ class Calculadora : public QMainWindow
     Q_OBJECT
 
 public:
+
+
     Calculadora(QWidget *parent = nullptr);
     ~Calculadora();
 
@@ -28,6 +30,8 @@ private slots:
     void on_pushButton_clicked();
 
     void on_selecionarDiretorio_clicked();
+
+    void on_taxaInput_cursorPositionChanged(int arg1, int arg2);
 
 private:
     Ui::Calculadora *ui;

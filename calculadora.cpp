@@ -7,10 +7,12 @@
 #include "qtdecimalconversion.h"
 #include "qstringutils.h"
 #include "calcfunctions.h"
+#include "configmanager.h"
 
 // Bibliotecas C++
 #include <iostream>
 #include <vector>
+#include <map>
 
 // Bibliotecas qt
 #include <QRegularExpression>
@@ -24,6 +26,7 @@
 #include <QIODevice>
 #include <QTextStream>
 #include <QFileDialog>
+#include <QErrorMessage>
 
 using namespace std;
 
@@ -36,8 +39,20 @@ public:
 Calculadora::Calculadora(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Calculadora)
-{
-    ui->setupUi(this);
+    {
+        ui->setupUi(this);
+
+        configuration config;
+
+        if (!config.generateConfigFolder()){
+            cout << "Não foi possível gerar o diretório de configuração.\n";
+            exit(1);
+        }
+
+        map<QString, QString> mapaConfig = config.getConfig();
+
+        ui->taxaInput->setText(mapaConfig["selic"]);
+        ui->cdiInput->setText(mapaConfig["cdi"]);
 }
 
 Calculadora::~Calculadora()
@@ -47,8 +62,8 @@ Calculadora::~Calculadora()
 
 void Calculadora::on_caciar_clicked()
 {
-    ui->avisoLabel->setText("");
-    ui->erroLabel->setText("");
+    configuration config;
+    map<QString, QString> mapaConfig = config.getConfig();
 
     tempInfo temp;
     nomesTemporario nomes;
@@ -128,8 +143,6 @@ void Calculadora::on_caciar_clicked()
 
     int numDiasMes = 0;
 
-
-
     double valorAplicado = valores[2];
     double seliacDia = ((seliacMes*100) / numDiasMes) / 100;
 
@@ -173,7 +186,9 @@ void Calculadora::on_caciar_clicked()
     ui->dataMes_2->setText(formatarData(anoSeguinte));
 
     // Exibir taxa total
-    ui->taxaAnual->setText("Taxa total - " + formatarValor(seliac * 100) + "%");
+    double selicComJuros = (valorAtual / valorAplicado) - 1.00;
+
+    ui->taxaAnual->setText("Selic: " + formatarValor(seliac * 100) + "%"+"\nAumento com juros: " + formatarValor(selicComJuros * 100)+"%");
 
     // Escrever as taxas no arquivo temporário
     taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << ui->valorInput->text() << "\n" << cdi;
@@ -183,7 +198,12 @@ void Calculadora::on_caciar_clicked()
     ui->salvarInput->setEnabled(true);
     ui->selecionarDiretorio->setEnabled(true);
 
-    ui->salvarInput->setText(QDir::homePath());
+    if (mapaConfig["path"].compare("*")){
+        ui->salvarInput->setText(QDir::homePath());
+    }else{
+        ui->salvarInput->setText(mapaConfig["path"]);
+    };
+
 
     ui->avisoLabel->setText("Clique em relatório para gerar a estimativa completa até o fim do ano.");
 }
@@ -413,5 +433,11 @@ void Calculadora::on_selecionarDiretorio_clicked()
                                                           | QFileDialog::DontResolveSymlinks);
 
     ui->salvarInput->setText(pasta);
+}
+
+
+void Calculadora::on_taxaInput_cursorPositionChanged(int arg1, int arg2)
+{
+
 }
 

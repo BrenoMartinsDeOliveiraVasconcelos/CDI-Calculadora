@@ -15,6 +15,7 @@ SOURCES += \
 HEADERS += \
     calcfunctions.h \
     calculadora.h \
+    configmanager.h \
     qcsv.h \
     qstringutils.h \
     qtdecimalconversion.h \
