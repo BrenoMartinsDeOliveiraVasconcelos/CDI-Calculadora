@@ -13,6 +13,7 @@ SOURCES += \
     calculadora.cpp
 
 HEADERS += \
+    calcfunctions.h \
     calculadora.h \
     qcsv.h \
     qstringutils.h \

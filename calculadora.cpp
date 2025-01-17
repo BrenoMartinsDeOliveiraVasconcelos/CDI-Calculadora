@@ -6,6 +6,7 @@
 #include "qcsv.h"
 #include "qtdecimalconversion.h"
 #include "qstringutils.h"
+#include "calcfunctions.h"
 
 // Bibliotecas C++
 #include <iostream>
@@ -134,6 +135,33 @@ void Calculadora::on_caciar_clicked()
 
     // Calcular estimativas finais
     double estimativaAno = valorAplicado * pow((1 + seliacMes), (13 - dataAtual.month()));
+    int anoAtual = dataAtual.year();
+
+    int diasAno = dataAtual.daysInYear();
+    vector<vector<double>> taxas = calcYearIndex(seliacMes, diasAno, anoAtual);
+
+    vector<double> taxaDiariaPorMes = taxas[0];
+    vector<double> taxaMensal = taxas[1];
+
+    double valorAtual = valorAplicado;
+
+    for (int dia = dataAtual.dayOfYear()+1; dia <= diasAno; ++dia) {
+        QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
+        if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
+            continue;
+        }
+
+        // Adicionar valor convertido
+        int indexMes = data.month() - 1;
+
+        cout << "INDEX MES: " << indexMes << endl;
+
+        // Aplica taxa diária com efeito acumulado
+        double taxaDiaria = taxaDiariaPorMes[indexMes];
+        valorAtual *= (1 + taxaDiaria);
+    };
+
+    estimativaAno = valorAtual;
 
     ui->finalAno->setText("R$ " + formatarValor(estimativaAno));
 
@@ -247,34 +275,36 @@ void Calculadora::on_estimarValores_clicked()
 
     arquivoRel << headerLinha;
 
+    vector<vector<double>> taxas = calcYearIndex(taxaMes, diasAno, anoAtual);
+
     // A taxa diaria por mes
-    vector<float> taxaDiariaPorMes = {};
-    vector<float> taxaMensal = {};
+    vector<double> taxaDiariaPorMes = taxas[0];
+    vector<double> taxaMensal = taxas[1];
     double taxaAnoReal = 0;
 
-    int mes = 1;
-    int numDiasMes = 0;
-    for (int dia = 1; dia <= diasAno; ++dia){
-        QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
+    // int mes = 1;
+    // int numDiasMes = 0;
+    // for (int dia = 1; dia <= diasAno; ++dia){
+    //     QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
 
-        if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday){
-            continue;
-        };
+    //     if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday){
+    //         continue;
+    //     };
 
-        ++numDiasMes;
+    //     ++numDiasMes;
 
-        if (data.month() > mes || dia==diasAno){
-            double taxaDiaria = ((taxaMes*100)/numDiasMes)/100;
+    //     if (data.month() > mes || dia==diasAno){
+    //         double taxaDiaria = ((taxaMes*100)/numDiasMes)/100;
 
-            taxaDiariaPorMes.push_back(taxaDiaria);
-            taxaMensal.push_back(taxaDiaria*numDiasMes);
+    //         taxaDiariaPorMes.push_back(taxaDiaria);
+    //         taxaMensal.push_back(taxaDiaria*numDiasMes);
 
-            ++mes;
-            numDiasMes = 0;
-        };
+    //         ++mes;
+    //         numDiasMes = 0;
+    //     };
 
-        cout << dia << " - " << mes << " - " << numDiasMes << endl;
-    };
+    //     cout << dia << " - " << mes << " - " << numDiasMes << endl;
+    // };
 
     for (auto n:taxaMensal){
         taxaAnoReal += n;
@@ -321,7 +351,7 @@ void Calculadora::on_estimarValores_clicked()
         QString diffValor = convertFQString(diferencaValor);
         QString aumentoRealStr = mergeStrings({convertFQString(aumentoRealDia*100), "%"});
         QString aumentoJurosDiaStr = mergeStrings({convertFQString(aumentoJurosDia*100), "%"});
-        QString aumentBrutoJurosDiaStr = mergeStrings({"R$ ", convertFQString(aumentoJurosDia*100)});
+        QString aumentoBrutoJurosDiaStr = mergeStrings({"R$ ", convertFQString(aumentoBrutoJuros)});
 
 
         if (diferencaValor >= 0){
@@ -329,7 +359,7 @@ void Calculadora::on_estimarValores_clicked()
         };
 
         linha.push_back(valorString);
-        linha.push_back(aumentBrutoJurosDiaStr);
+        linha.push_back(aumentoBrutoJurosDiaStr);
         linha.push_back(aumentoJurosDiaStr);
         linha.push_back(diffValor);
         linha.push_back(aumentoRealStr);
