@@ -209,6 +209,10 @@ void Calculadora::on_caciar_clicked()
         ui->salvarInput->setText(mapaConfig["path"]);
     };
 
+    // Checa por vígula e troca por ponto
+    ui->taxaInput->setText(ui->taxaInput->text().replace(".", ","));
+    ui->cdiInput->setText(ui->cdiInput->text().replace(".", ","));
+    ui->valorInput->setText(ui->valorInput->text().replace(".", ","));
 
     ui->avisoLabel->setText("Clique em relatório para gerar a estimativa completa até o fim do ano.");
 }
