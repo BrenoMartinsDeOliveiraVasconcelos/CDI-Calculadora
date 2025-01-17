@@ -52,7 +52,7 @@ void Calculadora::on_caciar_clicked()
     tempInfo temp;
     nomesTemporario nomes;
 
-    auto formatarValor = [](float valor) {
+    auto formatarValor = [](double valor) {
         return QString::number(valor, 'f', 2);
     };
 
@@ -99,7 +99,7 @@ void Calculadora::on_caciar_clicked()
         "0" + ui->cdiInput->text(),
         "0" + ui->valorInput->text()
     };
-    float valores[3] = {0.0f};
+    double valores[3] = {0.0f};
 
     // Procurar por inputs vazios ou com apenas "0"
     for (int c=0; c<3; c++){
@@ -121,19 +121,19 @@ void Calculadora::on_caciar_clicked()
     };
 
     // Calcular taxas e estimativas
-    float cdi = valores[1] / 100;
-    float seliac = (valores[0] * cdi) / 100;
-    float seliacMes = seliac / 12;
+    double cdi = valores[1] / 100;
+    double seliac = (valores[0] * cdi) / 100;
+    double seliacMes = seliac / 12;
 
     int numDiasMes = 0;
 
 
 
-    float valorAplicado = valores[2];
-    float seliacDia = ((seliacMes*100) / numDiasMes) / 100;
+    double valorAplicado = valores[2];
+    double seliacDia = ((seliacMes*100) / numDiasMes) / 100;
 
     // Calcular estimativas finais
-    float estimativaAno = valorAplicado * pow((1 + seliacMes), (13 - dataAtual.month()));
+    double estimativaAno = valorAplicado * pow((1 + seliacMes), (13 - dataAtual.month()));
 
     ui->finalAno->setText("R$ " + formatarValor(estimativaAno));
 
@@ -169,7 +169,7 @@ void Calculadora::on_estimarValores_clicked()
     nomesTemporario nomes;
 
 
-    float valores[5] = {0, 0, 0, 0, 0}; // Indexes: {anual, mensal, dia, valor}
+    double valores[5] = {0, 0, 0, 0, 0}; // Indexes: {anual, mensal, dia, valor}
 
     QFile arquivoTaxas(temp.tempFolderAbsolute+nomes.taxas);
     if (!arquivoTaxas.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -187,11 +187,11 @@ void Calculadora::on_estimarValores_clicked()
         index++;
     }
 
-    float cdi = valores[4];
-    float valor = valores[3];
- // float taxaDia = valores[2];
-    float taxaMes = valores[1];
-    float taxaAno = valores[0];
+    double cdi = valores[4];
+    double valor = valores[3];
+ // double taxaDia = valores[2];
+    double taxaMes = valores[1];
+    double taxaAno = valores[0];
 
     if (!QDir::setCurrent(ui->salvarInput->text())){
         ui->erroLabel->setText("Diretório no campo Salvar não existe.");
@@ -242,7 +242,7 @@ void Calculadora::on_estimarValores_clicked()
     // Gerar headers
     ui->avisoLabel->setText("Gerando relatório...");
 
-    vector<QString> headers = {"Valor", "Aumento Bruto", "Aumento Real%", "Data", "Taxa Dia", "Taxa Mes%", "Taxa Ano%", "Taxa Ano Bruto%", "CDI%"};
+    vector<QString> headers = {"Data", "Valor", "Aumento Juros Bruto Dia", "Aumento Juros Dia%", "Aumento Bruto", "Aumento Real%", "Taxa Dia%", "Taxa Mes%", "Taxa Ano%", "Taxa Ano Bruto%", "CDI%"};
     QString headerLinha = generateCSVLine(headers);
 
     arquivoRel << headerLinha;
@@ -250,7 +250,7 @@ void Calculadora::on_estimarValores_clicked()
     // A taxa diaria por mes
     vector<float> taxaDiariaPorMes = {};
     vector<float> taxaMensal = {};
-    float taxaAnoReal = 0;
+    double taxaAnoReal = 0;
 
     int mes = 1;
     int numDiasMes = 0;
@@ -264,7 +264,7 @@ void Calculadora::on_estimarValores_clicked()
         ++numDiasMes;
 
         if (data.month() > mes || dia==diasAno){
-            float taxaDiaria = ((taxaMes*100)/numDiasMes)/100;
+            double taxaDiaria = ((taxaMes*100)/numDiasMes)/100;
 
             taxaDiariaPorMes.push_back(taxaDiaria);
             taxaMensal.push_back(taxaDiaria*numDiasMes);
@@ -280,9 +280,13 @@ void Calculadora::on_estimarValores_clicked()
         taxaAnoReal += n;
     };
 
-    float valorOriginal = valor;
-    float aumentoRealDia = 0;
-    float valorAtual = valorOriginal;
+    double valorOriginal = valor;
+    double aumentoRealDia = 0;
+    double valorAtual = valorOriginal;
+    double valorAnterior = valorOriginal;
+
+    double aumentoJurosAnterior = 0;
+    double aumentoJurosDia = 0;
 
     for (int dia = numDia+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
@@ -291,32 +295,44 @@ void Calculadora::on_estimarValores_clicked()
         }
         vector<QString> linha;
 
+        // Adiciona a data
+        linha.push_back(data.toString("yyyy-MM-dd"));
+
         // Adicionar valor convertido
         int indexMes = data.month() - 1;
 
         cout << "INDEX MES: " << indexMes << endl;
 
         // Aplica taxa diária com efeito acumulado
-        float taxaDiaria = taxaDiariaPorMes[indexMes];
+        double taxaDiaria = taxaDiariaPorMes[indexMes];
+
+        valorAnterior = valorAtual;
         valorAtual *= (1 + taxaDiaria);
 
-        float diferencaValor = valorAtual - valorOriginal;
-        aumentoRealDia = (valorAtual / valorOriginal - 1);
+        double diferencaValor = valorAtual - valorOriginal;
+        double aumentoBrutoJuros = valorAtual - valorAnterior;
 
-        QString valorString = convertFQString(valorAtual);
+        // Calculo com juros compostos
+        aumentoJurosAnterior = aumentoRealDia;
+        aumentoRealDia = (valorAtual / valorOriginal - 1);
+        aumentoJurosDia = aumentoRealDia - aumentoJurosAnterior;
+
+        QString valorString = mergeStrings({"R$ ", convertFQString(valorAtual)});
         QString diffValor = convertFQString(diferencaValor);
         QString aumentoRealStr = mergeStrings({convertFQString(aumentoRealDia*100), "%"});
+        QString aumentoJurosDiaStr = mergeStrings({convertFQString(aumentoJurosDia*100), "%"});
+        QString aumentBrutoJurosDiaStr = mergeStrings({"R$ ", convertFQString(aumentoJurosDia*100)});
+
 
         if (diferencaValor >= 0){
             diffValor = "+"+diffValor;
         };
 
         linha.push_back(valorString);
+        linha.push_back(aumentBrutoJurosDiaStr);
+        linha.push_back(aumentoJurosDiaStr);
         linha.push_back(diffValor);
         linha.push_back(aumentoRealStr);
-
-        // Adiciona a data
-        linha.push_back(data.toString("yyyy-MM-dd"));
 
         // Adiciona taxa diária
         linha.push_back(mergeStrings({convertFQString(taxaDiariaPorMes[data.month()-1]*100), "%"}));
@@ -328,7 +344,7 @@ void Calculadora::on_estimarValores_clicked()
         linha.push_back(mergeStrings({convertFQString(taxaAnoReal*100), "%"}));
 
         // Adicionar taxa anual bruta
-        float taxaAnualBruto = (taxaAno/cdi)*100;
+        double taxaAnualBruto = (taxaAno/cdi)*100;
         linha.push_back(mergeStrings({convertFQString(taxaAnualBruto), "%"}));
 
         //Adicionar CDI
