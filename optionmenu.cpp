@@ -20,7 +20,7 @@ OptionMenu::OptionMenu(QWidget *parent)
     map<QString, QString> valoresConf = conf.getConfig();
     ui->cdiVal->setText(valoresConf["cdi"]);
     ui->selicVAl->setText(valoresConf["selic"]);
-    ui->salvarVal->setText(valoresConf["save"]);
+    ui->salvarVal->setText(valoresConf["path"]);
 }
 
 OptionMenu::~OptionMenu()
