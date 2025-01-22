@@ -15,6 +15,9 @@ public:
     explicit OptionMenu(QWidget *parent = nullptr);
     ~OptionMenu();
 
+private slots:
+    void on_selecionar_clicked();
+
 private:
     Ui::OptionMenu *ui;
 };
