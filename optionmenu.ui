@@ -114,6 +114,34 @@
     </item>
    </layout>
   </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>411</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="sobreMim">
+    <item>
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="plainText">
+       <string>CALCULADORA DE CDI - Breno Martins, 2025.
+
+Esse programa é distribuido sobre a licensa GPLv3.0. Consulte mais detalhes em:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+O código fonte desse programa está disponível no Github através do repositório abaixo.
+https://github.com/BrenoMartinsDeOliveiraVasconcelos/CDI-Calculadora</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections>
