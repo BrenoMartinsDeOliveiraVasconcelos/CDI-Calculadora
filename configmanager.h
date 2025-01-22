@@ -79,6 +79,18 @@ map<QString, QString> getConfig(){
 
 };
 
+bool clearConfig(){
+    QFile file(configFile);
+
+    if (!file.open(QIODevice::WriteOnly)){
+        return false;
+    }else{
+        QTextStream out(&file);
+        out << "";
+        return true;
+    };
+}
+
 bool setConfig(QString config, QString val){
     QFile file(configFile);
 

@@ -194,7 +194,7 @@ void Calculadora::on_caciar_clicked()
     // Exibir taxa total
     double selicComJuros = (valorAtual / valorAplicado) - 1.00;
 
-    ui->taxaAnual->setText("Selic: " + formatarValor(seliac * 100) + "%"+"\nAumento com juros: " + formatarValor(selicComJuros * 100)+"%");
+    ui->taxaAnual->setText("Seliac: " + formatarValor(seliac * 100) + "%"+"\nAumento com juros: " + formatarValor(selicComJuros * 100)+"%");
 
     // Escrever as taxas no arquivo temporário
     taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << ui->valorInput->text() << "\n" << cdi;
@@ -311,30 +311,6 @@ void Calculadora::on_estimarValores_clicked()
     vector<double> taxaDiariaPorMes = taxas[0];
     vector<double> taxaMensal = taxas[1];
     double taxaAnoReal = 0;
-
-    // int mes = 1;
-    // int numDiasMes = 0;
-    // for (int dia = 1; dia <= diasAno; ++dia){
-    //     QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
-
-    //     if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday){
-    //         continue;
-    //     };
-
-    //     ++numDiasMes;
-
-    //     if (data.month() > mes || dia==diasAno){
-    //         double taxaDiaria = ((taxaMes*100)/numDiasMes)/100;
-
-    //         taxaDiariaPorMes.push_back(taxaDiaria);
-    //         taxaMensal.push_back(taxaDiaria*numDiasMes);
-
-    //         ++mes;
-    //         numDiasMes = 0;
-    //     };
-
-    //     cout << dia << " - " << mes << " - " << numDiasMes << endl;
-    // };
 
     for (auto n:taxaMensal){
         taxaAnoReal += n;

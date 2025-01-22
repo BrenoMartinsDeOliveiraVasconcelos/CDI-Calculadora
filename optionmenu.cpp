@@ -5,12 +5,22 @@
 
 #include <QFileDialog>
 #include <QErrorMessage>
+#include <map>
+
+using namespace std;
 
 OptionMenu::OptionMenu(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::OptionMenu)
 {
+    configuration conf;
+
     ui->setupUi(this);
+
+    map<QString, QString> valoresConf = conf.getConfig();
+    ui->cdiVal->setText(valoresConf["cdi"]);
+    ui->selicVAl->setText(valoresConf["selic"]);
+    ui->salvarVal->setText(valoresConf["save"]);
 }
 
 OptionMenu::~OptionMenu()
@@ -33,6 +43,8 @@ void OptionMenu::on_confirmarCancelar_accepted()
 {
     // Salvar configuraçãoes
     configuration conf;
+
+    conf.clearConfig();
 
     // Procura por virgulas e troca por pontos
     QString cdiVal = ui->cdiVal->text().replace(",", ".");
