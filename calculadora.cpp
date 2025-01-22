@@ -204,7 +204,7 @@ void Calculadora::on_caciar_clicked()
     ui->salvarInput->setEnabled(true);
     ui->selecionarDiretorio->setEnabled(true);
 
-    if (mapaConfig["path"].compare("*")){
+    if (mapaConfig["path"] == "*"){
         ui->salvarInput->setText(QDir::homePath());
     }else{
         ui->salvarInput->setText(mapaConfig["path"]);

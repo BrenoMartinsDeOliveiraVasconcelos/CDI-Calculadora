@@ -53,7 +53,7 @@ void OptionMenu::on_confirmarCancelar_accepted()
 
     bool cdiBool = conf.setConfig("cdi", cdiVal);
     bool selicBool = conf.setConfig("selic", selicVal);
-    bool salvarBool = conf.setConfig("save", ui->salvarVal->text());
+    bool salvarBool = conf.setConfig("path", ui->salvarVal->text());
 
     if (!cdiBool || !selicBool || !salvarBool){
         QErrorMessage erro;
