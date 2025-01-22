@@ -81,7 +81,7 @@ void Calculadora::on_caciar_clicked()
     // Checa por vígula e troca por ponto
     ui->taxaInput->setText(ui->taxaInput->text().replace(",", "."));
     ui->cdiInput->setText(ui->cdiInput->text().replace(",", "."));
-    ui->valorInput->s16777215etText(ui->valorInput->text().replace(",", "."));
+    ui->valorInput->setText(ui->valorInput->text().replace(",", "."));
 
     // Diretório dos arquivos
     if (!tempFolderExists()){

@@ -22,7 +22,6 @@ void OptionMenu::on_selecionar_clicked()
                                                       QDir::homePath(),
                                                       QFileDialog::ShowDirsOnly
                                                           | QFileDialog::DontResolveSymlinks);
-
     ui->salvarVal->setText(pasta);
 }
 
