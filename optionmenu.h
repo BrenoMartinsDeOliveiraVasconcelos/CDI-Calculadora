@@ -18,6 +18,8 @@ public:
 private slots:
     void on_selecionar_clicked();
 
+    void on_confirmarCancelar_accepted();
+
 private:
     Ui::OptionMenu *ui;
 };

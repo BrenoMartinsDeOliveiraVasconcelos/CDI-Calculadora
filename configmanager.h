@@ -79,6 +79,19 @@ map<QString, QString> getConfig(){
 
 };
 
+bool setConfig(QString config, QString val){
+    QFile file(configFile);
+
+    if (file.open(QIODevice::Append | QIODevice::Text)){
+        QTextStream stream(&file);
+
+        stream << config + "=" + val + "\n";
+        return true;
+    }else{
+        return false;
+    };
+}
+
 private:
     QString folderName = ".cdicfg";
     QDir homeFolder = QDir::home();
