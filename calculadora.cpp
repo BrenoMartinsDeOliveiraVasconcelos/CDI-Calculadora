@@ -98,11 +98,6 @@ void Calculadora::on_caciar_clicked()
         return dataFormatada;
     };
 
-    // Checa por vígula e troca por ponto
-    ui->taxaInput->setText(ui->taxaInput->text().replace(",", "."));
-    ui->cdiInput->setText(ui->cdiInput->text().replace(",", "."));
-    ui->valorInput->setText(ui->valorInput->text().replace(",", "."));
-
     // Diretório dos arquivos
     if (!tempFolderExists()){
         if (!createTempFolder()){
@@ -137,14 +132,15 @@ void Calculadora::on_caciar_clicked()
 
     // Vetores para armazenar os inputs e suas conversões
     QString inputs[] = {
-        "0" + ui->taxaInput->text(),
-        "0" + ui->cdiInput->text(),
-        "0" + ui->valorInput->text()
+        "0" + ui->taxaInput->text().replace(",", "."),
+        "0" + ui->cdiInput->text().replace(",", "."),
+        "0" + ui->valorInput->text().replace(",", "."),
+        "0" + ui->aplicacaoMes->text().replace(",", ".")
     };
     double valores[3] = {0.0f};
 
     // Procurar por inputs vazios ou com apenas "0"
-    for (int c=0; c<3; c++){
+    for (int c=0; c<4; c++){
         if (inputs[c].length() <= 1){
             ui->erroLabel->setText("Os dados devem ser um número maior que zero.");
             return;
@@ -153,7 +149,7 @@ void Calculadora::on_caciar_clicked()
     };
 
     // Validar e converter os inputs
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 4; ++i) {
         if (re.match(inputs[i]).hasMatch()) {
             valores[i] = inputs[i].toFloat();
         } else {

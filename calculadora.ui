@@ -150,12 +150,15 @@
       </widget>
      </item>
      <item row="1" column="5">
-      <widget class="QLineEdit" name="aplicacaoMensal_2">
+      <widget class="QLineEdit" name="aplicacaoMes">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="inputMethodHints">
+        <set>Qt::InputMethodHint::ImhMultiLine</set>
        </property>
       </widget>
      </item>
