@@ -140,15 +140,6 @@ void Calculadora::on_caciar_clicked()
     };
     double valores[4] = {0.0f};
 
-    // Procurar por inputs vazios ou com apenas "0"
-    for (int c=0; c<4; c++){
-        if (inputs[c].length() <= 1){
-            ui->erroLabel->setText("Os dados devem ser um número maior que zero.");
-            return;
-        };
-
-    };
-
     // Validar e converter os inputs
     for (int i = 0; i < 4; ++i) {
         if (re.match(inputs[i]).hasMatch()) {
@@ -182,6 +173,7 @@ void Calculadora::on_caciar_clicked()
     double valorAtual = valorAplicado;
 
     int mesAtual = dataAtual.month();
+    int fatorMultiplicador = 0;
 
     for (int dia = dataAtual.dayOfYear()+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
@@ -192,7 +184,11 @@ void Calculadora::on_caciar_clicked()
         // Aplicar o dinheiro a cada inicio de mês
         if (mesAtual < data.month()){
             mesAtual++;
+            fatorMultiplicador++;
+
             valorAtual += valores[3];
+
+            ui->finalAnoBurto->setText("R$ " + formatarValor(valorAplicado+(valores[3]*fatorMultiplicador)).replace(".", ","));
         }
 
         // Adicionar valor convertido
@@ -222,7 +218,7 @@ void Calculadora::on_caciar_clicked()
     ui->taxaAnual->setText("Seliac: " + formatarValor(seliac * 100) + "%"+"\nAumento com juros: " + formatarValor(selicComJuros * 100)+"%");
 
     // Escrever as taxas no arquivo temporário
-    taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << ui->valorInput->text() << "\n" << cdi;
+    taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << ui->valorInput->text() << "\n" << cdi << "\n" << valores[3];
 
     ui->estimarValores->setEnabled(true);
     ui->salvar->setEnabled(true);
@@ -252,7 +248,7 @@ void Calculadora::on_estimarValores_clicked()
     nomesTemporario nomes;
 
 
-    double valores[5] = {0, 0, 0, 0, 0}; // Indexes: {anual, mensal, dia, valor}
+    double valores[6] = {0, 0, 0, 0, 0, 0}; // Indexes: {anual, mensal, dia, valor, aplicacaomensal}
 
     QFile arquivoTaxas(temp.tempFolderAbsolute+nomes.taxas);
     if (!arquivoTaxas.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -270,6 +266,7 @@ void Calculadora::on_estimarValores_clicked()
         index++;
     }
 
+    double aplicacaoMensal = valores[5];
     double cdi = valores[4];
     double valor = valores[3];
  // double taxaDia = valores[2];
@@ -349,11 +346,14 @@ void Calculadora::on_estimarValores_clicked()
     double aumentoJurosAnterior = 0;
     double aumentoJurosDia = 0;
 
+    int mesAtual = diaAtual.month();
+
     for (int dia = numDia+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
             continue;
         }
+
         vector<QString> linha;
 
         // Adiciona a data
@@ -368,6 +368,14 @@ void Calculadora::on_estimarValores_clicked()
         double taxaDiaria = taxaDiariaPorMes[indexMes];
 
         valorAnterior = valorAtual;
+
+        // Atualizar o valor no primeiro dia do mês
+        if (mesAtual < data.month()){
+            mesAtual++;
+
+            valorAtual += aplicacaoMensal;
+        };
+
         valorAtual *= (1 + taxaDiaria);
 
         double diferencaValor = valorAtual - valorOriginal;

@@ -214,15 +214,15 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>166</y>
+      <y>160</y>
       <width>801</width>
-      <height>260</height>
+      <height>261</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="resultados">
      <item>
       <layout class="QGridLayout" name="valoresFInais">
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="finalAno">
          <property name="font">
           <font>
@@ -239,7 +239,39 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="3" column="1">
+        <widget class="QLabel" name="finalAnoBurto">
+         <property name="font">
+          <font>
+           <family>Noto Sans CJK JP</family>
+           <pointsize>49</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>NaN</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Valor no final do ano</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
         <widget class="QLabel" name="dataMes_2">
          <property name="text">
           <string>(00/00/0000)</string>
@@ -249,22 +281,22 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label">
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_3">
          <property name="font">
           <font>
            <pointsize>15</pointsize>
           </font>
          </property>
          <property name="text">
-          <string>Valor no final dio ano</string>
+          <string>Valor no final do ano (bruto)</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
+       <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="taxaAnual">
          <property name="font">
           <font>
