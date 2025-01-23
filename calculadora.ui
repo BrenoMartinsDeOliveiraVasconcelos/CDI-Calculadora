@@ -51,54 +51,85 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="principal">
-     <item row="0" column="8">
+     <item row="0" column="0">
+      <widget class="QLabel" name="taxa">
+       <property name="text">
+        <string>Taxa anual</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="valor">
+       <property name="text">
+        <string>Valor</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="dinheiro">
+       <property name="text">
+        <string>R$</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="valorInput">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="taxaInput">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
       <widget class="QLabel" name="porcentagem0">
        <property name="text">
         <string>%</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="4" colspan="4">
-      <widget class="QLineEdit" name="taxaInput">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>4</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="4" colspan="4">
-      <widget class="QLineEdit" name="salvarInput">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>8</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
+     <item row="0" column="4">
       <widget class="QLabel" name="cdi">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>CDI</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="4" colspan="4">
-      <widget class="QLineEdit" name="valorInput">
+     <item row="0" column="5">
+      <widget class="QLineEdit" name="cdiInput">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>10</horstretch>
+         <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="0" column="6">
+      <widget class="QLabel" name="porcentagem1">
+       <property name="text">
+        <string>%</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
       <widget class="QLabel" name="aplicacaoMensal">
        <property name="maximumSize">
         <size>
@@ -111,37 +142,54 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="4" colspan="4">
-      <widget class="QLineEdit" name="cdiInput">
+     <item row="1" column="4">
+      <widget class="QLabel" name="dinheiro_3">
+       <property name="text">
+        <string>R$</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <widget class="QLineEdit" name="aplicacaoMensal_2">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>5</horstretch>
+         <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QLabel" name="valor">
+     <item row="1" column="6">
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Valor</string>
+        <string>ao mês</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="9">
-      <spacer name="horizontalSpacer_7">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
+     <item row="2" column="0">
+      <widget class="QLabel" name="salvar">
+       <property name="enabled">
+        <bool>false</bool>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
+       <property name="text">
+        <string>Salvar em</string>
        </property>
-      </spacer>
+      </widget>
      </item>
-     <item row="6" column="8">
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="salvarInput">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
       <widget class="QPushButton" name="selecionarDiretorio">
        <property name="enabled">
         <bool>false</bool>
@@ -157,86 +205,15 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
-      <widget class="QLabel" name="salvar">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Salvar em</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="8">
-      <widget class="QLabel" name="porcentagem1">
-       <property name="text">
-        <string>%</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="8">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>ao mês</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <spacer name="horizontalSpacer_5">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Policy::Minimum</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="taxa">
-       <property name="text">
-        <string>Taxa anual</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="2">
-      <widget class="QLabel" name="dinheiro">
-       <property name="text">
-        <string>R$</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="2">
-      <widget class="QLabel" name="dinheiro_3">
-       <property name="text">
-        <string>R$</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="4" colspan="4">
-      <widget class="QLineEdit" name="aplicacaoMensal_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>9</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>150</y>
+      <y>166</y>
       <width>801</width>
-      <height>257</height>
+      <height>241</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="resultados">
@@ -432,7 +409,7 @@
      <x>0</x>
      <y>0</y>
      <width>803</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
