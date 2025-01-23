@@ -213,7 +213,7 @@
       <x>0</x>
       <y>166</y>
       <width>801</width>
-      <height>241</height>
+      <height>260</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="resultados">
@@ -223,9 +223,9 @@
         <widget class="QLabel" name="finalAno">
          <property name="font">
           <font>
-           <family>Abyssinica SIL</family>
+           <family>Noto Sans CJK JP</family>
            <pointsize>49</pointsize>
-           <bold>false</bold>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
