@@ -80,6 +80,9 @@ Calculadora::~Calculadora()
 
 void Calculadora::on_caciar_clicked()
 {
+    ui->erroLabel->setText("");
+    ui->avisoLabel->setText("");
+
     configuration config;
     map<QString, QString> mapaConfig = config.getConfig();
 
