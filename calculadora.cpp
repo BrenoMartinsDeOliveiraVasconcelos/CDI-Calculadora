@@ -71,6 +71,7 @@ Calculadora::Calculadora(QWidget *parent)
 
         ui->taxaInput->setText(mapaConfig["selic"]);
         ui->cdiInput->setText(mapaConfig["cdi"]);
+        ui->aplicacaoMes->setText("0,00");
 }
 
 Calculadora::~Calculadora()
@@ -137,7 +138,7 @@ void Calculadora::on_caciar_clicked()
         "0" + ui->valorInput->text().replace(",", "."),
         "0" + ui->aplicacaoMes->text().replace(",", ".")
     };
-    double valores[3] = {0.0f};
+    double valores[4] = {0.0f};
 
     // Procurar por inputs vazios ou com apenas "0"
     for (int c=0; c<4; c++){
@@ -180,10 +181,18 @@ void Calculadora::on_caciar_clicked()
 
     double valorAtual = valorAplicado;
 
+    int mesAtual = dataAtual.month();
+
     for (int dia = dataAtual.dayOfYear()+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
             continue;
+        }
+
+        // Aplicar o dinheiro a cada inicio de mês
+        if (mesAtual < data.month()){
+            mesAtual++;
+            valorAtual += valores[3];
         }
 
         // Adicionar valor convertido
