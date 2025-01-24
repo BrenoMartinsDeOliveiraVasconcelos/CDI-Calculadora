@@ -20,12 +20,12 @@
 #include "ui_calculadora.h"
 
 // Headers pessoais
-#include "temp_management.h"
-#include "qcsv.h"
-#include "qtdecimalconversion.h"
-#include "qstringutils.h"
-#include "calcfunctions.h"
-#include "configmanager.h"
+#include <temp_management.h>
+#include <qcsv.h>
+#include <qtdecimalconversion.h>
+#include <qstringutils.h>
+#include <calcfunctions.h>
+#include <configmanager.h>
 
 // Bibliotecas C++
 #include <iostream>
@@ -299,7 +299,8 @@ void Calculadora::on_estimarValores_clicked()
     QString nomeArquivo = diaAtual.toString("estimativa_yyyy-MM-dd")+".csv";
 
     // Criando e abrindo o arquivo de relatório para escrita
-    QFile relatorio(QDir::currentPath()+QDir::separator()+nomeArquivo);
+    QString caminhoRelatorio = QDir::currentPath()+QDir::separator()+nomeArquivo;
+    QFile relatorio(caminhoRelatorio);
 
     if (!relatorio.open(QIODevice::WriteOnly | QIODevice::Text)){
         ui->erroLabel->setText("O diretório está inacessível.");
@@ -426,6 +427,11 @@ void Calculadora::on_estimarValores_clicked()
     };
 
     ui->avisoLabel->setText("Relatório gerado como "+nomeArquivo+"!");
+
+    vector<int> tamanhoTabela = getColumnAndRowCount(caminhoRelatorio);
+
+    ui->relatorio->setColumnCount(tamanhoTabela[0]);
+        ui->relatorio->setRowCount(tamanhoTabela[1]);
 }
 
 void Calculadora::on_Calculadora_destroyed()

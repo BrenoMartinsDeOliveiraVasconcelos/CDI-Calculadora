@@ -20,20 +20,45 @@
 
 #include <vector>
 #include <QString>
+#include <QFile>
 
 using namespace std;
 // O delimitador é SEMPRE vírgula. Use bibliotecas propias para csv para um sistema mais completo.
 
+char separator = ';';
+
 QString generateCSVLine(vector<QString> headers){
     QString header = "";
     for (size_t i=0; i<headers.size(); i++){
-        header.append(headers[i]+";");
+        header.append(headers[i]+separator);
     };
 
     header.removeLast();
     header.append("\n");
 
     return header;
+};
+
+vector<int> getColumnAndRowCount(QString csvPath){
+    QFile csvF(csvPath);
+    vector<int> count = {0, 0};
+
+    if (csvF.open(QIODevice::ReadOnly)){
+        int rows = 0;
+        int columns = 0;
+
+        while (!csvF.atEnd()){
+            QString line = csvF.readLine();
+            QStringList lineContent = line.split(separator);
+
+            columns = lineContent.length();
+            rows++;
+        }
+
+        count = {columns, rows};
+    };
+
+    return count;
 };
 
 #endif // QCSV_H
