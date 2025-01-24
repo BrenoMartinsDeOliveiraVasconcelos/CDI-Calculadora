@@ -428,10 +428,28 @@ void Calculadora::on_estimarValores_clicked()
 
     ui->avisoLabel->setText("Relatório gerado como "+nomeArquivo+"!");
 
-    vector<int> tamanhoTabela = getColumnAndRowCount(caminhoRelatorio);
+    vector<int> tamanhoTabela = getColumnAndRowCount(caminhoRelatorio, true);
+    QStringList listaHeaders = getHeaders(caminhoRelatorio);
+    vector<vector<QString>> conteudoTabela = getCSVContent(caminhoRelatorio, true);
 
-    ui->relatorio->setColumnCount(tamanhoTabela[0]);
-        ui->relatorio->setRowCount(tamanhoTabela[1]);
+    ui->relatorio->setColumnCount(tamanhoTabela[1]);
+        ui->relatorio->setRowCount(tamanhoTabela[0]);
+
+    ui->relatorio->setHorizontalHeaderLabels(listaHeaders);
+
+    // Popular a tabela
+    int linhaNum = 0;
+    for (auto linha:conteudoTabela){
+        int colunaNum = 0;
+        for (auto coluna:linha){
+            QTableWidgetItem* item = new QTableWidgetItem(coluna);
+
+            ui->relatorio->setItem(linhaNum, colunaNum, item);
+            colunaNum++;
+        };
+
+        linhaNum++;
+    };
 }
 
 void Calculadora::on_Calculadora_destroyed()

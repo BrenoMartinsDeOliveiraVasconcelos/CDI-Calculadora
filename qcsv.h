@@ -39,26 +39,96 @@ QString generateCSVLine(vector<QString> headers){
     return header;
 };
 
-vector<int> getColumnAndRowCount(QString csvPath){
+vector<int> getColumnAndRowCount(QString csvPath, bool ignoreHeader=false){
     QFile csvF(csvPath);
     vector<int> count = {0, 0};
 
     if (csvF.open(QIODevice::ReadOnly)){
         int rows = 0;
         int columns = 0;
+        int decreaseRows = 0;
 
         while (!csvF.atEnd()){
-            QString line = csvF.readLine();
+            if (ignoreHeader && rows==0){
+                rows++;
+                decreaseRows++;
+                continue;
+            };
+
+            QString line = csvF.readLine().trimmed();
             QStringList lineContent = line.split(separator);
 
             columns = lineContent.length();
             rows++;
         }
 
-        count = {columns, rows};
+        count = {rows-decreaseRows, columns};
     };
 
     return count;
+};
+
+QStringList getHeaders(QString path){
+    QStringList headers = {""};
+
+    QFile csvF(path);
+    if (csvF.open(QIODevice::ReadOnly)){
+        int lineNum = 0;
+
+        while (!csvF.atEnd()){
+            lineNum++;
+
+            QString line = csvF.readLine();
+
+            if (lineNum == 1){
+                headers = line.split(separator);
+
+                // Limpar caractéres \n
+                int index = 0;
+                for (auto h:headers){
+                    headers[index] = h.replace("\n", "");
+
+                    index++;
+                };
+            };
+        };
+    };
+
+    return headers;
+}
+
+vector<vector<QString>> getCSVContent(QString path, bool ignoreHeader = false) {
+    vector<vector<QString>> content; // Inicializa o vetor de vetores vazio
+
+    QFile csvF(path);
+
+    if (csvF.open(QIODevice::ReadOnly)) {
+        int row = 0;
+
+        while (!csvF.atEnd()) {
+            QString line = csvF.readLine().trimmed(); // Remove quebras de linha e espaços no início/fim
+
+            if (ignoreHeader && row == 0) {
+                row++;
+                continue;
+            }
+
+            QStringList lineContent = line.split(separator); // Use o separador adequado (ajuste se necessário)
+            vector<QString> rowContent;
+
+            // Navegar pela linha e adicionar ao vetor de QString
+            for (const auto &c : lineContent) {
+                rowContent.push_back(c.trimmed()); // Remove espaços desnecessários
+            }
+
+            // Adicionar a linha completa no conteúdo
+            content.push_back(rowContent);
+
+            row++;
+        }
+    }
+
+    return content;
 };
 
 #endif // QCSV_H
