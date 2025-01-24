@@ -426,7 +426,8 @@ void Calculadora::on_estimarValores_clicked()
 
     };
 
-    ui->avisoLabel->setText("Relatório gerado como "+nomeArquivo+"!");
+    ui->avisoLabel->setText("Relatório gerado como "+caminhoRelatorio+"!");
+    relatorio.close();
 
     vector<int> tamanhoTabela = getColumnAndRowCount(caminhoRelatorio, true);
     QStringList listaHeaders = getHeaders(caminhoRelatorio);

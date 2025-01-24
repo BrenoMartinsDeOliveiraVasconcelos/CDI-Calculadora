@@ -22,6 +22,8 @@
 #include <QString>
 #include <QFile>
 
+#include <iostream>
+
 using namespace std;
 // O delimitador é SEMPRE vírgula. Use bibliotecas propias para csv para um sistema mais completo.
 
@@ -42,31 +44,30 @@ QString generateCSVLine(vector<QString> headers){
 vector<int> getColumnAndRowCount(QString csvPath, bool ignoreHeader=false){
     QFile csvF(csvPath);
     vector<int> count = {0, 0};
-
     if (csvF.open(QIODevice::ReadOnly)){
-        int rows = 0;
-        int columns = 0;
-        int decreaseRows = 0;
+        int rows = 1;
+        int columns = 1;
+        bool headerSkipped = false;
 
         while (!csvF.atEnd()){
-            if (ignoreHeader && rows==0){
-                rows++;
-                decreaseRows++;
-                continue;
-            };
-
             QString line = csvF.readLine().trimmed();
-            QStringList lineContent = line.split(separator);
+            if (line.isEmpty()) continue;  // Skip empty lines
 
+            if (ignoreHeader && !headerSkipped){
+                headerSkipped = true;
+                continue;
+            }
+
+            QStringList lineContent = line.split(separator);
             columns = lineContent.length();
             rows++;
+
+            cout << rows << endl;
         }
-
-        count = {rows-decreaseRows, columns};
-    };
-
+        count = {rows, columns};
+    }
     return count;
-};
+}
 
 QStringList getHeaders(QString path){
     QStringList headers = {""};
