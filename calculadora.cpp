@@ -72,6 +72,10 @@ Calculadora::Calculadora(QWidget *parent)
         ui->taxaInput->setText(mapaConfig["selic"]);
         ui->cdiInput->setText(mapaConfig["cdi"]);
         ui->aplicacaoMes->setText("0,00");
+
+        // Inicializar a tabela
+        ui->relatorio->setColumnCount(1024);
+        ui->relatorio->setRowCount(1024);
 }
 
 Calculadora::~Calculadora()
