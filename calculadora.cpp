@@ -76,6 +76,8 @@ Calculadora::Calculadora(QWidget *parent)
         // Inicializar a tabela
         ui->relatorio->setColumnCount(1024);
         ui->relatorio->setRowCount(1024);
+
+        ui->relatorio->horizontalHeader()->setMinimumSectionSize(150);
 }
 
 Calculadora::~Calculadora()
