@@ -471,6 +471,18 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>aplicacaoMes</tabstop>
+  <tabstop>salvarInput</tabstop>
+  <tabstop>valorInput</tabstop>
+  <tabstop>cdiInput</tabstop>
+  <tabstop>caciar</tabstop>
+  <tabstop>estimarValores</tabstop>
+  <tabstop>configs</tabstop>
+  <tabstop>selecionarDiretorio</tabstop>
+  <tabstop>relatorio</tabstop>
+  <tabstop>taxaInput</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
