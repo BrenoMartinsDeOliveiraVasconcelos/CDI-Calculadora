@@ -493,7 +493,9 @@ void Calculadora::on_selecionarDiretorio_clicked()
                                                       QFileDialog::ShowDirsOnly
                                                           | QFileDialog::DontResolveSymlinks);
 
-    ui->salvarInput->setText(pasta);
+    if (pasta != ""){
+        ui->salvarInput->setText(pasta);
+    };
 }
 
 void Calculadora::on_configs_clicked()
