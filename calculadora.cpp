@@ -77,7 +77,7 @@ Calculadora::Calculadora(QWidget *parent)
         ui->relatorio->setColumnCount(1024);
         ui->relatorio->setRowCount(1024);
 
-        ui->relatorio->horizontalHeader()->setMinimumSectionSize(175);
+        ui->relatorio->horizontalHeader()->setMinimumSectionSize(200);
     }
 
 Calculadora::~Calculadora()
@@ -330,7 +330,7 @@ void Calculadora::on_estimarValores_clicked()
     // Gerar headers
     ui->avisoLabel->setText("Gerando relatório...");
 
-    vector<QString> headers = {"Data", "Valor", "Aumento Juros Bruto Dia", "Aumento Juros Dia%", "Aumento Bruto", "Aumento Real%", "Taxa Dia%", "Taxa Mes%", "Taxa Ano%", "Taxa Ano Bruto%", "CDI%"};
+    vector<QString> headers = {"Data", "Valor", "Valor rendido bruto", "Valor rendido %", "Rendimento total no periodo", "Rendimento total no periodo %", "Selic diário%", "Selic mensal%", "Selic anual%", "Selic anual base%", "CDI%"};
     QString headerLinha = generateCSVLine(headers);
 
     arquivoRel << headerLinha;
