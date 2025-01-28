@@ -514,12 +514,15 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="menu">
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="salvarVal">
-      <property name="enabled">
-       <bool>false</bool>
+    <item row="1" column="0">
+     <widget class="QLabel" name="selic">
+      <property name="text">
+       <string>Taxa padrão</string>
       </property>
      </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QLineEdit" name="selicVAl"/>
     </item>
     <item row="0" column="0">
      <widget class="QLabel" name="cdi">
@@ -528,24 +531,21 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="salvar">
+    <item row="0" column="3">
+     <widget class="QLabel" name="label">
       <property name="text">
-       <string>Salvar em:</string>
+       <string>%</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="selic">
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Taxa padrão</string>
+       <string>Auto gerar relatório</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="cdiVal"/>
-    </item>
-    <item row="2" column="2">
+    <item row="2" column="3">
      <widget class="QPushButton" name="selecionar">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -564,20 +564,34 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="selicVAl"/>
-    </item>
     <item row="0" column="2">
-     <widget class="QLabel" name="label">
+     <widget class="QLineEdit" name="cdiVal"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="salvar">
+      <property name="text">
+       <string>Salvar em:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QLineEdit" name="salvarVal">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QLabel" name="label_2">
       <property name="text">
        <string>%</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
-     <widget class="QLabel" name="label_2">
+    <item row="3" column="2">
+     <widget class="QCheckBox" name="checkBox">
       <property name="text">
-       <string>%</string>
+       <string/>
       </property>
      </widget>
     </item>

@@ -261,6 +261,8 @@ void Calculadora::on_caciar_clicked()
 
     cout << ui->valorInput->text().toStdString();
     ui->avisoLabel->setText("Clique em relatório para gerar a estimativa completa até o fim do ano.");
+
+    ui->estimarValores->click();
 }
 
 void Calculadora::on_estimarValores_clicked()
