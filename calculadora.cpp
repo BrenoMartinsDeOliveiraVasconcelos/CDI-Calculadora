@@ -215,13 +215,16 @@ void Calculadora::on_caciar_clicked()
         }
 
         // Aplicar o dinheiro a cada inicio de mês
-        if (mesAtual < data.month() && data.day() == diaAplicacao){
-            mesAtual++;
-            fatorMultiplicador++;
+        if (mesAtual <= data.month()){
+            if (data.day() == diaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
+                mesAtual++;
 
-            valorAtual += valores[3];
+                fatorMultiplicador++;
 
-            ui->finalAnoBurto->setText("R$ " + formatarValor(valorAplicado+(valores[3]*fatorMultiplicador)).replace(".", ","));
+                valorAtual += valores[3];
+
+                ui->finalAnoBurto->setText("R$ " + formatarValor(valorAplicado+(valores[3]*fatorMultiplicador)).replace(".", ","));
+            }
         }
 
         // Adicionar valor convertido
@@ -251,7 +254,7 @@ void Calculadora::on_caciar_clicked()
     ui->taxaAnual->setText("Seliac: " + formatarValor(seliac * 100) + "%"+"\nAumento com juros: " + formatarValor(selicComJuros * 100)+"%");
 
     // Escrever as taxas no arquivo temporário
-    taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << valores[2] << "\n" << cdi << "\n" << valores[3];
+    taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << valores[2] << "\n" << cdi << "\n" << valores[3] << "\n" << valores[4];
 
     ui->estimarValores->setEnabled(true);
     ui->salvar->setEnabled(true);
@@ -289,7 +292,7 @@ void Calculadora::on_estimarValores_clicked()
     nomesTemporario nomes;
 
 
-    double valores[6] = {0, 0, 0, 0, 0, 0}; // Indexes: {anual, mensal, dia, valor, aplicacaomensal}
+    double valores[7] = {0, 0, 0, 0, 0, 0, 0}; // Indexes: {anual, mensal, dia, valor, aplicacaomensal, diaaplicacao}
 
     QFile arquivoTaxas(temp.tempFolderAbsolute+nomes.taxas);
     if (!arquivoTaxas.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -307,6 +310,7 @@ void Calculadora::on_estimarValores_clicked()
         index++;
     }
 
+    double diaAplicacao = valores[6];
     double aplicacaoMensal = valores[5];
     double cdi = valores[4];
     double valor = valores[3];
@@ -412,10 +416,11 @@ void Calculadora::on_estimarValores_clicked()
         valorAnterior = valorAtual;
 
         // Atualizar o valor no primeiro dia do mês
-        if (mesAtual < data.month()){
-            mesAtual++;
-
-            valorAtual += aplicacaoMensal;
+        if (mesAtual <= data.month()){
+            if (data.day() == diaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
+                mesAtual++;
+                valorAtual += aplicacaoMensal;
+            }
         };
 
         valorAtual *= (1 + taxaDiaria);
