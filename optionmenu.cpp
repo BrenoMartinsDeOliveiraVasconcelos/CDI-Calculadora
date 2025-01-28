@@ -73,7 +73,7 @@ void OptionMenu::on_confirmarCancelar_accepted()
     // Procura por virgulas e troca por pontos
     QString cdiVal = ui->cdiVal->text().replace(",", ".");
     QString selicVal = ui->selicVAl->text().replace(",", ".");
-    QString autorelatorio = QString::number(ui->autoRelatorio->checkState());
+    QString autorelatorio = ui->autoRelatorio->isChecked() ? "1" : "0";
 
 
     bool cdiBool = conf.setConfig("cdi", cdiVal);
