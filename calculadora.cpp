@@ -212,7 +212,9 @@ void Calculadora::on_caciar_clicked()
     for (int dia = dataAtual.dayOfYear()+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
-            deFactoDiaAplicacao++;
+            if (data.day() == deFactoDiaAplicacao){
+                deFactoDiaAplicacao++;
+            }
             continue;
         }
 
@@ -402,7 +404,9 @@ void Calculadora::on_estimarValores_clicked()
     for (int dia = numDia+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
-            deFactoDiaAplicacao++;
+            if (data.day() == deFactoDiaAplicacao){
+                deFactoDiaAplicacao++;
+            }
             continue;
         }
 
