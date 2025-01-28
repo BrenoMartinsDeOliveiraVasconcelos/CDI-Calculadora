@@ -72,6 +72,7 @@ Calculadora::Calculadora(QWidget *parent)
         ui->taxaInput->setText(mapaConfig["selic"]);
         ui->cdiInput->setText(mapaConfig["cdi"]);
         ui->aplicacaoMes->setText("0,00");
+        ui->diaInput->setText("1");
 
         // Inicializar a tabela
         ui->relatorio->setColumnCount(1024);
@@ -144,9 +145,10 @@ void Calculadora::on_caciar_clicked()
         "0" + ui->taxaInput->text().replace(",", "."),
         "0" + ui->cdiInput->text().replace(",", "."),
         "0" + ui->valorInput->text().replace(",", "."),
-        "0" + ui->aplicacaoMes->text().replace(",", ".")
+        "0" + ui->aplicacaoMes->text().replace(",", "."),
+        "0" + ui->diaInput->text().replace(",", ".")
     };
-    double valores[4] = {0.0f};
+    double valores[5] = {0.0f};
 
     // Procurar por numeros negativos em inputs
 
@@ -160,7 +162,7 @@ void Calculadora::on_caciar_clicked()
     }
 
     // Validar e converter os inputs
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 5; ++i) {
         if (re.match(inputs[i]).hasMatch()){
             valores[i] = inputs[i].toDouble();
         } else if (minusRe.match(inputs[i]).hasMatch()){
@@ -170,6 +172,12 @@ void Calculadora::on_caciar_clicked()
             ui->erroLabel->setText("Os campos devem ser números.");
             return;
         }
+    };
+
+    //Verificação especial para o input de dia que tem que ser inteiro necessáriamente
+    if (inputs[4].contains(".")){
+        ui->erroLabel->setText("O dia precisa ser um numero inteiro.");
+        return;
     };
 
     // Calcular taxas e estimativas
@@ -196,6 +204,9 @@ void Calculadora::on_caciar_clicked()
 
     int mesAtual = dataAtual.month();
     int fatorMultiplicador = 0;
+    double diaAplicacao = valores[4];
+
+    cout << "\n" << valores[4] << "\n";
 
     for (int dia = dataAtual.dayOfYear()+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
@@ -204,7 +215,7 @@ void Calculadora::on_caciar_clicked()
         }
 
         // Aplicar o dinheiro a cada inicio de mês
-        if (mesAtual < data.month()){
+        if (mesAtual < data.month() && data.day() == diaAplicacao){
             mesAtual++;
             fatorMultiplicador++;
 
