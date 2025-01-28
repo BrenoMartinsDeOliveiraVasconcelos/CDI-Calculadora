@@ -161,9 +161,12 @@ void Calculadora::on_caciar_clicked()
 
     // Validar e converter os inputs
     for (int i = 0; i < 4; ++i) {
-        if (re.match(inputs[i]).hasMatch() || minusRe.match(inputs[i]).hasMatch()){
+        if (re.match(inputs[i]).hasMatch()){
             valores[i] = inputs[i].toDouble();
-        } else {
+        } else if (minusRe.match(inputs[i]).hasMatch()){
+            ui->erroLabel->setText("Os campos devem ser números positivos.");
+            return;
+        }else {
             ui->erroLabel->setText("Os campos devem ser números.");
             return;
         }
