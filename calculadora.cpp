@@ -240,7 +240,7 @@ void Calculadora::on_caciar_clicked()
     ui->taxaAnual->setText("Seliac: " + formatarValor(seliac * 100) + "%"+"\nAumento com juros: " + formatarValor(selicComJuros * 100)+"%");
 
     // Escrever as taxas no arquivo temporário
-    taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << ui->valorInput->text() << "\n" << cdi << "\n" << valores[3];
+    taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << valores[2] << "\n" << cdi << "\n" << valores[3];
 
     ui->estimarValores->setEnabled(true);
     ui->salvar->setEnabled(true);
