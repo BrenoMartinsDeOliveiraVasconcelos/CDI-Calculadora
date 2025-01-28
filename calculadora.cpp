@@ -205,18 +205,20 @@ void Calculadora::on_caciar_clicked()
     int mesAtual = dataAtual.month();
     int fatorMultiplicador = 0;
     double diaAplicacao = valores[4];
+    double deFactoDiaAplicacao = diaAplicacao;
 
     cout << "\n" << valores[4] << "\n";
 
     for (int dia = dataAtual.dayOfYear()+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
+            deFactoDiaAplicacao++;
             continue;
         }
 
         // Aplicar o dinheiro a cada inicio de mês
         if (mesAtual <= data.month()){
-            if (data.day() == diaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
+            if (data.day() == deFactoDiaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
                 mesAtual++;
 
                 fatorMultiplicador++;
@@ -224,6 +226,8 @@ void Calculadora::on_caciar_clicked()
                 valorAtual += valores[3];
 
                 ui->finalAnoBurto->setText("R$ " + formatarValor(valorAplicado+(valores[3]*fatorMultiplicador)).replace(".", ","));
+
+                deFactoDiaAplicacao = diaAplicacao;
             }
         }
 
@@ -394,9 +398,11 @@ void Calculadora::on_estimarValores_clicked()
 
     int mesAtual = diaAtual.month();
 
+    double deFactoDiaAplicacao = diaAplicacao;
     for (int dia = numDia+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
+            deFactoDiaAplicacao++;
             continue;
         }
 
@@ -417,9 +423,11 @@ void Calculadora::on_estimarValores_clicked()
 
         // Atualizar o valor no primeiro dia do mês
         if (mesAtual <= data.month()){
-            if (data.day() == diaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
+            if (data.day() == deFactoDiaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
                 mesAtual++;
                 valorAtual += aplicacaoMensal;
+
+                deFactoDiaAplicacao = diaAplicacao;
             }
         };
 
