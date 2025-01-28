@@ -73,13 +73,15 @@ void OptionMenu::on_confirmarCancelar_accepted()
     // Procura por virgulas e troca por pontos
     QString cdiVal = ui->cdiVal->text().replace(",", ".");
     QString selicVal = ui->selicVAl->text().replace(",", ".");
+    QString autorelatorio = QString::number(ui->autoRelatorio->checkState());
 
 
     bool cdiBool = conf.setConfig("cdi", cdiVal);
     bool selicBool = conf.setConfig("selic", selicVal);
     bool salvarBool = conf.setConfig("path", ui->salvarVal->text());
+    bool autorelatorioBool = conf.setConfig("autorel", autorelatorio);
 
-    if (!cdiBool || !selicBool || !salvarBool){
+    if (!cdiBool || !selicBool || !salvarBool || !autorelatorioBool){
         QErrorMessage erro;
         erro.showMessage("Erro ao salvar as configurações.");
     }
