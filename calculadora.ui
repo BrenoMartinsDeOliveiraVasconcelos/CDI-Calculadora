@@ -785,7 +785,7 @@
      <item>
       <widget class="QTableWidget" name="relatorio">
        <property name="sizeAdjustPolicy">
-        <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustIgnored</enum>
+        <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents</enum>
        </property>
        <property name="verticalScrollMode">
         <enum>QAbstractItemView::ScrollMode::ScrollPerPixel</enum>

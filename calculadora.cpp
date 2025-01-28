@@ -243,6 +243,7 @@ void Calculadora::on_caciar_clicked()
     ui->valorInput->setText(ui->valorInput->text().replace(".", ","));
     ui->aplicacaoMes->setText(ui->aplicacaoMes->text().replace(".", ","));
 
+    cout << ui->valorInput->text().toStdString();
     ui->avisoLabel->setText("Clique em relatório para gerar a estimativa completa até o fim do ano.");
 }
 
@@ -268,7 +269,7 @@ void Calculadora::on_estimarValores_clicked()
     int index = 0;
     while (!arquivo.atEnd()) {
         QString line = arquivo.readLine();
-        valores[index] = line.toFloat();
+        valores[index] = line.toDouble();
 
         index++;
     }
