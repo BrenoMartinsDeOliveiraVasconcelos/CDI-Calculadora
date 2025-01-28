@@ -40,6 +40,7 @@ OptionMenu::OptionMenu(QWidget *parent)
     ui->cdiVal->setText(valoresConf["cdi"]);
     ui->selicVAl->setText(valoresConf["selic"]);
     ui->salvarVal->setText(valoresConf["path"]);
+    ui->autoRelatorio->setChecked(valoresConf["autorel"].toInt());
 }
 
 OptionMenu::~OptionMenu()
