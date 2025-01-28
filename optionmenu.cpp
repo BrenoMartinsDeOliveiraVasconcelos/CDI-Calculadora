@@ -23,8 +23,9 @@
 #include <applicationclass.h>
 
 #include <QFileDialog>
-
 #include <QErrorMessage>
+#include <QMessageBox>
+
 #include <map>
 
 using namespace std;
@@ -88,6 +89,11 @@ void OptionMenu::on_confirmarCancelar_accepted()
         erro.showMessage("Erro ao salvar as configurações.");
     }
 
-    qApp->exit(consts.restartCode());
+
+    if (QMessageBox::Yes == QMessageBox::question(this, "Reiniciar programa", "É necessário reiniciar o programa para carregar algumas configurações. Fazer isso agora?", QMessageBox::Yes | QMessageBox::No))
+    {
+        qApp->exit(consts.restartCode());
+    };
+
 }
 
