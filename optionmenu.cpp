@@ -54,7 +54,11 @@ void OptionMenu::on_selecionar_clicked()
                                                       QDir::homePath(),
                                                       QFileDialog::ShowDirsOnly
                                                           | QFileDialog::DontResolveSymlinks);
-    ui->salvarVal->setText(pasta);
+
+    // Só troca a config se tiver algo
+    if (pasta != ""){
+        ui->salvarVal->setText(pasta);
+    };
 }
 
 
