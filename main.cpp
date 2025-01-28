@@ -17,12 +17,23 @@
 
 #include "calculadora.h"
 
+#include <applicationclass.h>
+
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    Calculadora w;
-    w.show();
-    return a.exec();
+    runtimeConsts consts;
+
+    int returnCode = 0;
+
+    // Para reiniciar
+    do{
+        QApplication a(argc, argv);
+        Calculadora w;
+        w.show();
+        returnCode = a.exec();
+    }while (returnCode == consts.restartCode());
+
+    return returnCode;
 }

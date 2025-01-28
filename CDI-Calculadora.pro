@@ -14,6 +14,7 @@ SOURCES += \
     optionmenu.cpp
 
 HEADERS += \
+    applicationclass.h \
     calcfunctions.h \
     calculadora.h \
     configmanager.h \

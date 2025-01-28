@@ -20,6 +20,7 @@
 #include "ui_optionmenu.h"
 
 #include <configmanager.h>
+#include <applicationclass.h>
 
 #include <QFileDialog>
 
@@ -67,6 +68,7 @@ void OptionMenu::on_confirmarCancelar_accepted()
 {
     // Salvar configuraçãoes
     configuration conf;
+    runtimeConsts consts;
 
     conf.clearConfig();
 
@@ -85,5 +87,7 @@ void OptionMenu::on_confirmarCancelar_accepted()
         QErrorMessage erro;
         erro.showMessage("Erro ao salvar as configurações.");
     }
+
+    qApp->exit(consts.restartCode());
 }
 
