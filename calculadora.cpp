@@ -133,9 +133,11 @@ void Calculadora::on_caciar_clicked()
     QDate dataAnoSeguinte = QDate(dataAtual.year(), 12, 31);
 
 
-    // Expressão regular para validar números positivos (inteiros ou decimais)
+    // Expressão regular para validar números positivos ou negativos (inteiros ou decimais)
     const QString numPadrao = "^\\d*(\\.\\d+)?$";
+    const QString numNegPadrao = "^-\\d*(\\.\\d+)?$";
     QRegularExpression re(numPadrao);
+    QRegularExpression minusRe(numNegPadrao);
 
     // Vetores para armazenar os inputs e suas conversões
     QString inputs[] = {
@@ -146,12 +148,23 @@ void Calculadora::on_caciar_clicked()
     };
     double valores[4] = {0.0f};
 
+    // Procurar por numeros negativos em inputs
+
+    int index = 0;
+    for (auto v:inputs){
+        if (v.contains("-")){
+            inputs[index] = "-" + v.replace("-", "");
+        };
+
+        index++;
+    }
+
     // Validar e converter os inputs
     for (int i = 0; i < 4; ++i) {
-        if (re.match(inputs[i]).hasMatch()) {
-            valores[i] = inputs[i].toFloat();
+        if (re.match(inputs[i]).hasMatch() || minusRe.match(inputs[i]).hasMatch()){
+            valores[i] = inputs[i].toDouble();
         } else {
-            ui->erroLabel->setText("Os campos devem ser números positivos.");
+            ui->erroLabel->setText("Os campos devem ser números.");
             return;
         }
     };
