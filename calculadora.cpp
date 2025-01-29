@@ -427,6 +427,11 @@ void Calculadora::on_estimarValores_clicked()
     double deFactoDiaAplicacao = diaAplicacao;
     for (int dia = numDia+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
+
+        if (data.daysTo(diaLimite) < 0){
+            continue;
+        }
+
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
             if (data.day() == deFactoDiaAplicacao){
                 deFactoDiaAplicacao++;
@@ -504,11 +509,7 @@ void Calculadora::on_estimarValores_clicked()
 
         QString linhaFinal = generateCSVLine(linha);
 
-        // Só salva se antes da data limite.
-        if (data.daysTo(diaLimite) >= 0){
-            arquivoRel << linhaFinal;
-        };
-
+        arquivoRel << linhaFinal;
     };
 
     ui->avisoLabel->setText("Relatório gerado como "+caminhoRelatorio+"!");
