@@ -31,6 +31,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <chrono>
 
 // Bibliotecas qt16777215
 #include <QRegularExpression>
@@ -69,10 +70,24 @@ Calculadora::Calculadora(QWidget *parent)
 
         map<QString, QString> mapaConfig = config.getConfig();
 
+        // Inicializar valores
         ui->taxaInput->setText(mapaConfig["selic"]);
         ui->cdiInput->setText(mapaConfig["cdi"]);
         ui->aplicacaoMes->setText("0,00");
         ui->diaInput->setText("1");
+
+        // Configurar data
+        QDate dataAtual = QDate::currentDate();
+        QDate inicioAno;
+        QDate fimAno;
+
+        inicioAno.setDate(dataAtual.year(), 1, 1);
+        fimAno.setDate(dataAtual.year(), 12, 31);
+
+        ui->dataLimite->setMinimumDate(inicioAno);
+        ui->dataLimite->setMaximumDate(fimAno);
+
+        ui->dataLimite->setDate(fimAno);
 
         // Inicializar a tabela
         ui->relatorio->setColumnCount(1024);
