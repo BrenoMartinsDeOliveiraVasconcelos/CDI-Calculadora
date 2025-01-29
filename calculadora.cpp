@@ -143,6 +143,7 @@ void Calculadora::on_caciar_clicked()
 
     // Tempo atual
     QDate dataAtual = QDate::currentDate();
+    QDate diaLimite = ui->dataLimite->date();
 
     QDate dataAamanha = dataAtual.addDays(1);
     QDate dataMesSeguinte = QDate(dataAtual.year(), dataAtual.month(), dataAtual.daysInMonth());
@@ -226,6 +227,12 @@ void Calculadora::on_caciar_clicked()
 
     for (int dia = dataAtual.dayOfYear()+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
+
+        // Até o ultimo dia de calculo
+        if (data.daysTo(diaLimite) < 0){
+            continue;
+        };
+
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
             if (data.day() == deFactoDiaAplicacao){
                 deFactoDiaAplicacao++;
@@ -267,7 +274,7 @@ void Calculadora::on_caciar_clicked()
     QString mesSeguinte = dataMesSeguinte.toString(formatoData);
     QString anoSeguinte = dataAnoSeguinte.toString(formatoData);
 
-    ui->dataMes_2->setText(formatarData(anoSeguinte));
+    ui->dataMes_2->setText(formatarData(diaLimite.toString(formatoData)));
 
     // Exibir taxa total
     double selicComJuros = (valorAtual / valorAplicado) - 1.00;
