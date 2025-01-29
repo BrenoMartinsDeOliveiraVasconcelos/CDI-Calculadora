@@ -422,6 +422,8 @@ void Calculadora::on_estimarValores_clicked()
 
     int mesAtual = diaAtual.month();
 
+    QDate diaLimite = ui->dataLimite->date();
+
     double deFactoDiaAplicacao = diaAplicacao;
     for (int dia = numDia+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
@@ -502,7 +504,10 @@ void Calculadora::on_estimarValores_clicked()
 
         QString linhaFinal = generateCSVLine(linha);
 
-        arquivoRel << linhaFinal;
+        // Só salva se antes da data limite.
+        if (data.daysTo(diaLimite) >= 0){
+            arquivoRel << linhaFinal;
+        };
 
     };
 
