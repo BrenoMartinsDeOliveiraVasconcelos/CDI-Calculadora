@@ -390,6 +390,10 @@ void Calculadora::on_estimarValores_clicked()
     QTextStream arquivoRel(&relatorio);
 
     int anoAtual = diaAtual.year();
+    QDate diaLimite = ui->dataLimite->date();
+    int diaLimiteDiaAno = diaLimite.dayOfYear();
+
+    double deFactoDiaAplicacao = diaAplicacao;
     int numDia = diaAtual.dayOfYear();
     int diasAno = QDate(anoAtual, 12, 31).dayOfYear();
 
@@ -421,17 +425,8 @@ void Calculadora::on_estimarValores_clicked()
     double aumentoJurosDia = 0;
 
     int mesAtual = diaAtual.month();
-
-    QDate diaLimite = ui->dataLimite->date();
-
-    double deFactoDiaAplicacao = diaAplicacao;
-    for (int dia = numDia+1; dia <= diasAno; ++dia) {
-        QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
-
-        if (data.daysTo(diaLimite) < 0){
-            continue;
-        }
-
+    for (QDate data = diaAtual.addDays(1); data <= diaLimite; data = data.addDays(1)) {
+        // Skip weekends
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
             if (data.day() == deFactoDiaAplicacao){
                 deFactoDiaAplicacao++;
@@ -510,6 +505,8 @@ void Calculadora::on_estimarValores_clicked()
         QString linhaFinal = generateCSVLine(linha);
 
         arquivoRel << linhaFinal;
+        cout << "Processing date:" << data.toString("yyyy-MM-dd").toStdString() << "Limit date:" << diaLimite.toString("yyyy-MM-dd").toStdString() << "\n";
+
     };
 
     ui->avisoLabel->setText("Relatório gerado como "+caminhoRelatorio+"!");
