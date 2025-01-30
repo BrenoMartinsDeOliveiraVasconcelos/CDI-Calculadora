@@ -345,6 +345,7 @@ void Calculadora::on_estimarValores_clicked()
 
     tempInfo temp;
     nomesTemporario nomes;
+    runtimeConsts runtime;
 
 
     double valores[7] = {0, 0, 0, 0, 0, 0, 0}; // Indexes: {anual, mensal, dia, valor, aplicacaomensal, diaaplicacao}
@@ -400,22 +401,7 @@ void Calculadora::on_estimarValores_clicked()
 
     // Criando e abrindo o arquivo de relatório para escrita
     QString caminhoRelatorio = QDir::currentPath()+QDir::separator()+nomeArquivo;
-    //QFile relatorio(caminhoRelatorio);
 
-    //if (relatorio.exists()){
-    //    if (relatorio.open(QIODevice::WriteOnly | QIODevice::Text)){
-    //        QTextStream arquivoLimpar(&relatorio);
-    //        arquivoLimpar << "";
-    //        relatorio.close();
-    //    }
-    //}
-
-    //if (!relatorio.open(QIODevice::Append | QIODevice::Text)){
-    //    ui->erroLabel->setText("Erro ao abrir o arquivo de relatório para escrita.");
-    //    return;
-    //};
-
-    //QTextStream arquivoRel(&relatorio);
     int anoAtual = diaInicial.year();
     QDate diaLimite = ui->dataLimite->date();
 
@@ -454,7 +440,20 @@ void Calculadora::on_estimarValores_clicked()
     int mesAtual = diaInicial.month();
     int indexVal = 0;
 
+    vector<double> iof = runtime.iof();
+    unsigned long int diasPassados = 0;
+
     for (QDate data = diaInicial.addDays(1); data <= diaLimite; data = data.addDays(1)) {
+        double iofAtual = 0;
+
+        if (diasPassados+1 <= iof.size()){
+            iofAtual = iof[diasPassados];
+        }
+
+        cout << "\n" << diasPassados << " " << iofAtual;
+
+        diasPassados++;
+
         // Skip weekends
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
             if (data.day() == deFactoDiaAplicacao){
@@ -489,7 +488,11 @@ void Calculadora::on_estimarValores_clicked()
             }
         };
 
-        valorAtual *= (1 + taxaDiaria);
+        double valorAtualBruto = valorAtual * (1 + taxaDiaria);
+
+        double jurosIOFAjustado = (valorAtualBruto - valorAnterior) - ((valorAtualBruto - valorAnterior)*iofAtual);
+
+        valorAtual += jurosIOFAjustado;
 
         double diferencaValor = valorAtual - valorOriginal;
         double aumentoBrutoJuros = valorAtual - valorAnterior;
