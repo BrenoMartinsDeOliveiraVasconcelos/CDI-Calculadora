@@ -106,6 +106,11 @@ Calculadora::~Calculadora()
 
 void Calculadora::on_caciar_clicked()
 {
+    if (ui->dataInicial->date().daysTo(ui->dataLimite->date()) < 0){
+        ui->erroLabel->setText("A data inicial não pode ser depois da data limite.");
+        return;
+    }
+
     ui->erroLabel->setText("");
     ui->avisoLabel->setText("");
 
