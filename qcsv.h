@@ -62,7 +62,7 @@ vector<int> getColumnAndRowCount(QString csvPath, bool ignoreHeader=false){
             columns = lineContent.length();
             rows++;
 
-            cout << rows << endl;
+            //cout << rows << endl;
         }
         count = {rows, columns};
     }
@@ -119,7 +119,6 @@ vector<vector<QString>> getCSVContent(QString path, bool ignoreHeader = false) {
 
             // Navegar pela linha e adicionar ao vetor de QString
             for (const auto &c : lineContent) {
-                cout << c.toStdString();
                 rowContent.push_back(c.trimmed()); // Remove espaços desnecessários
             }
 

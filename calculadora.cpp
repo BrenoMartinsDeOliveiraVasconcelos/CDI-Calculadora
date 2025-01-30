@@ -31,7 +31,6 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#include <chrono>
 
 // Bibliotecas qt16777215
 #include <QRegularExpression>
@@ -144,11 +143,6 @@ void Calculadora::on_caciar_clicked()
     // Tempo atual
     QDate dataAtual = QDate::currentDate();
     QDate diaLimite = ui->dataLimite->date();
-
-    QDate dataAamanha = dataAtual.addDays(1);
-    QDate dataMesSeguinte = QDate(dataAtual.year(), dataAtual.month(), dataAtual.daysInMonth());
-    QDate dataAnoSeguinte = QDate(dataAtual.year(), 12, 31);
-
 
     // Expressão regular para validar números positivos ou negativos (inteiros ou decimais)
     const QString numPadrao = "^\\d*(\\.\\d+)?$";
@@ -270,9 +264,6 @@ void Calculadora::on_caciar_clicked()
     ui->finalAno->setText("R$ " + formatarValor(estimativaAno).replace(".", ","));
 
     // Exibir datas
-    QString amanha = dataAamanha.toString(formatoData);
-    QString mesSeguinte = dataMesSeguinte.toString(formatoData);
-    QString anoSeguinte = dataAnoSeguinte.toString(formatoData);
 
     ui->dataMes_2->setText(formatarData(diaLimite.toString(formatoData)));
 
@@ -310,6 +301,8 @@ void Calculadora::on_caciar_clicked()
         ui->estimarValores->click();
     }
 }
+
+vector<QString> csvCompleto;
 
 void Calculadora::on_estimarValores_clicked()
 {
@@ -375,12 +368,13 @@ void Calculadora::on_estimarValores_clicked()
     QString caminhoRelatorio = QDir::currentPath()+QDir::separator()+nomeArquivo;
     QFile relatorio(caminhoRelatorio);
 
-    if (!relatorio.open(QIODevice::WriteOnly | QIODevice::Text)){
-        ui->erroLabel->setText("O diretório está inacessível.");
-        return;
-    };
-
-    relatorio.close();
+    if (relatorio.exists()){
+        if (relatorio.open(QIODevice::WriteOnly | QIODevice::Text)){
+            QTextStream arquivoLimpar(&relatorio);
+            arquivoLimpar << "";
+            relatorio.close();
+        }
+    }
 
     if (!relatorio.open(QIODevice::Append | QIODevice::Text)){
         ui->erroLabel->setText("Erro ao abrir o arquivo de relatório para escrita.");
@@ -388,13 +382,10 @@ void Calculadora::on_estimarValores_clicked()
     };
 
     QTextStream arquivoRel(&relatorio);
-
     int anoAtual = diaAtual.year();
     QDate diaLimite = ui->dataLimite->date();
-    int diaLimiteDiaAno = diaLimite.dayOfYear();
 
     double deFactoDiaAplicacao = diaAplicacao;
-    int numDia = diaAtual.dayOfYear();
     int diasAno = QDate(anoAtual, 12, 31).dayOfYear();
 
     // Gerar headers
@@ -425,6 +416,7 @@ void Calculadora::on_estimarValores_clicked()
     double aumentoJurosDia = 0;
 
     int mesAtual = diaAtual.month();
+    int indexVal = 0;
     for (QDate data = diaAtual.addDays(1); data <= diaLimite; data = data.addDays(1)) {
         // Skip weekends
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
@@ -438,6 +430,7 @@ void Calculadora::on_estimarValores_clicked()
 
         // Adiciona a data
         linha.push_back(data.toString("yyyy-MM-dd"));
+        cout << "\n" << "Data atual: " << linha.back().toStdString();
 
         // Adicionar valor convertido
         int indexMes = data.month() - 1;
@@ -504,9 +497,18 @@ void Calculadora::on_estimarValores_clicked()
 
         QString linhaFinal = generateCSVLine(linha);
 
-        arquivoRel << linhaFinal;
+        cout << "Linha: " << linhaFinal.toStdString() << ", Index: " << indexVal;
+        indexVal++;
+
+        csvCompleto.push_back(linhaFinal);
+
         cout << "Processing date:" << data.toString("yyyy-MM-dd").toStdString() << "Limit date:" << diaLimite.toString("yyyy-MM-dd").toStdString() << "\n";
 
+    };
+
+    // Salvar no CSV
+    for (auto linha:csvCompleto){
+        arquivoRel << linha;
     };
 
     ui->avisoLabel->setText("Relatório gerado como "+caminhoRelatorio+"!");
