@@ -97,36 +97,35 @@ QStringList getHeaders(QString path){
 }
 
 vector<vector<QString>> getCSVContent(QString path, bool ignoreHeader = false) {
-    vector<vector<QString>> content; // Inicializa o vetor de vetores vazio
+    vector<vector<QString>> content;
+    QFile file(path);
 
-    QFile csvF(path);
-
-    if (csvF.open(QIODevice::ReadOnly)) {
-        int row = 0;
-
-        while (!csvF.atEnd()) {
-            QString line = csvF.readLine().trimmed(); // Remove quebras de linha e espaços no início/fim
-
-            if (ignoreHeader && row == 0) {
-                row++;
-                continue;
-            }
-
-            QStringList lineContent = line.split(separator); // Use o separador adequado (ajuste se necessário)
-            vector<QString> rowContent;
-
-            // Navegar pela linha e adicionar ao vetor de QString
-            for (const auto &c : lineContent) {
-                rowContent.push_back(c.trimmed()); // Remove espaços desnecessários
-            }
-
-            // Adicionar a linha completa no conteúdo
-            content.push_back(rowContent);
-
-            row++;
-        }
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return content;
     }
 
+    QTextStream in(&file);
+    bool isHeaderSkipped = !ignoreHeader;
+
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+
+        if (!isHeaderSkipped) {
+            isHeaderSkipped = true;
+            continue;
+        }
+
+        QStringList fields = line.split(QString(separator), Qt::KeepEmptyParts);
+
+        vector<QString> row;
+        for (const QString& field : fields) {
+            row.push_back(field);
+        }
+
+        content.push_back(row);
+    }
+
+    file.close();
     return content;
 };
 

@@ -499,6 +499,7 @@ void Calculadora::on_estimarValores_clicked()
         linha.push_back(mergeStrings({convertFQString(cdi*100), "%"}));
 
         linhas.push_back(linha);
+        cout << "\n" << linha[0].toStdString() << "\n" << linhas.back()[0].toStdString() << "\n";
 
         QString linhaFinal = generateCSVLine(linha);
 
@@ -515,6 +516,8 @@ void Calculadora::on_estimarValores_clicked()
     //};
 
     //relatorio.close();
+
+    cout << "=== FIM CSV ===\n" << linhas.back()[0].toStdString() << "\n";
 
     if (writeCSV(headers, linhas, caminhoRelatorio)){
         ui->avisoLabel->setText("Relatório gerado como "+caminhoRelatorio+"!");
@@ -533,6 +536,7 @@ void Calculadora::on_estimarValores_clicked()
     int linhaNum = 0;
     for (auto linha:conteudoTabela){
         int colunaNum = 0;
+        cout << linha[0].toStdString() << "\n";
         for (auto coluna:linha){
             QTableWidgetItem* item = new QTableWidgetItem(coluna);
 
