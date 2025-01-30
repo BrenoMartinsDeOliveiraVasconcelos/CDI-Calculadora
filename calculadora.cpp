@@ -26,6 +26,7 @@
 #include <qstringutils.h>
 #include <calcfunctions.h>
 #include <configmanager.h>
+#include <applicationclass.h>
 
 // Bibliotecas C++
 #include <iostream>
@@ -122,6 +123,7 @@ void Calculadora::on_caciar_clicked()
 
     tempInfo temp;
     nomesTemporario nomes;
+    runtimeConsts runtime;
 
     auto formatarValor = [](double valor) {
         return QString::number(valor, 'f', 2);
@@ -229,10 +231,26 @@ void Calculadora::on_caciar_clicked()
     double diaAplicacao = valores[4];
     double deFactoDiaAplicacao = diaAplicacao;
 
+    // IOF
+    vector<double> iof = runtime.iof();
+
+    unsigned long int diasPassados = 0;
+
     cout << "\n" << valores[4] << "\n";
 
     for (int dia = dataInicial.dayOfYear()+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
+
+        // Configuração do IOF
+        double iofAtual = 0;
+
+        if (diasPassados+1 <= iof.size()){
+            iofAtual = iof[diasPassados];
+        }
+
+        cout << "\n" << diasPassados << " " << iofAtual;
+
+        diasPassados++;
 
         // Até o ultimo dia de calculo
         if (data.daysTo(diaLimite) < 0){
@@ -268,7 +286,13 @@ void Calculadora::on_caciar_clicked()
 
         // Aplica taxa diária com efeito acumulado
         double taxaDiaria = taxaDiariaPorMes[indexMes];
-        valorAtual *= (1 + taxaDiaria);
+        double valorAnterior = valorAtual;
+        double valorAtualBruto = valorAtual * (1 + taxaDiaria);
+
+        double jurosIOFAjustado = (valorAtualBruto - valorAnterior) - ((valorAtualBruto - valorAnterior)*iofAtual);
+
+        valorAtual += jurosIOFAjustado;
+        //valorAtual *= (1 + taxaDiaria);
     };
 
     estimativaAno = valorAtual;
