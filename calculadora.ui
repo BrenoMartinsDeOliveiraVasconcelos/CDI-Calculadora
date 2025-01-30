@@ -869,9 +869,19 @@
         </spacer>
        </item>
        <item>
+        <widget class="QLabel" name="estimarLabel">
+         <property name="text">
+          <string>Estimar do dia</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dataInicial"/>
+       </item>
+       <item>
         <widget class="QLabel" name="infoData">
          <property name="text">
-          <string>Calcular até o dia:</string>
+          <string>até</string>
          </property>
         </widget>
        </item>

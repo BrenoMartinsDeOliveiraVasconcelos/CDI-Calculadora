@@ -83,9 +83,13 @@ Calculadora::Calculadora(QWidget *parent)
         inicioAno.setDate(dataAtual.year(), 1, 1);
         fimAno.setDate(dataAtual.year(), 12, 31);
 
-        ui->dataLimite->setMinimumDate(inicioAno);
+        ui->dataInicial->setMinimumDate(inicioAno);
+        ui->dataInicial->setMaximumDate(fimAno.addDays(-1));
+
+        ui->dataLimite->setMinimumDate(inicioAno.addDays(1));
         ui->dataLimite->setMaximumDate(fimAno);
 
+        ui->dataInicial->setDate(QDate::currentDate());
         ui->dataLimite->setDate(fimAno);
 
         // Inicializar a tabela
