@@ -19,11 +19,22 @@
 #define QTDECIMALCONVERSION_H
 
 #include <QString>
+#include <applicationclass.h>
 
 int decimals = 2;
 
-QString convertFQString(float num){
-    return QString::number(num, 'f', decimals);
+QString convertFQString(long double num){
+    runtimeConsts runtime;
+
+    QString resultado;
+
+    if (num <= runtime.maxTableNum()){
+        resultado = QString::number(num, 'f', decimals);
+    }else{
+        resultado = runtime.tooBig();
+    };
+
+    return resultado;
 };
 
 #endif // QTDECIMALCONVERSION_H

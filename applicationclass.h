@@ -2,6 +2,7 @@
 #define APPLICATIONCLASS_H
 
 #include <vector>
+#include <QString>
 
 using namespace std;
 
@@ -17,6 +18,18 @@ public:
 
     unsigned long int maxMoneyValue(){
         return MAX_MONETARY_VAL;
+    };
+
+    unsigned int maxDays(){
+        return MAX_DAYS;
+    };
+
+    long int maxTableNum(){
+        return MAX_TABLE_VALUE;
+    };
+
+    QString tooBig(){
+        return TOO_BIG_SYMB;
     };
 
 private:
@@ -36,7 +49,9 @@ private:
     };
 
     unsigned long int MAX_MONETARY_VAL = 999999999999;
-
+    unsigned int MAX_DAYS = 31;
+    long int MAX_TABLE_VALUE = 999999999999999;
+    QString TOO_BIG_SYMB = "-";
 };
 
 

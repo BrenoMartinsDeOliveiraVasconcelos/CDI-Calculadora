@@ -173,6 +173,9 @@ void Calculadora::on_caciar_clicked()
         "0" + ui->diaInput->text().replace(",", ".")
     };
     double valores[5] = {0.0f};
+    unsigned long int valorMaximoDinheiro = runtime.maxMoneyValue();
+    unsigned int maximoDias = runtime.maxDays();
+    QString muitoGrande = runtime.tooBig();
 
     // Procurar por numeros negativos em inputs
 
@@ -189,6 +192,13 @@ void Calculadora::on_caciar_clicked()
     for (int i = 0; i < 5; ++i) {
         if (re.match(inputs[i]).hasMatch()){
             valores[i] = inputs[i].toDouble();
+
+            // Checar se o valor é valido
+            if (valores[i] > valorMaximoDinheiro){
+                ui->erroLabel->setText("Os valores não podem ser maior que "+QString::number(valorMaximoDinheiro)+".");
+                return;
+            };
+
         } else if (minusRe.match(inputs[i]).hasMatch()){
             ui->erroLabel->setText("Os campos devem ser números positivos.");
             return;
@@ -203,6 +213,12 @@ void Calculadora::on_caciar_clicked()
         ui->erroLabel->setText("O dia precisa ser um numero inteiro.");
         return;
     };
+
+    // Verifica se o dia inputado POSSIVELMENTE existe.
+    if (valores[4] > maximoDias){
+        ui->erroLabel->setText("O dia de aplicação não pode ser maior que "+QString::number(maximoDias)+".");
+        return;
+    }
 
     // Calcular taxas e estimativas
     double cdi = valores[1] / 100;
@@ -273,7 +289,14 @@ void Calculadora::on_caciar_clicked()
 
                 valorAtual += valores[3];
 
-                ui->finalAnoBurto->setText("R$ " + formatarValor(valorAplicado+(valores[3]*fatorMultiplicador)).replace(".", ","));
+                double valorBruto = valorAplicado+(valores[3]*fatorMultiplicador);
+
+                // Manter a GUI agradável aos olhos
+                if (valorBruto <= valorMaximoDinheiro){
+                    ui->finalAnoBurto->setText("R$ " + formatarValor(valorBruto).replace(".", ","));
+                }else{
+                    ui->finalAnoBurto->setText(muitoGrande);
+                };
 
                 deFactoDiaAplicacao = diaAplicacao;
             }
@@ -297,7 +320,11 @@ void Calculadora::on_caciar_clicked()
 
     estimativaAno = valorAtual;
 
-    ui->finalAno->setText("R$ " + formatarValor(estimativaAno).replace(".", ","));
+    if (estimativaAno <= valorMaximoDinheiro){
+        ui->finalAno->setText("R$ " + formatarValor(estimativaAno).replace(".", ","));
+    }else{
+        ui->finalAno->setText(muitoGrande);
+    }
 
     // Exibir datas
 
@@ -429,13 +456,13 @@ void Calculadora::on_estimarValores_clicked()
         taxaAnoReal += n;
     };
 
-    double valorOriginal = valor;
-    double aumentoRealDia = 0;
-    double valorAtual = valorOriginal;
-    double valorAnterior = valorOriginal;
+    long double valorOriginal = valor;
+    long double aumentoRealDia = 0;
+    long double valorAtual = valorOriginal;
+    long double valorAnterior = valorOriginal;
 
-    double aumentoJurosAnterior = 0;
-    double aumentoJurosDia = 0;
+    long double aumentoJurosAnterior = 0;
+    long double aumentoJurosDia = 0;
 
     int mesAtual = diaInicial.month();
     int indexVal = 0;
@@ -474,7 +501,7 @@ void Calculadora::on_estimarValores_clicked()
         cout << "INDEX MES: " << indexMes << endl;
 
         // Aplica taxa diária com efeito acumulado
-        double taxaDiaria = taxaDiariaPorMes[indexMes];
+        long double taxaDiaria = taxaDiariaPorMes[indexMes];
 
         valorAnterior = valorAtual;
 
@@ -488,14 +515,14 @@ void Calculadora::on_estimarValores_clicked()
             }
         };
 
-        double valorAtualBruto = valorAtual * (1 + taxaDiaria);
+        long double valorAtualBruto = valorAtual * (1 + taxaDiaria);
 
-        double jurosIOFAjustado = (valorAtualBruto - valorAnterior) - ((valorAtualBruto - valorAnterior)*iofAtual);
+        long double jurosIOFAjustado = (valorAtualBruto - valorAnterior) - ((valorAtualBruto - valorAnterior)*iofAtual);
 
         valorAtual += jurosIOFAjustado;
 
-        double diferencaValor = valorAtual - valorOriginal;
-        double aumentoBrutoJuros = valorAtual - valorAnterior;
+        long double diferencaValor = valorAtual - valorOriginal;
+        long double aumentoBrutoJuros = valorAtual - valorAnterior;
 
         // Calculo com juros compostos
         aumentoJurosAnterior = aumentoRealDia;
@@ -503,7 +530,7 @@ void Calculadora::on_estimarValores_clicked()
         aumentoJurosDia = aumentoRealDia - aumentoJurosAnterior;
 
         QString valorString = mergeStrings({"R$ ", convertFQString(valorAtual)});
-        QString iofString = mergeStrings({convertFQString(iofAtual), "%"});
+        QString iofString = mergeStrings({convertFQString(iofAtual*100), "%"});
         QString diffValor = convertFQString(diferencaValor);
         QString aumentoRealStr = mergeStrings({convertFQString(aumentoRealDia*100), "%"});
         QString aumentoJurosDiaStr = mergeStrings({convertFQString(aumentoJurosDia*100), "%"});
