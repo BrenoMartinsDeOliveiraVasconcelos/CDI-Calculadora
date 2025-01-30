@@ -76,12 +76,12 @@ Calculadora::Calculadora(QWidget *parent)
         ui->diaInput->setText("1");
 
         // Configurar data
-        QDate dataAtual = QDate::currentDate();
+        QDate dataInicial = QDate::currentDate();
         QDate inicioAno;
         QDate fimAno;
 
-        inicioAno.setDate(dataAtual.year(), 1, 1);
-        fimAno.setDate(dataAtual.year(), 12, 31);
+        inicioAno.setDate(dataInicial.year(), 1, 1);
+        fimAno.setDate(dataInicial.year(), 12, 31);
 
         ui->dataInicial->setMinimumDate(inicioAno);
         ui->dataInicial->setMaximumDate(fimAno.addDays(-1));
@@ -150,7 +150,7 @@ void Calculadora::on_caciar_clicked()
     QString formatoData = "dd/MM/yyyy";
 
     // Tempo atual
-    QDate dataAtual = QDate::currentDate();
+    QDate dataInicial = ui->dataInicial->date();
     QDate diaLimite = ui->dataLimite->date();
 
     // Expressão regular para validar números positivos ou negativos (inteiros ou decimais)
@@ -210,10 +210,10 @@ void Calculadora::on_caciar_clicked()
     double seliacDia = ((seliacMes*100) / numDiasMes) / 100;
 
     // Calcular estimativas finais
-    double estimativaAno = valorAplicado * pow((1 + seliacMes), (13 - dataAtual.month()));
-    int anoAtual = dataAtual.year();
+    double estimativaAno = valorAplicado * pow((1 + seliacMes), (13 - dataInicial.month()));
+    int anoAtual = dataInicial.year();
 
-    int diasAno = dataAtual.daysInYear();
+    int diasAno = dataInicial.daysInYear();
     vector<vector<double>> taxas = calcYearIndex(seliacMes, diasAno, anoAtual);
 
     vector<double> taxaDiariaPorMes = taxas[0];
@@ -221,14 +221,14 @@ void Calculadora::on_caciar_clicked()
 
     double valorAtual = valorAplicado;
 
-    int mesAtual = dataAtual.month();
+    int mesAtual = dataInicial.month();
     int fatorMultiplicador = 0;
     double diaAplicacao = valores[4];
     double deFactoDiaAplicacao = diaAplicacao;
 
     cout << "\n" << valores[4] << "\n";
 
-    for (int dia = dataAtual.dayOfYear()+1; dia <= diasAno; ++dia) {
+    for (int dia = dataInicial.dayOfYear()+1; dia <= diasAno; ++dia) {
         QDate data = QDate::fromJulianDay(QDate(anoAtual, 1, 1).toJulianDay() + dia - 1);
 
         // Até o ultimo dia de calculo
@@ -311,8 +311,6 @@ void Calculadora::on_caciar_clicked()
     }
 }
 
-vector<QString> csvCompleto;
-
 void Calculadora::on_estimarValores_clicked()
 {
     ui->avisoLabel->setText("");
@@ -369,9 +367,9 @@ void Calculadora::on_estimarValores_clicked()
     }
 
     // Calcular a quantidade de fins de semana no ano atual
-    QDate diaAtual = QDate::currentDate();
+    QDate diaInicial = ui->dataInicial->date();
 
-    QString nomeArquivo = diaAtual.toString("estimativa_yyyy-MM-dd")+".csv";
+    QString nomeArquivo = diaInicial.toString("estimativa_yyyy-MM-dd")+".csv";
 
     // Criando e abrindo o arquivo de relatório para escrita
     QString caminhoRelatorio = QDir::currentPath()+QDir::separator()+nomeArquivo;
@@ -391,7 +389,7 @@ void Calculadora::on_estimarValores_clicked()
     //};
 
     //QTextStream arquivoRel(&relatorio);
-    int anoAtual = diaAtual.year();
+    int anoAtual = diaInicial.year();
     QDate diaLimite = ui->dataLimite->date();
 
     double deFactoDiaAplicacao = diaAplicacao;
@@ -426,10 +424,10 @@ void Calculadora::on_estimarValores_clicked()
     double aumentoJurosAnterior = 0;
     double aumentoJurosDia = 0;
 
-    int mesAtual = diaAtual.month();
+    int mesAtual = diaInicial.month();
     int indexVal = 0;
 
-    for (QDate data = diaAtual.addDays(1); data <= diaLimite; data = data.addDays(1)) {
+    for (QDate data = diaInicial.addDays(1); data <= diaLimite; data = data.addDays(1)) {
         // Skip weekends
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
             if (data.day() == deFactoDiaAplicacao){
