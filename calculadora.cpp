@@ -45,6 +45,7 @@
 #include <QTextStream>
 #include <QFileDialog>
 #include <QErrorMessage>
+#include <QMessageBox>
 
 using namespace std;
 
@@ -97,6 +98,8 @@ Calculadora::Calculadora(QWidget *parent)
         ui->relatorio->setRowCount(1024);
 
         ui->relatorio->horizontalHeader()->setMinimumSectionSize(200);
+
+        QMessageBox::warning(this, "Aviso", "Esse programa realiza uma estimativa considerando que as taxas de juros definidas continuem as mesmas durante o ano e desconsiderando totalmente o IOF sobre o rendimento, o que pode causar valores diferentes da realidade. Os valores finais não devem ser levados como regra e sim como um guia.", QMessageBox::Ok);
     }
 
 Calculadora::~Calculadora()
