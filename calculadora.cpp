@@ -366,22 +366,22 @@ void Calculadora::on_estimarValores_clicked()
 
     // Criando e abrindo o arquivo de relatório para escrita
     QString caminhoRelatorio = QDir::currentPath()+QDir::separator()+nomeArquivo;
-    QFile relatorio(caminhoRelatorio);
+    //QFile relatorio(caminhoRelatorio);
 
-    if (relatorio.exists()){
-        if (relatorio.open(QIODevice::WriteOnly | QIODevice::Text)){
-            QTextStream arquivoLimpar(&relatorio);
-            arquivoLimpar << "";
-            relatorio.close();
-        }
-    }
+    //if (relatorio.exists()){
+    //    if (relatorio.open(QIODevice::WriteOnly | QIODevice::Text)){
+    //        QTextStream arquivoLimpar(&relatorio);
+    //        arquivoLimpar << "";
+    //        relatorio.close();
+    //    }
+    //}
 
-    if (!relatorio.open(QIODevice::Append | QIODevice::Text)){
-        ui->erroLabel->setText("Erro ao abrir o arquivo de relatório para escrita.");
-        return;
-    };
+    //if (!relatorio.open(QIODevice::Append | QIODevice::Text)){
+    //    ui->erroLabel->setText("Erro ao abrir o arquivo de relatório para escrita.");
+    //    return;
+    //};
 
-    QTextStream arquivoRel(&relatorio);
+    //QTextStream arquivoRel(&relatorio);
     int anoAtual = diaAtual.year();
     QDate diaLimite = ui->dataLimite->date();
 
@@ -392,9 +392,11 @@ void Calculadora::on_estimarValores_clicked()
     ui->avisoLabel->setText("Gerando relatório...");
 
     vector<QString> headers = {"Data", "Valor", "Valor rendido bruto", "Valor rendido %", "Rendimento total no periodo", "Rendimento total no periodo %", "Selic diário%", "Selic mensal%", "Selic anual%", "Selic anual base%", "CDI%"};
-    QString headerLinha = generateCSVLine(headers);
+    vector<vector<QString>> linhas;
 
-    arquivoRel << headerLinha;
+    //QString headerLinha = generateCSVLine(headers);
+
+    //arquivoRel << headerLinha;
 
     vector<vector<double>> taxas = calcYearIndex(taxaMes, diasAno, anoAtual);
 
@@ -417,6 +419,7 @@ void Calculadora::on_estimarValores_clicked()
 
     int mesAtual = diaAtual.month();
     int indexVal = 0;
+
     for (QDate data = diaAtual.addDays(1); data <= diaLimite; data = data.addDays(1)) {
         // Skip weekends
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
@@ -495,24 +498,27 @@ void Calculadora::on_estimarValores_clicked()
         //Adicionar CDI
         linha.push_back(mergeStrings({convertFQString(cdi*100), "%"}));
 
+        linhas.push_back(linha);
+
         QString linhaFinal = generateCSVLine(linha);
 
         cout << "Linha: " << linhaFinal.toStdString() << ", Index: " << indexVal;
         indexVal++;
-
-        csvCompleto.push_back(linhaFinal);
 
         cout << "Processing date:" << data.toString("yyyy-MM-dd").toStdString() << "Limit date:" << diaLimite.toString("yyyy-MM-dd").toStdString() << "\n";
 
     };
 
     // Salvar no CSV
-    for (auto linha:csvCompleto){
-        arquivoRel << linha;
-    };
+    //for (auto linha:csvCompleto){
+    //    arquivoRel << linha;
+    //};
 
-    ui->avisoLabel->setText("Relatório gerado como "+caminhoRelatorio+"!");
-    relatorio.close();
+    //relatorio.close();
+
+    if (writeCSV(headers, linhas, caminhoRelatorio)){
+        ui->avisoLabel->setText("Relatório gerado como "+caminhoRelatorio+"!");
+    }
 
     vector<int> tamanhoTabela = getColumnAndRowCount(caminhoRelatorio, true);
     QStringList listaHeaders = getHeaders(caminhoRelatorio);

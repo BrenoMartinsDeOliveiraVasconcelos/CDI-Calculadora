@@ -21,11 +21,9 @@
 #include <vector>
 #include <QString>
 #include <QFile>
-
-#include <iostream>
+#include <QDir>
 
 using namespace std;
-// O delimitador é SEMPRE vírgula. Use bibliotecas propias para csv para um sistema mais completo.
 
 char separator = ';';
 
@@ -131,5 +129,40 @@ vector<vector<QString>> getCSVContent(QString path, bool ignoreHeader = false) {
 
     return content;
 };
+
+
+bool writeCSV(vector<QString> headers, vector<vector<QString>> lines, QString filename) {
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        return false;
+    }
+
+    // Write headers
+    QStringList headerList;
+    for (const QString& h : headers) {
+        headerList << h;
+    }
+    QString headerLine = headerList.join(QString(separator)) + "\n";
+    if (file.write(headerLine.toUtf8()) == -1) {
+        file.close();
+        return false;
+    }
+
+    // Write each line
+    for (const vector<QString>& line : lines) {
+        QStringList lineList;
+        for (const QString& field : line) {
+            lineList << field;
+        }
+        QString lineStr = lineList.join(QString(separator)) + "\n";
+        if (file.write(lineStr.toUtf8()) == -1) {
+            file.close();
+            return false;
+        }
+    }
+
+    file.close();
+    return true;
+}
 
 #endif // QCSV_H
