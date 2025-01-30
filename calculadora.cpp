@@ -527,6 +527,7 @@ void Calculadora::on_estimarValores_clicked()
     QStringList listaHeaders = getHeaders(caminhoRelatorio);
     vector<vector<QString>> conteudoTabela = getCSVContent(caminhoRelatorio, true);
 
+    ui->relatorio->clearContents();
     ui->relatorio->setColumnCount(tamanhoTabela[1]);
         ui->relatorio->setRowCount(tamanhoTabela[0]);
 
