@@ -100,7 +100,7 @@ Calculadora::Calculadora(QWidget *parent)
 
         ui->relatorio->horizontalHeader()->setMinimumSectionSize(200);
 
-        QMessageBox::warning(this, "Aviso", "Esse programa realiza uma estimativa considerando que as taxas de juros definidas continuem as mesmas durante o ano e desconsiderando totalmente o IOF sobre o rendimento, o que pode causar valores diferentes da realidade. Os valores finais não devem ser levados como regra e sim como um guia.", QMessageBox::Ok);
+        QMessageBox::warning(this, "Aviso", "Esse programa realiza uma estimativa considerando que as taxas de juros definidas continuem as mesmas durante o ano, o que pode causar valores diferentes da realidade. Os valores finais não devem ser levados como regra e sim como um guia.", QMessageBox::Ok);
     }
 
 Calculadora::~Calculadora()
@@ -411,7 +411,7 @@ void Calculadora::on_estimarValores_clicked()
     // Gerar headers
     ui->avisoLabel->setText("Gerando relatório...");
 
-    vector<QString> headers = {"Data", "Valor", "Valor rendido bruto", "Valor rendido %", "Rendimento total no periodo", "Rendimento total no periodo %", "Selic diário%", "Selic mensal%", "Selic anual%", "Selic anual base%", "CDI%"};
+    vector<QString> headers = {"Data", "Valor", "IOF%", "Valor rendido bruto", "Valor rendido %", "Rendimento total no periodo", "Rendimento total no periodo %", "Selic diário%", "Selic mensal%", "Selic anual%", "Selic anual base%", "CDI%"};
     vector<vector<QString>> linhas;
 
     //QString headerLinha = generateCSVLine(headers);
@@ -503,6 +503,7 @@ void Calculadora::on_estimarValores_clicked()
         aumentoJurosDia = aumentoRealDia - aumentoJurosAnterior;
 
         QString valorString = mergeStrings({"R$ ", convertFQString(valorAtual)});
+        QString iofString = mergeStrings({convertFQString(iofAtual), "%"});
         QString diffValor = convertFQString(diferencaValor);
         QString aumentoRealStr = mergeStrings({convertFQString(aumentoRealDia*100), "%"});
         QString aumentoJurosDiaStr = mergeStrings({convertFQString(aumentoJurosDia*100), "%"});
@@ -514,6 +515,7 @@ void Calculadora::on_estimarValores_clicked()
         };
 
         linha.push_back(valorString);
+        linha.push_back(iofString);
         linha.push_back(aumentoBrutoJurosDiaStr);
         linha.push_back(aumentoJurosDiaStr);
         linha.push_back(diffValor);
