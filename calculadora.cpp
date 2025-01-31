@@ -47,6 +47,7 @@
 #include <QFileDialog>
 #include <QErrorMessage>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 using namespace std;
 
@@ -607,6 +608,12 @@ void Calculadora::on_estimarValores_clicked()
         };
 
         linhaNum++;
+    };
+
+    // Por fim, perguntar ao usuário se deseja abrir o arquivo com o programa responsável.
+    if (QMessageBox::Yes == QMessageBox::question(this, "Abrir", "O arquivo de relatório foi salvo. Deseja abrir no explorador de arquivos?", QMessageBox::Yes | QMessageBox::No))
+    {
+        QDesktopServices::openUrl(QDir::currentPath());
     };
 }
 
