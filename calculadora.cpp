@@ -407,11 +407,7 @@ void Calculadora::on_estimarValores_clicked()
         return;
     };
 
-    vector<QString> caminho = {nomes.pastaRelatorio,
-                               mergeStrings({"selic_", convertFQString(taxaAno*100)}),
-                               mergeStrings({"cdi_", convertFQString(cdi*100)}),
-                               mergeStrings({"valor_", convertFQString(valor)})
-    };
+    vector<QString> caminho = {nomes.pastaRelatorio};
 
     for (auto pasta:caminho){
         if (!QDir::current().mkdir(pasta) && !QDir::current().exists(pasta)){
@@ -425,7 +421,11 @@ void Calculadora::on_estimarValores_clicked()
     // Calcular a quantidade de fins de semana no ano atual
     QDate diaInicial = ui->dataInicial->date();
 
-    QString nomeArquivo = diaInicial.toString("estimativa_yyyy-MM-dd")+".csv";
+    QString nomeArquivo = "0.csv";
+    // Gerar um nome
+    while (QDir::current().exists(nomeArquivo)){
+        nomeArquivo = QString::number(nomeArquivo.replace(".csv", "").toUInt()+1)+".csv";
+    };
 
     // Criando e abrindo o arquivo de relatório para escrita
     QString caminhoRelatorio = QDir::currentPath()+QDir::separator()+nomeArquivo;
