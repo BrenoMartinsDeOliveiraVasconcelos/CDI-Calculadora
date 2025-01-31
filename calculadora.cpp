@@ -33,7 +33,7 @@
 #include <vector>
 #include <map>
 
-// Bibliotecas qt16777215
+// Bibliotecas QT
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QDate>
@@ -48,6 +48,7 @@
 #include <QErrorMessage>
 #include <QMessageBox>
 #include <QDesktopServices>
+#include <QClipboard>
 
 using namespace std;
 
@@ -579,8 +580,9 @@ void Calculadora::on_estimarValores_clicked()
 
     cout << "=== FIM CSV ===\n" << linhas.back()[0].toStdString() << "\n";
 
-    if (writeCSV(headers, linhas, caminhoRelatorio)){
-        QMessageBox::information(this, "Sucesso", "Relatório salvo em "+caminhoRelatorio, QMessageBox::Ok);
+    if (!writeCSV(headers, linhas, caminhoRelatorio)){
+        QMessageBox::critical(this, "Erro", "Um erro ocorreu e o relatório não foi salvo. Impossóvel continuar.", QMessageBox::Ok);
+        return;
     }
 
     vector<int> tamanhoTabela = getColumnAndRowCount(caminhoRelatorio, true);
@@ -608,8 +610,11 @@ void Calculadora::on_estimarValores_clicked()
         linhaNum++;
     };
 
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    clipboard->setText(caminhoRelatorio);
+
     // Por fim, perguntar ao usuário se deseja abrir o arquivo com o programa responsável.
-    if (QMessageBox::Yes == QMessageBox::question(this, "Abrir", "O arquivo de relatório foi salvo. Deseja abrir no programa responsável?", QMessageBox::Yes | QMessageBox::No))
+    if (QMessageBox::Yes == QMessageBox::question(this, "Abrir", "O arquivo de relatório foi salvo e o caminho foi copiado para a área de transferência. Deseja abrir no programa responsável?", QMessageBox::Yes | QMessageBox::No))
     {
         QDesktopServices::openUrl(caminhoRelatorio);
     };

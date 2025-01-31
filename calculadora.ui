@@ -516,7 +516,7 @@
       <x>10</x>
       <y>0</y>
       <width>1261</width>
-      <height>161</height>
+      <height>91</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="principal">
@@ -689,9 +689,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>160</y>
+      <y>90</y>
       <width>1271</width>
-      <height>581</height>
+      <height>651</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="resultados">
