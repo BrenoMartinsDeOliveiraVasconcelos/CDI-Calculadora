@@ -531,15 +531,10 @@ void Calculadora::on_estimarValores_clicked()
 
         QString valorString = mergeStrings({"R$ ", convertFQString(valorAtual)});
         QString iofString = mergeStrings({convertFQString(iofAtual*100), "%"});
-        QString diffValor = convertFQString(diferencaValor);
+        QString diffValor = mergeStrings({"R$ ", convertFQString(diferencaValor)});
         QString aumentoRealStr = mergeStrings({convertFQString(aumentoRealDia*100), "%"});
         QString aumentoJurosDiaStr = mergeStrings({convertFQString(aumentoJurosDia*100), "%"});
         QString aumentoBrutoJurosDiaStr = mergeStrings({"R$ ", convertFQString(aumentoBrutoJuros)});
-
-
-        if (diferencaValor >= 0){
-            diffValor = "+"+diffValor;
-        };
 
         linha.push_back(valorString);
         linha.push_back(iofString);
