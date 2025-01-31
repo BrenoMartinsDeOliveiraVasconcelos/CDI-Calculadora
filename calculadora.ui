@@ -503,6 +503,11 @@
   <property name="windowTitle">
    <string>Calculadora</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QTableView {
+	border-color: rgb(70, 70, 70);
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -690,7 +695,7 @@
      <rect>
       <x>10</x>
       <y>90</y>
-      <width>1271</width>
+      <width>1261</width>
       <height>651</height>
      </rect>
     </property>
@@ -955,16 +960,6 @@
      </item>
     </layout>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1280</width>
-     <height>22</height>
-    </rect>
-   </property>
   </widget>
  </widget>
  <resources/>
