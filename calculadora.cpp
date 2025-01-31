@@ -402,6 +402,8 @@ void Calculadora::on_estimarValores_clicked()
     double taxaMes = valores[1];
     double taxaAno = valores[0];
 
+    cout << aplicacaoMensal;
+
     if (!QDir::setCurrent(ui->salvarInput->text())){
         ui->erroLabel->setText("Diretório no campo Salvar não existe.");
         return;
@@ -506,11 +508,12 @@ void Calculadora::on_estimarValores_clicked()
 
         valorAnterior = valorAtual;
 
-        // Atualizar o valor no primeiro dia do mês
+        // Atualizar o valor no dia do mês específicado
         if (mesAtual <= data.month()){
             if (data.day() == deFactoDiaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
                 mesAtual++;
                 valorAtual += aplicacaoMensal;
+                cout << "\n\n" << "Valor aumentado:" << valorAtual << " Aplic: " << aplicacaoMensal;
 
                 deFactoDiaAplicacao = diaAplicacao;
             }
@@ -518,9 +521,11 @@ void Calculadora::on_estimarValores_clicked()
 
         long double valorAtualBruto = valorAtual * (1 + taxaDiaria);
 
-        long double jurosIOFAjustado = (valorAtualBruto - valorAnterior) - ((valorAtualBruto - valorAnterior)*iofAtual);
+        long double jurosIOFAjustado = (valorAtualBruto - valorAtual) - ((valorAtualBruto - valorAtual)*iofAtual);
 
         valorAtual += jurosIOFAjustado;
+
+        cout << "VALOR ATUAL: " << valorAtual << "\n";
 
         long double diferencaValor = valorAtual - valorOriginal;
         long double aumentoBrutoJuros = valorAtual - valorAnterior;
