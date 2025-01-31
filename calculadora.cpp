@@ -78,6 +78,7 @@ Calculadora::Calculadora(QWidget *parent)
         ui->cdiInput->setText(mapaConfig["cdi"]);
         ui->aplicacaoMes->setText("0,00");
         ui->diaInput->setText("1");
+        ui->numDiasInput->setText("0");
 
         // Configurar data
         QDate dataInicial = QDate::currentDate();
@@ -170,9 +171,16 @@ void Calculadora::on_caciar_clicked()
         "0" + ui->cdiInput->text().replace(",", "."),
         "0" + ui->valorInput->text().replace(",", "."),
         "0" + ui->aplicacaoMes->text().replace(",", "."),
-        "0" + ui->diaInput->text().replace(",", ".")
+        "0" + ui->diaInput->text().replace(",", "."),
+        "0" + ui->numDiasInput->text().replace(",", ".")
     };
-    double valores[5] = {0.0f};
+
+    QString valoresInteiros[] = {
+        inputs[4],
+        inputs[5]
+    };
+
+    double valores[6] = {0.0f};
     unsigned long int valorMaximoDinheiro = runtime.maxMoneyValue();
     unsigned int maximoDias = runtime.maxDays();
     QString muitoGrande = runtime.tooBig();
@@ -189,7 +197,7 @@ void Calculadora::on_caciar_clicked()
     }
 
     // Validar e converter os inputs
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 6; ++i) {
         if (re.match(inputs[i]).hasMatch()){
             valores[i] = inputs[i].toDouble();
 
@@ -209,9 +217,11 @@ void Calculadora::on_caciar_clicked()
     };
 
     //Verificação especial para o input de dia que tem que ser inteiro necessáriamente
-    if (inputs[4].contains(".")){
-        QMessageBox::critical(this, "Erro", "O dia deve ser um número inteiro.", QMessageBox::Ok);
-        return;
+    for (auto i:valoresInteiros){
+        if (i.contains(".")){
+            QMessageBox::critical(this, "Erro", "O valor '"+i.removeFirst()+"' não é inteiro.", QMessageBox::Ok);
+            return;
+        };
     };
 
     // Verifica se o dia inputado POSSIVELMENTE existe.
@@ -250,7 +260,7 @@ void Calculadora::on_caciar_clicked()
     // IOF
     vector<double> iof = runtime.iof();
 
-    unsigned long int diasPassados = 0;
+    unsigned long int diasPassados = valoresInteiros[1].toULong();
 
     cout << "\n" << valores[4] << "\n";
 
@@ -465,7 +475,7 @@ void Calculadora::on_estimarValores_clicked()
     int indexVal = 0;
 
     vector<double> iof = runtime.iof();
-    unsigned long int diasPassados = 0;
+    unsigned long int diasPassados = ui->numDiasInput->text().toLong();
 
     for (QDate data = diaInicial.addDays(1); data <= diaLimite; data = data.addDays(1)) {
         double iofAtual = 0;
