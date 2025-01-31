@@ -15,6 +15,13 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// Para evitar certos bugs ai
+#if defined(_WIN64)
+    #define big    long long
+#elif defined(___linux__)
+    #define big     long
+#endif
+
 #include "calculadora.h"
 #include "optionmenu.h"
 #include "ui_calculadora.h"
@@ -181,7 +188,7 @@ void Calculadora::on_caciar_clicked()
     };
 
     double valores[6] = {0.0f};
-    unsigned long int valorMaximoDinheiro = runtime.maxMoneyValue();
+    unsigned big int valorMaximoDinheiro = runtime.maxMoneyValue();
     unsigned int maximoDias = runtime.maxDays();
     QString muitoGrande = runtime.tooBig();
 
@@ -260,7 +267,7 @@ void Calculadora::on_caciar_clicked()
     // IOF
     vector<double> iof = runtime.iof();
 
-    unsigned long int diasPassados = valoresInteiros[1].toULong();
+    unsigned big int diasPassados = valoresInteiros[1].toULong();
 
     cout << "\n" << valores[4] << "\n";
 
@@ -475,7 +482,7 @@ void Calculadora::on_estimarValores_clicked()
     int indexVal = 0;
 
     vector<double> iof = runtime.iof();
-    unsigned long int diasPassados = ui->numDiasInput->text().toLong();
+    unsigned big int diasPassados = ui->numDiasInput->text().toLong();
 
     for (QDate data = diaInicial.addDays(1); data <= diaLimite; data = data.addDays(1)) {
         double iofAtual = 0;

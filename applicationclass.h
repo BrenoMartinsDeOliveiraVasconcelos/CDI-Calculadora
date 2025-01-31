@@ -4,6 +4,12 @@
 #include <vector>
 #include <QString>
 
+#if defined(_WIN64)
+    #define big    long long
+#elif defined(___linux__)
+    #define big     long
+#endif
+
 using namespace std;
 
 class runtimeConsts{
@@ -16,7 +22,7 @@ public:
         return IOF_RATE;
     };
 
-    unsigned long int maxMoneyValue(){
+    unsigned big int maxMoneyValue(){
         return MAX_MONETARY_VAL;
     };
 
@@ -24,7 +30,7 @@ public:
         return MAX_DAYS;
     };
 
-    long int maxTableNum(){
+    big int maxTableNum(){
         return MAX_TABLE_VALUE;
     };
 
@@ -48,9 +54,9 @@ private:
         0.06, 0.03, 0.00
     };
 
-    unsigned long int MAX_MONETARY_VAL = 999999999999;
+    unsigned big int MAX_MONETARY_VAL = 999999999999;
     unsigned int MAX_DAYS = 31;
-    long int MAX_TABLE_VALUE = 999999999999999;
+    big int MAX_TABLE_VALUE = 999999999999999;
     QString TOO_BIG_SYMB = "---";
 };
 

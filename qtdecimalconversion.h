@@ -18,6 +18,12 @@
 #ifndef QTDECIMALCONVERSION_H
 #define QTDECIMALCONVERSION_H
 
+#if defined(_WIN64)
+#define big    long long
+#elif defined(___linux__)
+#define big     long
+#endif
+
 #include <QString>
 #include <applicationclass.h>
 
