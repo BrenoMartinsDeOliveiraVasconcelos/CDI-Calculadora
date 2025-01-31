@@ -112,12 +112,9 @@ Calculadora::~Calculadora()
 void Calculadora::on_caciar_clicked()
 {
     if (ui->dataInicial->date().daysTo(ui->dataLimite->date()) < 0){
-        ui->erroLabel->setText("A data inicial não pode ser depois da data limite.");
+        QMessageBox::critical(this, "Erro", "A data inicial não pode ser depois da data limiste.", QMessageBox::Ok);
         return;
     }
-
-    ui->erroLabel->setText("");
-    ui->avisoLabel->setText("");
 
     configuration config;
     map<QString, QString> mapaConfig = config.getConfig();
@@ -138,7 +135,7 @@ void Calculadora::on_caciar_clicked()
     // Diretório dos arquivos
     if (!tempFolderExists()){
         if (!createTempFolder()){
-            ui->erroLabel->setText("Erro ao criar pasta temporária.");
+            QMessageBox::critical(this, "Erro", "Não foi possível criar a pasta temporária.", QMessageBox::Ok);
             return;
         };
     };
@@ -146,7 +143,8 @@ void Calculadora::on_caciar_clicked()
     QFile arquivoTaxas(temp.tempFolderAbsolute+nomes.taxas);
 
     if (!arquivoTaxas.open(QIODevice::WriteOnly | QIODevice::Text)){
-        ui->erroLabel->setText("Erro ao ler arquivo .txt de taxas.");
+        QMessageBox::critical(this, "Erro", "Erro ao ler o arquivo temporário.", QMessageBox::Ok);
+
         return;
     };
 
@@ -196,28 +194,28 @@ void Calculadora::on_caciar_clicked()
 
             // Checar se o valor é valido
             if (valores[i] > valorMaximoDinheiro){
-                ui->erroLabel->setText("Os valores não podem ser maior que "+QString::number(valorMaximoDinheiro)+".");
+                QMessageBox::critical(this, "Erro", "Os valores não podem ser maior que "+QString::number(valorMaximoDinheiro)+".", QMessageBox::Ok);
                 return;
             };
 
         } else if (minusRe.match(inputs[i]).hasMatch()){
-            ui->erroLabel->setText("Os campos devem ser números positivos.");
+            QMessageBox::critical(this, "Erro", "Os campos devem ser números positivos", QMessageBox::Ok);
             return;
         }else {
-            ui->erroLabel->setText("Os campos devem ser números.");
+            QMessageBox::critical(this, "Erro", "Os campos devem ser números.", QMessageBox::Ok);
             return;
         }
     };
 
     //Verificação especial para o input de dia que tem que ser inteiro necessáriamente
     if (inputs[4].contains(".")){
-        ui->erroLabel->setText("O dia precisa ser um numero inteiro.");
+        QMessageBox::critical(this, "Erro", "O dia deve ser um número inteiro.", QMessageBox::Ok);
         return;
     };
 
     // Verifica se o dia inputado POSSIVELMENTE existe.
     if (valores[4] > maximoDias){
-        ui->erroLabel->setText("O dia de aplicação não pode ser maior que "+QString::number(maximoDias)+".");
+        QMessageBox::critical(this, "Erro", "O dia de aplicação não pode ser maior que "+QString::number(maximoDias)+".", QMessageBox::Ok);
         return;
     }
 
@@ -357,20 +355,18 @@ void Calculadora::on_caciar_clicked()
     ui->aplicacaoMes->setText(ui->aplicacaoMes->text().replace(".", ","));
 
     cout << ui->valorInput->text().toStdString();
-    ui->avisoLabel->setText("Clique em relatório para gerar a estimativa completa até o fim do ano.");
-
     arquivoTaxas.close();
 
     if (mapaConfig["autorel"] == "1"){
         ui->estimarValores->click();
+    }else{
+        QMessageBox::information(this, "Sucesso", "Clique em em \"Relatório\" para gerar a estimativa completa.", QMessageBox::Ok);
+
     }
 }
 
 void Calculadora::on_estimarValores_clicked()
 {
-    ui->avisoLabel->setText("");
-    ui->erroLabel->setText("");
-
     tempInfo temp;
     nomesTemporario nomes;
     runtimeConsts runtime;
@@ -380,7 +376,7 @@ void Calculadora::on_estimarValores_clicked()
 
     QFile arquivoTaxas(temp.tempFolderAbsolute+nomes.taxas);
     if (!arquivoTaxas.open(QIODevice::ReadOnly | QIODevice::Text)){
-        ui->erroLabel->setText("Falha ao ler o arquivo temporário de taxas.");
+        QMessageBox::critical(this, "Erro", "Erro ao ler o arquivo temporário.", QMessageBox::Ok);
         return;
     };
 
@@ -405,7 +401,7 @@ void Calculadora::on_estimarValores_clicked()
     cout << aplicacaoMensal;
 
     if (!QDir::setCurrent(ui->salvarInput->text())){
-        ui->erroLabel->setText("Diretório no campo Salvar não existe.");
+        QMessageBox::critical(this, "Erro", "Pasta não existe.", QMessageBox::Ok);
         return;
     };
 
@@ -413,7 +409,7 @@ void Calculadora::on_estimarValores_clicked()
 
     for (auto pasta:caminho){
         if (!QDir::current().mkdir(pasta) && !QDir::current().exists(pasta)){
-            ui->erroLabel->setText("Erro ao criar pasta para estimativas.");
+            QMessageBox::critical(this, "Erro", "Erro ao criar pasta para salvar o arquivo.", QMessageBox::Ok);
             return;
         }
 
@@ -437,9 +433,6 @@ void Calculadora::on_estimarValores_clicked()
 
     double deFactoDiaAplicacao = diaAplicacao;
     int diasAno = QDate(anoAtual, 12, 31).dayOfYear();
-
-    // Gerar headers
-    ui->avisoLabel->setText("Gerando relatório...");
 
     vector<QString> headers = {"Data", "Valor", "IOF%", "Valor rendido bruto", "Valor rendido %", "Rendimento total no periodo", "Rendimento total no periodo %", "Selic diário%", "Selic mensal%", "Selic anual%", "Selic anual base%", "CDI%"};
     vector<vector<QString>> linhas;
@@ -587,7 +580,7 @@ void Calculadora::on_estimarValores_clicked()
     cout << "=== FIM CSV ===\n" << linhas.back()[0].toStdString() << "\n";
 
     if (writeCSV(headers, linhas, caminhoRelatorio)){
-        ui->avisoLabel->setText("Relatório gerado como "+caminhoRelatorio+"!");
+        QMessageBox::information(this, "Sucesso", "Relatório salvo em "+caminhoRelatorio, QMessageBox::Ok);
     }
 
     vector<int> tamanhoTabela = getColumnAndRowCount(caminhoRelatorio, true);

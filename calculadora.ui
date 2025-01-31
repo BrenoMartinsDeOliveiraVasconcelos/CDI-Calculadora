@@ -691,7 +691,7 @@
       <x>10</x>
       <y>160</y>
       <width>1271</width>
-      <height>531</height>
+      <height>581</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="resultados">
@@ -814,46 +814,6 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="avisos">
-       <item>
-        <widget class="QLabel" name="erroLabel">
-         <property name="font">
-          <font>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(226, 37, 37)</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignmentFlag::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="avisoLabel">
-         <property name="font">
-          <font>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(54, 150, 36)</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignmentFlag::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
       <layout class="QHBoxLayout" name="dataLimiteLayout">
        <item>
         <spacer name="horizontalSpacer_3">
@@ -946,6 +906,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="versao">
+         <property name="text">
+          <string>v1.0.0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Orientation::Horizontal</enum>
@@ -962,28 +932,6 @@
         </spacer>
        </item>
       </layout>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>690</y>
-      <width>1271</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="versionamento">
-     <item>
-      <widget class="QLabel" name="versao">
-       <property name="text">
-        <string>v1.0.0</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignmentFlag::AlignCenter</set>
-       </property>
-      </widget>
      </item>
     </layout>
    </widget>
