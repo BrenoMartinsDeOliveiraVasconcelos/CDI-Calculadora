@@ -139,9 +139,9 @@
      <colorrole role="Shadow">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
+        <red>108</red>
+        <green>108</green>
+        <blue>108</blue>
        </color>
       </brush>
      </colorrole>
@@ -330,9 +330,9 @@
      <colorrole role="Shadow">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
+        <red>94</red>
+        <green>94</green>
+        <blue>94</blue>
        </color>
       </brush>
      </colorrole>
@@ -521,9 +521,9 @@
      <colorrole role="Shadow">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
+        <red>44</red>
+        <green>44</green>
+        <blue>44</blue>
        </color>
       </brush>
      </colorrole>
