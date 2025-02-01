@@ -23,6 +23,8 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication::setStyle("fusion");
+
     runtimeConsts consts;
 
     int returnCode = 0;
