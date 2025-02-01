@@ -6,7 +6,7 @@
 
 #if defined(_WIN64)
     #define big    long long
-#elif defined(___linux__)
+#else
     #define big     long
 #endif
 

@@ -16,10 +16,12 @@
 */
 
 // Para evitar certos bugs ai
+
+
 #if defined(_WIN64)
-    #define big    long long
-#elif defined(___linux__)
-    #define big     long
+#define big    long long
+#else
+#define big     long
 #endif
 
 #include "calculadora.h"
