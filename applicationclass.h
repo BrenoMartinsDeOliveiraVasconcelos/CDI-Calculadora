@@ -54,9 +54,9 @@ private:
         0.06, 0.03, 0.00
     };
 
-    unsigned big int MAX_MONETARY_VAL = 999999999999;
+    unsigned big int MAX_MONETARY_VAL = 999999999999999;
     unsigned int MAX_DAYS = 31;
-    big int MAX_TABLE_VALUE = 999999999999999;
+    big int MAX_TABLE_VALUE = 999999999999999999;
     QString TOO_BIG_SYMB = "---";
 };
 
