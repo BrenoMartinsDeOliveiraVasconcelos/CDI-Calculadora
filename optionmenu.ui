@@ -324,9 +324,9 @@
      <colorrole role="HighlightedText">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>56</red>
-        <green>56</green>
-        <blue>56</blue>
+        <red>139</red>
+        <green>139</green>
+        <blue>139</blue>
        </color>
       </brush>
      </colorrole>
