@@ -112,7 +112,7 @@ Calculadora::Calculadora(QWidget *parent)
 
         ui->relatorio->horizontalHeader()->setMinimumSectionSize(200);
 
-        QMessageBox::warning(this, "Aviso", "Esse programa realiza uma estimativa considerando que as taxas de juros definidas continuem as mesmas durante o ano e ignora feriados durante o ano, o que pode causar valores diferentes da realidade. Também, é importante considerar o imposto de renda e as taxas de inflação para estimar o rendimento real já que isso não é calculado pelo programa. Os valores finais não devem ser levados como regra e sim como base.", QMessageBox::Ok);
+        QMessageBox::warning(this, "Aviso", "Esse programa realiza uma estimativa considerando uma taxa de juros estável durante o periodo, junto a uma margem de erro de 0,003%. O valor final deve ser usado de base e não como valor absoluto.", QMessageBox::Ok);
     }
 
 Calculadora::~Calculadora()
