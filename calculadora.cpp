@@ -299,6 +299,21 @@ void Calculadora::on_caciar_clicked()
             continue;
         }
 
+        // Adicionar valor convertido
+        int indexMes = data.month() - 1;
+
+        cout << "INDEX MES: " << indexMes << endl;
+
+        // Aplica taxa diária com efeito acumulado
+        double taxaDiaria = taxaDiariaPorMes[indexMes];
+        double valorAnterior = valorAtual;
+        double valorAtualBruto = valorAtual * (1 + taxaDiaria);
+
+        double jurosIOFAjustado = (valorAtualBruto - valorAnterior) - ((valorAtualBruto - valorAnterior)*iofAtual);
+
+        valorAtual += jurosIOFAjustado;
+        //valorAtual *= (1 + taxaDiaria);
+
         // Aplicar o dinheiro a cada inicio de mês
         if (mesAtual <= data.month()){
             if (data.day() == deFactoDiaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
@@ -320,21 +335,6 @@ void Calculadora::on_caciar_clicked()
                 deFactoDiaAplicacao = diaAplicacao;
             }
         }
-
-        // Adicionar valor convertido
-        int indexMes = data.month() - 1;
-
-        cout << "INDEX MES: " << indexMes << endl;
-
-        // Aplica taxa diária com efeito acumulado
-        double taxaDiaria = taxaDiariaPorMes[indexMes];
-        double valorAnterior = valorAtual;
-        double valorAtualBruto = valorAtual * (1 + taxaDiaria);
-
-        double jurosIOFAjustado = (valorAtualBruto - valorAnterior) - ((valorAtualBruto - valorAnterior)*iofAtual);
-
-        valorAtual += jurosIOFAjustado;
-        //valorAtual *= (1 + taxaDiaria);
     };
 
     estimativaAno = valorAtual;
@@ -521,17 +521,6 @@ void Calculadora::on_estimarValores_clicked()
 
         valorAnterior = valorAtual;
 
-        // Atualizar o valor no dia do mês específicado
-        if (mesAtual <= data.month()){
-            if (data.day() == deFactoDiaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
-                mesAtual++;
-                valorAtual += aplicacaoMensal;
-                cout << "\n\n" << "Valor aumentado:" << valorAtual << " Aplic: " << aplicacaoMensal;
-
-                deFactoDiaAplicacao = diaAplicacao;
-            }
-        };
-
         long double valorAtualBruto = valorAtual * (1 + taxaDiaria);
 
         long double jurosIOFAjustado = (valorAtualBruto - valorAtual) - ((valorAtualBruto - valorAtual)*iofAtual);
@@ -588,6 +577,16 @@ void Calculadora::on_estimarValores_clicked()
 
         cout << "Processing date:" << data.toString("yyyy-MM-dd").toStdString() << "Limit date:" << diaLimite.toString("yyyy-MM-dd").toStdString() << "\n";
 
+        // Atualizar o valor no dia do mês específicado
+        if (mesAtual <= data.month()){
+            if (data.day() == deFactoDiaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
+                mesAtual++;
+                valorAtual += aplicacaoMensal;
+                cout << "\n\n" << "Valor aumentado:" << valorAtual << " Aplic: " << aplicacaoMensal;
+
+                deFactoDiaAplicacao = diaAplicacao;
+            }
+        };
     };
 
     // Salvar no CSV
