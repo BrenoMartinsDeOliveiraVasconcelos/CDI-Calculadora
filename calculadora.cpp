@@ -295,10 +295,11 @@ void Calculadora::on_caciar_clicked()
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
             if (data.day() == deFactoDiaAplicacao){
                 deFactoDiaAplicacao++;
+
             }
             continue;
         }
-
+        cout << "APP" << deFactoDiaAplicacao << "APP\n";
         // Adicionar valor convertido
         int indexMes = data.month() - 1;
 
@@ -527,6 +528,17 @@ void Calculadora::on_estimarValores_clicked()
 
         valorAtual += jurosIOFAjustado;
 
+        // Atualizar o valor no dia do mês específicado
+        if (mesAtual <= data.month()){
+            if (data.day() == deFactoDiaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
+                mesAtual++;
+                valorAtual += aplicacaoMensal;
+                cout << "\n\n" << "Valor aumentado:" << valorAtual << " Aplic: " << aplicacaoMensal;
+
+                deFactoDiaAplicacao = diaAplicacao;
+            }
+        };
+
         cout << "VALOR ATUAL: " << valorAtual << "\n";
 
         long double diferencaValor = valorAtual - valorOriginal;
@@ -576,17 +588,6 @@ void Calculadora::on_estimarValores_clicked()
         indexVal++;
 
         cout << "Processing date:" << data.toString("yyyy-MM-dd").toStdString() << "Limit date:" << diaLimite.toString("yyyy-MM-dd").toStdString() << "\n";
-
-        // Atualizar o valor no dia do mês específicado
-        if (mesAtual <= data.month()){
-            if (data.day() == deFactoDiaAplicacao || (data.day() == data.daysInMonth() && data.day() < diaAplicacao)){
-                mesAtual++;
-                valorAtual += aplicacaoMensal;
-                cout << "\n\n" << "Valor aumentado:" << valorAtual << " Aplic: " << aplicacaoMensal;
-
-                deFactoDiaAplicacao = diaAplicacao;
-            }
-        };
     };
 
     // Salvar no CSV
