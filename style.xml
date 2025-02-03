@@ -76,9 +76,9 @@
   <colorrole role="ButtonText">
    <brush brushstyle="SolidPattern">
     <color alpha="255">
-     <red>177</red>
-     <green>177</green>
-     <blue>177</blue>
+     <red>247</red>
+     <green>247</green>
+     <blue>247</blue>
     </color>
    </brush>
   </colorrole>
@@ -267,9 +267,9 @@
   <colorrole role="ButtonText">
    <brush brushstyle="SolidPattern">
     <color alpha="255">
-     <red>153</red>
-     <green>153</green>
-     <blue>153</blue>
+     <red>212</red>
+     <green>212</green>
+     <blue>212</blue>
     </color>
    </brush>
   </colorrole>
@@ -458,9 +458,9 @@
   <colorrole role="ButtonText">
    <brush brushstyle="SolidPattern">
     <color alpha="255">
-     <red>122</red>
-     <green>122</green>
-     <blue>122</blue>
+     <red>197</red>
+     <green>197</green>
+     <blue>197</blue>
     </color>
    </brush>
   </colorrole>
