@@ -35,7 +35,7 @@ Este programa calcula o rendimento do CDI em um período especificado e fornece 
 
 ### Linux:
 - 100 MB de RAM.
-- Qualquer distribuição Linux moderna (atualmente testado somente em distros baseadas em Debbian, mas o suporte é provável).
+- Qualquer distribuição Linux moderna (atualmente testado somente em distros baseadas em Debian, mas o suporte a outras distros é provável).
 - Biblioteca libqt6 instalada na versão 6.8.1.
 - Processador 64 bits.
 - 1 MB de espaço livre.
