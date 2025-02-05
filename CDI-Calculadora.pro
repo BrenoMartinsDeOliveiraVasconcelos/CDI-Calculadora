@@ -11,8 +11,7 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     calculadora.cpp \
-    optionmenu.cpp \
-    relatorio.cpp
+    optionmenu.cpp
 
 HEADERS += \
     applicationclass.h \
@@ -23,13 +22,11 @@ HEADERS += \
     qcsv.h \
     qstringutils.h \
     qtdecimalconversion.h \
-    relatorio.h \
     temp_management.h
 
 FORMS += \
     calculadora.ui \
-    optionmenu.ui \
-    relatorio.ui
+    optionmenu.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
