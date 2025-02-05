@@ -2,6 +2,16 @@
 
 Projeto experimental para simulação da renda pela taxa Selic.
 
-![enter image description here](https://i.imgur.com/Z5WDHSI.png)
+![Design](https://i.imgur.com/2Qr9Szd.png)
 
-O relatório é gerado numa pasta chamada CDI_Calc.
+# Funcionamento 
+
+*Em breve*
+
+# Tecnologias usadas
+
+*Em breve*
+
+# Requisitos minimos
+
+*Em breve*
