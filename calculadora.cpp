@@ -26,7 +26,6 @@
 
 #include "calculadora.h"
 #include "optionmenu.h"
-#include "relatorio.h"
 #include "ui_calculadora.h"
 
 // Headers pessoais
@@ -638,8 +637,6 @@ void Calculadora::on_estimarValores_clicked()
     {
         QDesktopServices::openUrl(caminhoRelatorio);
     };
-
-    ui->resumo->setEnabled(true);
 }
 
 void Calculadora::on_Calculadora_destroyed()
@@ -666,13 +663,6 @@ void Calculadora::on_selecionarDiretorio_clicked()
 void Calculadora::on_configs_clicked()
 {
     OptionMenu *wdg = new OptionMenu;
-    wdg->show();
-}
-
-
-void Calculadora::on_resumo_clicked()
-{
-    Relatorio *wdg = new Relatorio();
     wdg->show();
 }
 

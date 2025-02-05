@@ -48,8 +48,6 @@ private slots:
 
     void on_configs_clicked();
 
-    void on_resumo_clicked();
-
 private:
     Ui::Calculadora *ui;
 };
