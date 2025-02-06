@@ -121,6 +121,11 @@
          <string>Abrir no explorador de arquivos</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Apenas copiar o caminho</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item row="5" column="0">

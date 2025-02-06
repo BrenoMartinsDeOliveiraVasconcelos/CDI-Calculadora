@@ -396,6 +396,7 @@ void Calculadora::on_estimarValores_clicked()
     tempInfo temp;
     nomesTemporario nomes;
     runtimeConsts runtime;
+    configuration config;
 
 
     double valores[7] = {0, 0, 0, 0, 0, 0, 0}; // Indexes: {anual, mensal, dia, valor, aplicacaomensal, diaaplicacao}
@@ -638,9 +639,15 @@ void Calculadora::on_estimarValores_clicked()
     clipboard->setText(caminhoRelatorio);
 
     // Por fim, perguntar ao usuário se deseja abrir o arquivo com o programa responsável.
-    if (QMessageBox::Yes == QMessageBox::question(this, "Abrir", "O arquivo de relatório foi salvo e o caminho foi copiado para a área de transferência. Deseja abrir no programa responsável?", QMessageBox::Yes | QMessageBox::No))
+    int opcaoAcao = config.getConfig()["acaorel"].toInt();
+
+    if (opcaoAcao == 0)
     {
         QDesktopServices::openUrl(caminhoRelatorio);
+    }else if (opcaoAcao == 1){
+        QDesktopServices::openUrl(QDir::currentPath());
+    }else if (opcaoAcao == 2){
+        QMessageBox::information(this, "Sucesso", "O relatório foi gerado e o caminho do arquivo foi copiado para a área de transferência.");
     };
 }
 
