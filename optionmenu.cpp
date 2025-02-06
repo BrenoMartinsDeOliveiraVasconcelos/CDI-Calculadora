@@ -43,6 +43,7 @@ OptionMenu::OptionMenu(QWidget *parent)
     ui->selicVAl->setText(valoresConf["selic"]);
     ui->salvarVal->setText(valoresConf["path"]);
     ui->autoRelatorio->setChecked(valoresConf["autorel"].toInt());
+    ui->relatorioAcao->setCurrentIndex(valoresConf["acaorel"].toInt());
 }
 
 OptionMenu::~OptionMenu()
@@ -77,14 +78,16 @@ void OptionMenu::on_confirmarCancelar_accepted()
     QString cdiVal = ui->cdiVal->text().replace(",", ".");
     QString selicVal = ui->selicVAl->text().replace(",", ".");
     QString autorelatorio = ui->autoRelatorio->isChecked() ? "1" : "0";
+    QString relatorioAcao = QString::number(ui->relatorioAcao->currentIndex());
 
 
     bool cdiBool = conf.setConfig("cdi", cdiVal);
     bool selicBool = conf.setConfig("selic", selicVal);
     bool salvarBool = conf.setConfig("path", ui->salvarVal->text());
     bool autorelatorioBool = conf.setConfig("autorel", autorelatorio);
+    bool relatorioAcaoBool = conf.setConfig("acaorel", relatorioAcao);
 
-    if (!cdiBool || !selicBool || !salvarBool || !autorelatorioBool){
+    if (!cdiBool || !selicBool || !salvarBool || !autorelatorioBool || !relatorioAcaoBool){
         QErrorMessage erro;
         erro.showMessage("Erro ao salvar as configurações.");
     }
