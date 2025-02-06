@@ -340,11 +340,16 @@ void Calculadora::on_caciar_clicked()
 
     estimativaAno = valorAtual;
 
+    int numeroMeses = diaLimite.month() - dataInicial.month();
+    double rendimentoMedio = (valorAtual - (valores[2]+(valores[3]*numeroMeses))) / numeroMeses; // (valor atual - (valor inicial + (aplicação mensal * numero de meses no periodo))) / numero de meses no periodo
+
     if (estimativaAno <= valorMaximoDinheiro){
         ui->finalAno->setText("R$ " + formatarValor(estimativaAno).replace(".", ","));
     }else{
         ui->finalAno->setText(muitoGrande);
     }
+
+    ui->rendimentoPorMes->setText("R$ "+ formatarValor(rendimentoMedio).replace(".", ","));
 
     // Exibir datas
 

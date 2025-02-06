@@ -237,7 +237,9 @@
            <widget class="QLabel" name="label_3">
             <property name="font">
              <font>
-              <pointsize>15</pointsize>
+              <family>Noto Sans</family>
+              <pointsize>13</pointsize>
+              <bold>true</bold>
              </font>
             </property>
             <property name="text">
@@ -252,7 +254,9 @@
            <widget class="QLabel" name="label">
             <property name="font">
              <font>
-              <pointsize>15</pointsize>
+              <family>Noto Sans</family>
+              <pointsize>13</pointsize>
+              <bold>true</bold>
              </font>
             </property>
             <property name="text">
@@ -314,7 +318,7 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="2">
+          <item row="3" column="2">
            <widget class="QLabel" name="aoMesLabel">
             <property name="font">
              <font>
@@ -324,18 +328,20 @@
              </font>
             </property>
             <property name="text">
-             <string>ao mês</string>
+             <string>Rendimento mensal médio</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
            </widget>
           </item>
-          <item row="5" column="0" colspan="2">
+          <item row="5" column="0" colspan="3">
            <widget class="QLabel" name="dataMes_2">
             <property name="font">
              <font>
+              <family>Noto Sans</family>
               <pointsize>13</pointsize>
+              <bold>true</bold>
              </font>
             </property>
             <property name="text">
