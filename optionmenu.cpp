@@ -72,6 +72,9 @@ void OptionMenu::on_confirmarCancelar_accepted()
     configuration conf;
     runtimeConsts consts;
 
+    QString w = conf.getConfig()["w"];
+    QString h = conf.getConfig()["h"];
+
     conf.clearConfig();
 
     // Procura por virgulas e troca por pontos
@@ -86,6 +89,9 @@ void OptionMenu::on_confirmarCancelar_accepted()
     bool salvarBool = conf.setConfig("path", ui->salvarVal->text());
     bool autorelatorioBool = conf.setConfig("autorel", autorelatorio);
     bool relatorioAcaoBool = conf.setConfig("acaorel", relatorioAcao);
+
+    conf.setConfig("w", w);
+    conf.setConfig("h", h);
 
     if (!cdiBool || !selicBool || !salvarBool || !autorelatorioBool || !relatorioAcaoBool){
         QErrorMessage erro;
