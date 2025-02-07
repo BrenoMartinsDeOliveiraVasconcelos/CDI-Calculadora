@@ -19,7 +19,9 @@
 #define CALCULADORA_H
 
 #include <QMainWindow>
+#include <QMessageBox>
 
+#include <QApplication>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -37,6 +39,12 @@ public:
     Calculadora(QWidget *parent = nullptr);
     ~Calculadora();
 
+protected:
+    void closeEvent(QCloseEvent *event) override {
+        emit on_close_clicked();
+        qApp->exit(0);
+    }
+
 private slots:
     void on_caciar_clicked();
 
@@ -47,6 +55,9 @@ private slots:
     void on_selecionarDiretorio_clicked();
 
     void on_configs_clicked();
+
+    void on_close_clicked();
+
 
 private:
     Ui::Calculadora *ui;

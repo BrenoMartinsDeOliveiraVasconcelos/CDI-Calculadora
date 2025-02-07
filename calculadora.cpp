@@ -678,3 +678,8 @@ void Calculadora::on_configs_clicked()
     wdg->show();
 }
 
+
+void Calculadora::on_close_clicked(){
+    QMessageBox::information(this, "Ok", "Ok");
+}
+
