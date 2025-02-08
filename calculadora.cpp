@@ -82,8 +82,13 @@ Calculadora::Calculadora(QWidget *parent)
 
         map<QString, QString> mapaConfig = config.getConfig();
 
+        int w = mapaConfig["h"].toInt();
+        int h = mapaConfig["w"].toInt();
+
         // Colocar a tela no tamanho
-        resize(mapaConfig["w"].toInt(), mapaConfig["h"].toInt());
+        if (w != 0 && h != 0){
+            resize(h, w);
+        };
 
         // Inicializar valores
         ui->taxaInput->setText(mapaConfig["selic"]);
@@ -684,6 +689,7 @@ void Calculadora::on_configs_clicked()
 
 void Calculadora::on_close_clicked(){
     configuration config;
+
 
     // Salvar as proporções da tela
     QString w = QString::number(this->width());
