@@ -75,11 +75,6 @@ Calculadora::Calculadora(QWidget *parent)
 
         configuration config;
 
-        if (!config.generateConfigFolder()){
-            cout << "Não foi possível gerar o diretório de configuração.\n";
-            exit(1);
-        }
-
         map<QString, QString> mapaConfig = config.getConfig();
 
         int w = mapaConfig["h"].toInt();

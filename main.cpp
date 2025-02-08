@@ -22,8 +22,27 @@
 
 #include <QApplication>
 
+#include <iostream>
+
+using namespace std;
+
 int main(int argc, char *argv[])
 {
+    // Criar as configurações padrões se o arquivo não estiver presente
+    configuration config;
+
+    bool criadoConfs = true;
+
+    if (!config.isConfigPathCreated()){
+        criadoConfs = config.generateConfigFolder();
+    }
+
+    // Em caso de erro
+    if (!criadoConfs){
+        cout << "Não foi possível criar o arquivo de configurações\n";
+        return -1;
+    }
+
     QApplication::setStyle("fusion");
 
     runtimeConsts consts;

@@ -122,6 +122,12 @@ bool setConfig(QString config, QString val){
     };
 }
 
+bool isConfigPathCreated(){
+    QFile file = configFile;
+
+    return file.exists();
+};
+
 private:
     QString folderName = ".cdicfg";
     QDir homeFolder = QDir::home();
