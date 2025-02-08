@@ -29,7 +29,8 @@ class configuration{
 public:
     // Gerar configurações
 bool generateConfigFolder(){
-    configuration configs;
+    // Como isso não quebrou o programa? '-'
+    //configuration configs;
 
     if (!homeFolder.mkdir(folderName) && !homeFolder.exists(folderName)){
         return false;

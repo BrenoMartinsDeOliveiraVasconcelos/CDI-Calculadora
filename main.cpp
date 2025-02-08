@@ -18,6 +18,7 @@
 #include "calculadora.h"
 
 #include <applicationclass.h>
+#include <configmanager.h>
 
 #include <QApplication>
 
