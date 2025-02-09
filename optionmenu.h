@@ -37,6 +37,8 @@ private slots:
 
     void on_confirmarCancelar_accepted();
 
+    void on_resetar_clicked();
+
 private:
     Ui::OptionMenu *ui;
 };

@@ -35,20 +35,6 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="3">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>%</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="cdi">
-       <property name="text">
-        <string>CDI padrão</string>
-       </property>
-      </widget>
-     </item>
      <item row="2" column="3">
       <widget class="QPushButton" name="selecionar">
        <property name="sizePolicy">
@@ -68,15 +54,19 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_3">
+     <item row="0" column="3">
+      <widget class="QLabel" name="label">
        <property name="text">
-        <string>Auto gerar relatório</string>
+        <string>%</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QLineEdit" name="cdiVal"/>
+     <item row="0" column="0">
+      <widget class="QLabel" name="cdi">
+       <property name="text">
+        <string>CDI padrão</string>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="selic">
@@ -85,13 +75,10 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
-      <widget class="QLineEdit" name="selicVAl"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="salvar">
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Salvar em:</string>
+        <string>Auto gerar relatório</string>
        </property>
       </widget>
      </item>
@@ -102,10 +89,20 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="selicVAl"/>
+     </item>
      <item row="4" column="2">
       <widget class="QCheckBox" name="autoRelatorio">
        <property name="text">
         <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="salvar">
+       <property name="text">
+        <string>Salvar em:</string>
        </property>
       </widget>
      </item>
@@ -127,6 +124,9 @@
         </property>
        </item>
       </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="cdiVal"/>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="label_4">
@@ -156,14 +156,21 @@ https://github.com/BrenoMartinsDeOliveiraVasconcelos/CDI-Calculadora</string>
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="botoes">
-       <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="2" column="0">
         <widget class="QDialogButtonBox" name="confirmarCancelar">
          <property name="orientation">
           <enum>Qt::Orientation::Horizontal</enum>
          </property>
          <property name="standardButtons">
           <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="resetar">
+         <property name="text">
+          <string>Restaurar padrões</string>
          </property>
         </widget>
        </item>

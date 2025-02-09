@@ -28,7 +28,7 @@ using namespace std;
 class configuration{
 public:
     // Gerar configurações
-bool generateConfigFolder(){
+bool generateConfigFolder(bool resetConfig = false){
     // Como isso não quebrou o programa? '-'
     //configuration configs;
 
@@ -45,7 +45,15 @@ bool generateConfigFolder(){
                 return false;
             };
         }else{
-            return true;
+            if (!resetConfig){
+                return true;
+            }else{
+                bool isOpen = file.open(QIODevice::WriteOnly);
+
+                if (!isOpen){
+                    return false;
+                }
+            }
         };
 
         file.close();

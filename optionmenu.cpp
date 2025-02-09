@@ -106,3 +106,19 @@ void OptionMenu::on_confirmarCancelar_accepted()
 
 }
 
+
+void OptionMenu::on_resetar_clicked()
+{
+    configuration config;
+    runtimeConsts constantes;
+
+    config.clearConfig();
+    config.generateConfigFolder(true);
+
+    if (QMessageBox::Yes == QMessageBox::question(this, "Reiniciar programa", "É necessário reiniciar o programa para carregar algumas configurações. Fazer isso agora?", QMessageBox::Yes | QMessageBox::No))
+    {
+        qApp->exit(constantes.restartCode());
+    };
+
+}
+
