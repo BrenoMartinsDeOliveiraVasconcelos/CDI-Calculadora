@@ -60,5 +60,4 @@ private:
     QString TOO_BIG_SYMB = "---";
 };
 
-
 #endif // APPLICATIONCLASS_H

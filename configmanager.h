@@ -61,7 +61,8 @@ bool generateConfigFolder(bool resetConfig = false){
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream stream(&file);
 
-            stream << "cdi=100,00\n" << "selic=13,25\n" << "path=*\n" << "autorel=0\n" << "acaorel=1\n" << "w=1280\n" << "h=768\n";
+            stream << "cdi=100,00\n" << "selic=13,25\n" << "path=*\n" << "autorel=0\n" << "acaorel=1\n" << "w=1280\n" << "h=768\n"
+                   << "delay=500\n";
 
             file.close();
             return true;

@@ -36,6 +36,7 @@
 #include <calcfunctions.h>
 #include <configmanager.h>
 #include <applicationclass.h>
+#include <misc.h>
 
 // Bibliotecas C++
 #include <iostream>
@@ -125,6 +126,8 @@ Calculadora::~Calculadora()
 
 void Calculadora::on_caciar_clicked()
 {
+    delay();
+
     if (ui->dataInicial->date().daysTo(ui->dataLimite->date()) < 0){
         QMessageBox::critical(this, "Erro", "A data inicial não pode ser depois da data limiste.", QMessageBox::Ok);
         return;
@@ -396,6 +399,8 @@ void Calculadora::on_caciar_clicked()
 
 void Calculadora::on_estimarValores_clicked()
 {
+    delay();
+
     tempInfo temp;
     nomesTemporario nomes;
     runtimeConsts runtime;
