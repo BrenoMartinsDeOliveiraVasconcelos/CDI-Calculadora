@@ -36,7 +36,7 @@
 #include <calcfunctions.h>
 #include <configmanager.h>
 #include <applicationclass.h>
-#include <misc.h>
+#include <miscq.h>
 
 // Bibliotecas C++
 #include <iostream>
@@ -366,7 +366,7 @@ void Calculadora::on_caciar_clicked()
 
     ui->taxaAnual->setText("Selic: " + formatarValor(seliac * 100) + "%"+"\nAumento com juros: " + formatarValor(selicComJuros * 100)+"%");
 
-    // Escrever as taxas no arquivo temporário
+    // Escrever as taxas no arquivo temporário500ms
     taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << valores[2] << "\n" << cdi << "\n" << valores[3] << "\n" << valores[4];
 
     ui->estimarValores->setEnabled(true);

@@ -1,5 +1,5 @@
-#ifndef MISC_H
-#define MISC_H
+#ifndef MISCQ_H
+#define MISCQ_H
 
 #include <QString>
 #include <configmanager.h>
@@ -13,12 +13,12 @@ void delay()
     configuration config;
 
     map<QString, QString> configs = config.getConfig();
-    double delay = configs["delay"].toDouble();
+    double delayT = configs["delay"].toDouble();
 
-    QTime dieTime= QTime::currentTime().addMSecs(delay);
+    QTime dieTime= QTime::currentTime().addMSecs(delayT);
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
 
-#endif // MISC_H
+#endif // MISCQ_H

@@ -21,6 +21,7 @@
 
 #include <configmanager.h>
 #include <applicationclass.h>
+#include <miscq.h>
 
 #include <QFileDialog>
 #include <QErrorMessage>
@@ -68,6 +69,8 @@ void OptionMenu::on_selecionar_clicked()
 
 void OptionMenu::on_confirmarCancelar_accepted()
 {
+    delay();
+
     // Salvar configuraçãoes
     configuration conf;
     runtimeConsts consts;
@@ -109,6 +112,8 @@ void OptionMenu::on_confirmarCancelar_accepted()
 
 void OptionMenu::on_resetar_clicked()
 {
+    delay();
+
     configuration config;
     runtimeConsts constantes;
 
