@@ -361,7 +361,7 @@ void Calculadora::on_caciar_clicked()
     // Exibir taxa total
     double selicComJuros = (valorAtual / valorAplicado) - 1.00;
 
-    ui->taxaAnual->setText("Seliac: " + formatarValor(seliac * 100) + "%"+"\nAumento com juros: " + formatarValor(selicComJuros * 100)+"%");
+    ui->taxaAnual->setText("Selic: " + formatarValor(seliac * 100) + "%"+"\nAumento com juros: " + formatarValor(selicComJuros * 100)+"%");
 
     // Escrever as taxas no arquivo temporário
     taxasTxt << seliac << "\n" << seliacMes << "\n" << seliacDia << "\n" << valores[2] << "\n" << cdi << "\n" << valores[3] << "\n" << valores[4];
