@@ -24,21 +24,25 @@ Este programa calcula o rendimento do CDI em um período especificado e fornece 
   - Taxa SELIC padrão.
   - Local de salvamento padrão.
   - Opção de gerar relatório automaticamente no local padrão.
+  - Opção para definir o que fazer ao gerar relatório
 - Ao salvar as configurações, o programa solicitará reinicialização.
+- Ao lado dos botões de salvar e cancelar, tem um botão para resetar as configurações para o padrão
 
 ## Requisitos Mínimos
 ### Windows:
 - 64 MB de RAM.
 - Windows 10 ou superior.
 - Processador 64 bits.
-- 1 MB de espaço livre.
+- 70 MB de espaço livre.
+- Resolução minima de 1024x576
 
 ### Linux:
-- 100 MB de RAM.
+- 128 MB de RAM.
 - Qualquer distribuição Linux moderna (atualmente testado somente em distros baseadas em Debian, mas o suporte a outras distros é provável).
 - Biblioteca libqt6 instalada na versão 6.8.1.
 - Processador 64 bits.
-- 1 MB de espaço livre.
+- 70 MB de espaço livre.
+- Resolução minima de 1024x576
 
 ### Outros sitemas:
 
@@ -58,6 +62,11 @@ Os binários nas releases foram feitas usando o Qt Creator.
     - Foi feito um teste na versão 6.6 do Qt e a compilação foi bem sucedida e o programa rodou como esperado, mas os binários oficiais do repositório foram feitos na versão 6.8.1.
 - Importe o projeto e configure o compilador.
 - Compile assim mesmo ou modifique como desejar.
+
+
+### Como acelarar o programa
+
+O programa foi feito para ter um delay de 250ms para cada ação como forma de design. Essa configuração é definida no campo "delay" em .cdicfg/cfg.txt (na pasta do usuário que está rodando o programa). O valor é em milisegundos.
 
 ## Licença
 Este projeto está licenciado sob a Licença GPLv3.
