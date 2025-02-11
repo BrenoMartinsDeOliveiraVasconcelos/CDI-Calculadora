@@ -123,6 +123,11 @@
          <string>Apenas copiar o caminho</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Não fazer nada</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item row="0" column="2">

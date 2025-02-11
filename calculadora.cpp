@@ -647,10 +647,13 @@ void Calculadora::on_estimarValores_clicked()
     };
 
     QClipboard *clipboard = QGuiApplication::clipboard();
-    clipboard->setText(caminhoRelatorio);
-
-    // Por fim, perguntar ao usuário se deseja abrir o arquivo com o programa responsável.
     int opcaoAcao = config.getConfig()["acaorel"].toInt();
+
+    if (opcaoAcao != 3){
+        clipboard->setText(caminhoRelatorio);
+    };
+    // Por fim, perguntar ao usuário se deseja abrir o arquivo com o programa responsável.
+
 
     if (opcaoAcao == 0)
     {
@@ -659,6 +662,8 @@ void Calculadora::on_estimarValores_clicked()
         QDesktopServices::openUrl(QDir::currentPath());
     }else if (opcaoAcao == 2){
         QMessageBox::information(this, "Sucesso", "O relatório foi gerado e o caminho do arquivo foi copiado para a área de transferência.");
+    }else if (opcaoAcao == 3){
+        // Não fazer nada
     };
 }
 
