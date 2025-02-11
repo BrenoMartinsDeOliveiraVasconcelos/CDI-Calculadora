@@ -18,7 +18,6 @@ HEADERS += \
     calcfunctions.h \
     calculadora.h \
     configmanager.h \
-    miscq.h \
     optionmenu.h \
     qcsv.h \
     qstringutils.h \

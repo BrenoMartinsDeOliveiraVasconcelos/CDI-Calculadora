@@ -21,7 +21,6 @@
 
 #include <configmanager.h>
 #include <applicationclass.h>
-#include <miscq.h>
 
 #include <QFileDialog>
 #include <QErrorMessage>
@@ -79,6 +78,7 @@ void OptionMenu::on_confirmarCancelar_accepted()
 
     QString w = conf.getConfig()["w"];
     QString h = conf.getConfig()["h"];
+    QString delay = conf.getConfig()["delay"];
 
     conf.clearConfig();
 
@@ -97,6 +97,7 @@ void OptionMenu::on_confirmarCancelar_accepted()
 
     conf.setConfig("w", w);
     conf.setConfig("h", h);
+    conf.setConfig("delay", delay);
 
     if (!cdiBool || !selicBool || !salvarBool || !autorelatorioBool || !relatorioAcaoBool){
         QErrorMessage erro;

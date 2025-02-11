@@ -36,7 +36,6 @@
 #include <calcfunctions.h>
 #include <configmanager.h>
 #include <applicationclass.h>
-#include <miscq.h>
 
 // Bibliotecas C++
 #include <iostream>
