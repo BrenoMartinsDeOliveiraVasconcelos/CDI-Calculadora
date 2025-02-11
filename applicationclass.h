@@ -3,6 +3,10 @@
 
 #include <vector>
 #include <QString>
+#include <configmanager.h>
+#include <map>
+#include <QCoreApplication>
+#include <QApplication>
 
 #if defined(_WIN64)
     #define big    long long
@@ -58,6 +62,34 @@ private:
     unsigned int MAX_DAYS = 31;
     big int MAX_TABLE_VALUE = 9223372036854775807;
     QString TOO_BIG_SYMB = "---";
+};
+
+
+class appManager{
+public:
+    void delay()
+    {
+        configuration config;
+
+        map<QString, QString> configs = config.getConfig();
+        double delayT = configs["delay"].toDouble();
+
+        QTime dieTime= QTime::currentTime().addMSecs(delayT);
+        while (QTime::currentTime() < dieTime)
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    }
+
+    void restart(){
+        runtimeConsts consts;
+
+
+        qApp->exit(consts.restartCode());
+    }
+
+
+    void exit(int code){
+        qApp->exit(code);
+    }
 };
 
 #endif // APPLICATIONCLASS_H

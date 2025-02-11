@@ -31,6 +31,8 @@
 
 using namespace std;
 
+appManager appL;
+
 OptionMenu::OptionMenu(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::OptionMenu)
@@ -69,7 +71,7 @@ void OptionMenu::on_selecionar_clicked()
 
 void OptionMenu::on_confirmarCancelar_accepted()
 {
-    delay();
+    appL.delay();
 
     // Salvar configuraçãoes
     configuration conf;
@@ -104,7 +106,7 @@ void OptionMenu::on_confirmarCancelar_accepted()
 
     if (QMessageBox::Yes == QMessageBox::question(this, "Reiniciar programa", "É necessário reiniciar o programa para carregar algumas configurações. Fazer isso agora?", QMessageBox::Yes | QMessageBox::No))
     {
-        qApp->exit(consts.restartCode());
+        appL.restart();
     };
 
 }
@@ -112,7 +114,7 @@ void OptionMenu::on_confirmarCancelar_accepted()
 
 void OptionMenu::on_resetar_clicked()
 {
-    delay();
+    appL.delay();
 
     configuration config;
     runtimeConsts constantes;
@@ -122,7 +124,7 @@ void OptionMenu::on_resetar_clicked()
 
     if (QMessageBox::Yes == QMessageBox::question(this, "Reiniciar programa", "É necessário reiniciar o programa para carregar algumas configurações. Fazer isso agora?", QMessageBox::Yes | QMessageBox::No))
     {
-        qApp->exit(constantes.restartCode());
+        appL.restart();
     };
 
 }

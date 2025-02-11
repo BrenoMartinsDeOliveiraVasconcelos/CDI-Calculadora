@@ -62,6 +62,9 @@
 
 using namespace std;
 
+// variavel global
+appManager app;
+
 class nomesTemporario{
 public:
     QString taxas = "taxas.txt";
@@ -126,7 +129,8 @@ Calculadora::~Calculadora()
 
 void Calculadora::on_caciar_clicked()
 {
-    delay();
+
+    app.delay();
 
     if (ui->dataInicial->date().daysTo(ui->dataLimite->date()) < 0){
         QMessageBox::critical(this, "Erro", "A data inicial não pode ser depois da data limiste.", QMessageBox::Ok);
@@ -399,7 +403,7 @@ void Calculadora::on_caciar_clicked()
 
 void Calculadora::on_estimarValores_clicked()
 {
-    delay();
+    app.delay();
 
     tempInfo temp;
     nomesTemporario nomes;
