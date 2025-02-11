@@ -59,6 +59,10 @@ private slots:
     void on_close_clicked();
 
 
+    void on_mesmoValMes_clicked();
+
+    void on_valorInput_editingFinished();
+
 private:
     Ui::Calculadora *ui;
 };

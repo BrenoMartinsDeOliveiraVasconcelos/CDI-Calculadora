@@ -721,3 +721,25 @@ void Calculadora::on_close_clicked(){
     }
 }
 
+void Calculadora::on_mesmoValMes_clicked()
+{
+    bool checado = ui->mesmoValMes->isChecked();
+
+    if (checado){
+        ui->aplicacaoMes->setText(ui->valorInput->text());
+        ui->aplicacaoMes->setEnabled(false);
+    }else{
+        ui->aplicacaoMes->setEnabled(true);
+    }
+}
+
+
+void Calculadora::on_valorInput_editingFinished()
+{
+    bool checado = ui->mesmoValMes->isChecked();
+
+    if (checado){
+        ui->aplicacaoMes->setText(ui->valorInput->text());
+    }
+}
+
