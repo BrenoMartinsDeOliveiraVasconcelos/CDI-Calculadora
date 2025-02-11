@@ -83,6 +83,8 @@ Calculadora::Calculadora(QWidget *parent)
         int w = mapaConfig["h"].toInt();
         int h = mapaConfig["w"].toInt();
 
+        int exibirAviso = mapaConfig["warn"].toInt();
+
         // Colocar a tela no tamanho
         if (w != 0 && h != 0){
             resize(h, w);
@@ -118,7 +120,9 @@ Calculadora::Calculadora(QWidget *parent)
 
         ui->relatorio->horizontalHeader()->setMinimumSectionSize(200);
 
-        QMessageBox::warning(this, "Aviso", "Esse programa realiza uma estimativa considerando uma taxa de juros estável durante o periodo, junto a uma margem de erro de 0,003%. O valor final deve ser usado de base e não como valor absoluto.", QMessageBox::Ok);
+        if (exibirAviso == 1){
+            QMessageBox::information(this, "Aviso", "Esse programa realiza uma estimativa considerando uma taxa de juros estável durante o periodo, junto a uma margem de erro de 0,003%. O valor final deve ser usado de base e não como valor absoluto.", QMessageBox::Ok);
+        };
     }
 
 Calculadora::~Calculadora()
@@ -707,6 +711,7 @@ void Calculadora::on_close_clicked(){
 
     configMapa["w"] = w;
     configMapa["h"] = h;
+    configMapa["warn"] = "0";
 
     config.clearConfig();
 

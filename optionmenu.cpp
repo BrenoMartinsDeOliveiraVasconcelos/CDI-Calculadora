@@ -79,6 +79,7 @@ void OptionMenu::on_confirmarCancelar_accepted()
     QString w = conf.getConfig()["w"];
     QString h = conf.getConfig()["h"];
     QString delay = conf.getConfig()["delay"];
+    QString avisar = conf.getConfig()["warn"];
 
     conf.clearConfig();
 
@@ -98,6 +99,7 @@ void OptionMenu::on_confirmarCancelar_accepted()
     conf.setConfig("w", w);
     conf.setConfig("h", h);
     conf.setConfig("delay", delay);
+    conf.setConfig("warn", avisar);
 
     if (!cdiBool || !selicBool || !salvarBool || !autorelatorioBool || !relatorioAcaoBool){
         QErrorMessage erro;
