@@ -64,7 +64,7 @@ Os binários nas releases foram feitas usando o Qt Creator.
 - Compile assim mesmo ou modifique como desejar.
 
 
-### Como acelarar o programa
+## Como acelarar o programa
 
 O programa foi feito para ter um delay de 250ms para cada ação como forma de design. Essa configuração é definida no campo "delay" em .cdicfg/cfg.txt (na pasta do usuário que está rodando o programa). O valor é em milisegundos.
 
