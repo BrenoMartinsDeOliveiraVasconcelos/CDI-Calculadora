@@ -105,10 +105,7 @@ void OptionMenu::on_confirmarCancelar_accepted()
     }
 
 
-    if (QMessageBox::Yes == QMessageBox::question(this, "Reiniciar programa", "É necessário reiniciar o programa para carregar algumas configurações. Fazer isso agora?", QMessageBox::Yes | QMessageBox::No))
-    {
-        appL.restart();
-    };
+    QMessageBox::information(this, "Sucesso", "As configurações foram salvas com sucesso.");
 
 }
 
@@ -123,10 +120,6 @@ void OptionMenu::on_resetar_clicked()
     config.clearConfig();
     config.generateConfigFolder(true);
 
-    if (QMessageBox::Yes == QMessageBox::question(this, "Reiniciar programa", "É necessário reiniciar o programa para carregar algumas configurações. Fazer isso agora?", QMessageBox::Yes | QMessageBox::No))
-    {
-        appL.restart();
-    };
-
+    QMessageBox::information(this, "SUcesso", "As configurações foram redefinidas para os valores padrões.");
 }
 
