@@ -1,6 +1,5 @@
 # Calculadora de Rendimento do CDI
-
-![Design](https://i.imgur.com/2Qr9Szd.png)
+![enter image description here](https://i.imgur.com/j6xPfJM.png)
 
 ## Descrição
 Este programa calcula o rendimento do CDI em um período especificado e fornece um relatório detalhado sobre os valores acumulados.
