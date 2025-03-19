@@ -517,9 +517,16 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="fechar">
+            <property name="text">
+             <string>Fechar</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QLabel" name="versao">
             <property name="text">
-             <string>v1.0.0</string>
+             <string>v1.1.0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignmentFlag::AlignCenter</set>

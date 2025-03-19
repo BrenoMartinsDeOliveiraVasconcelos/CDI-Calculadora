@@ -63,6 +63,8 @@ private slots:
 
     void on_valorInput_editingFinished();
 
+    void on_fechar_clicked();
+
 private:
     Ui::Calculadora *ui;
 };

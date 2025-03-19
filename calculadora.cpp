@@ -743,3 +743,10 @@ void Calculadora::on_valorInput_editingFinished()
     }
 }
 
+
+void Calculadora::on_fechar_clicked()
+{
+    emit this->on_close_clicked();
+    qApp->exit(0);
+}
+
