@@ -42,6 +42,10 @@ public:
         return TOO_BIG_SYMB;
     };
 
+    vector<vector<int>> noWorkDays(){
+        return NON_WORKING_DAYS;
+    };
+
 private:
     int RESTART_CODE = 128;
     // Hard coded
@@ -56,6 +60,24 @@ private:
         0.26, 0.23, 0.20,
         0.16, 0.13, 0.10,
         0.06, 0.03, 0.00
+    };
+
+    // Vector of vector of int. Index 0 of vector is day and index 1 is month.
+    vector<vector<int>> NON_WORKING_DAYS = {
+        {1, 1},
+        {3, 3},
+        {4, 3},
+        {18, 4},
+        {21, 4},
+        {1, 5},
+        {19, 6},
+        {7, 9},
+        {12, 10},
+        {2, 11},
+        {15, 11},
+        {20, 11},
+        {25, 12},
+        {31, 12}
     };
 
     big unsigned int MAX_MONETARY_VAL = 9223372036854775807;

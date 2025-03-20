@@ -305,12 +305,33 @@ void Calculadora::on_caciar_clicked()
             continue;
         };
 
+        // Checar se pe fubak de senaba
         if (data.dayOfWeek() == Qt::Saturday || data.dayOfWeek() == Qt::Sunday) {
+
+
             if (data.day() == deFactoDiaAplicacao){
                 deFactoDiaAplicacao++;
 
             }
             continue;
+        }else{
+            // Checar se a data não é feriado
+            vector<vector<int>> feriados = runtime.noWorkDays();
+            bool diaDeTrabalho = true;
+
+            for (auto d:feriados){
+                if (d[0] == data.day() && d[1] == data.month()){
+                    diaDeTrabalho = false;
+                    break;
+                }
+            };
+
+            if (!diaDeTrabalho){
+                if (data.day() == deFactoDiaAplicacao){
+                    deFactoDiaAplicacao++;
+                };
+                continue;
+            };
         }
         cout << "APP" << deFactoDiaAplicacao << "APP\n";
         // Adicionar valor convertido
