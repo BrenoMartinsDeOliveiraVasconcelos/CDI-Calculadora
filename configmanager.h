@@ -62,7 +62,7 @@ bool generateConfigFolder(bool resetConfig = false){
             QTextStream stream(&file);
 
             stream << "cdi=100,00\n" << "selic=13,25\n" << "path=*\n" << "autorel=0\n" << "acaorel=1\n" << "w=1280\n" << "h=768\n"
-                   << "delay=500\n" << "warn=1\n";
+                   << "delay=250\n" << "warn=1\n";
 
             file.close();
             return true;

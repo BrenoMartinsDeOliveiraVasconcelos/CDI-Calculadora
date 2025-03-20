@@ -546,7 +546,25 @@ void Calculadora::on_estimarValores_clicked()
                 deFactoDiaAplicacao++;
             }
             continue;
-        }
+        }else{
+        // Checar se a data não é feriado
+        vector<vector<int>> feriados = runtime.noWorkDays();
+        bool diaDeTrabalho = true;
+
+        for (auto d:feriados){
+            if (d[0] == data.day() && d[1] == data.month()){
+                diaDeTrabalho = false;
+                break;
+            }
+        };
+
+        if (!diaDeTrabalho){
+            if (data.day() == deFactoDiaAplicacao){
+                deFactoDiaAplicacao++;
+            };
+            continue;
+        };
+    }
 
         vector<QString> linha;
 
